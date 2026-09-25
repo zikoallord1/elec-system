@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>نظام محطات الكهرباء - زكريا الحاج للانظمة والتطوير</title>
+<meta name="description" content="نظام إدارة محطات الكهرباء - زكريا الحاج للانظمة والتطوير">
+<meta name="theme-color" content="#2563eb">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="الكهرباء">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjgwIiBmaWxsPSIjMjU2M2ViIi8+PHBhdGggZD0iTTI4MCA4MEwxNjAgMjgwaDgwTDIwMCA0MzJsMTIwLTIwMGgtODB6IiBmaWxsPSIjZmFjYzE1Ii8+PC9zdmc+">
+<link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxOTIgMTkyIj48cmVjdCB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgcng9IjMwIiBmaWxsPSIjMjU2M2ViIi8+PHBhdGggZD0iTTEwNSAzMEw2MCAxMDVoMzBMNzUgMTYybDQ1LTc1aC0zMHoiIGZpbGw9IiNmYWNjMTUiLz48L3N2Zz4=">
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  *{font-family:'Tajawal',sans-serif;box-sizing:border-box}
+  html,body{margin:0;padding:0;height:100%;overflow:hidden;overscroll-behavior:none;-webkit-tap-highlight-color:transparent}
+  body{background:#f3f4f6;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}
+  .grp{display:none}.grp.on{display:block}
+  .grp a{padding-right:2.5rem;font-size:.8rem;display:block;padding-top:.5rem;padding-bottom:.5rem;color:#9ca3af;transition:.2s;text-decoration:none}
+  .grp a:hover{color:#fff;background:#1f2937}
+  .nav-a.active{background:#2563eb;color:#fff!important;font-weight:700}
+  .btn{transition:.2s;cursor:pointer}.btn:hover{transform:translateY(-2px);box-shadow:0 8px 16px rgba(0,0,0,.1)}
+  .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;align-items:center;justify-content:center}
+  .modal.on{display:flex}
+  .modal-box{background:#fff;border-radius:12px;max-width:700px;width:92%;max-height:90vh;overflow-y:auto;padding:1.5rem}
+  table{width:100%;border-collapse:collapse}
+  th,td{padding:.6rem;text-align:right;font-size:.85rem}
+  th{background:#f3f4f6;color:#4b5563;font-weight:700;font-size:.8rem}
+  tr{border-bottom:1px solid #f3f4f6}tr:hover{background:#fafafa}
+  input,select,textarea{font-family:'Tajawal';border:1px solid #d1d5db;border-radius:8px;padding:.5rem .75rem;width:100%;outline:none;transition:.2s;font-size:16px}
+  input:focus,select:focus{border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+  .lbl{font-size:.8rem;font-weight:700;color:#374151;margin-bottom:.3rem;display:block}
+  .card{background:#fff;border-radius:12px;padding:1.25rem;box-shadow:0 1px 3px rgba(0,0,0,.05);border:1px solid #f3f4f6}
+  #loginScreen{position:fixed;inset:0;background:linear-gradient(135deg,#1e3a8a,#111827);display:none;align-items:center;justify-content:center;z-index:9999;overflow-y:auto;padding:1rem}
+  #loginScreen:not(.hidden){display:flex}
+  #activationScreen{position:fixed;inset:0;background:linear-gradient(135deg,#111827,#1e3a8a);display:none;align-items:center;justify-content:center;z-index:10000;padding:1rem;overflow-y:auto}
+  #hamburger{display:none;background:transparent;border:none;color:#4b5563;font-size:1.3rem;cursor:pointer;padding:.5rem;margin-left:.5rem}
+  #sidebarOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:998;backdrop-filter:blur(2px)}
+  #sidebarOverlay.on{display:block}
+  #installBtn{display:none;background:linear-gradient(135deg,#10b981,#059669);color:#fff;border:none;padding:.5rem .9rem;border-radius:8px;font-weight:700;font-size:.8rem;cursor:pointer;align-items:center;gap:.4rem}
+  #installBtn.show{display:inline-flex}
+  .guide-chapter-btn{width:100%;text-align:right;background:transparent;border:none;padding:.6rem .75rem;border-radius:8px;font-weight:600;cursor:pointer;font-family:inherit;font-size:.85rem;color:#4b5563;display:flex;align-items:center;gap:.5rem;margin-bottom:.25rem;transition:.2s}
+  .guide-chapter-btn:hover{background:#f3f4f6}
+  @media (max-width: 768px) {
+    #sb{position:fixed;top:0;right:0;bottom:0;transform:translateX(100%);transition:transform .3s ease;z-index:999;width:280px!important;max-width:85vw}
+    #sb.open{transform:translateX(0)}
+    main{width:100%!important}
+    #hamburger{display:block}
+    header{padding:0 1rem!important;height:56px!important}
+    #title{font-size:.95rem!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px}
+    #content{padding:1rem!important}
+    .card{padding:1rem!important}
+    table{font-size:.75rem!important}
+    th,td{padding:.5rem .4rem!important}
+    .modal-box{width:100%!important;max-width:100%!important;height:100%!important;max-height:100%!important;border-radius:0!important;padding:1rem!important}
+    .btn{min-height:44px}
+    .nav-a{min-height:44px;display:flex;align-items:center}
+    .hide-mobile{display:none!important}
+    #licenseBadge{font-size:.65rem!important;padding:.25rem .5rem!important}
+    #resetBtn{padding:.4rem .6rem!important;font-size:.75rem!important}
+    .guide-chapter-btn{min-height:44px}
+  }
+  @media (max-width: 375px){#content{padding:.75rem!important}.card{padding:.75rem!important}th,td{padding:.35rem .3rem!important;font-size:.7rem!important}}
+  @media (min-width: 769px) and (max-width: 1024px){#sb{width:220px!important}#content{padding:1.25rem!important}}
+  @media (hover: none){.btn{min-height:44px}.nav-a{min-height:44px}}
+  @media (max-width: 768px) and (orientation: landscape){header{height:48px!important}#content{padding:.75rem!important}}
+  @media print {
+    body{background:#fff!important;margin:0!important;padding:0!important;height:auto!important;overflow:visible!important}
+    body > div:not(#prt){display:none!important}
+    #prt{display:block!important;position:static!important;width:100%!important;padding:1.5rem!important;background:#fff!important}
+    #prt .card{box-shadow:none!important;border:1px solid #ddd!important;page-break-inside:avoid}
+    #prt button,#prt .no-print{display:none!important}
+    .pdoc{border:2px solid #333!important}
+    table{page-break-inside:auto}tr{page-break-inside:avoid}thead{display:table-header-group}
+  }
+  .pdoc{border:2px solid #333;padding:1.5rem;max-width:620px;margin:0 auto;background:#fff;color:#000}
+  .phdr{text-align:center;border-bottom:2px dashed #999;padding-bottom:.75rem;margin-bottom:1.25rem}
+  .ptb{width:100%;border-collapse:collapse;margin:.75rem 0}
+  .ptb th,.ptb td{border:1px solid #666;padding:.5rem;text-align:center;font-size:.85rem}
+</style>
+</head>
+<body>
+
+<div id="activationScreen">
+  <div style="background:#fff;border-radius:16px;padding:2.5rem;width:560px;max-width:100%;box-shadow:0 25px 50px rgba(0,0,0,.3)">
+    <div style="text-align:center;margin-bottom:1.5rem">
+      <div style="width:80px;height:80px;background:linear-gradient(135deg,#3b82f6,#1e40af);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto .75rem"><i class="fa-solid fa-key" style="color:#fff;font-size:2rem"></i></div>
+      <h1 style="margin:0;font-size:1.4rem;font-weight:800;color:#1f2937">تنشيط النظام</h1>
+      <p style="margin:.5rem 0 0;color:#6b7280;font-size:.9rem">زكريا الحاج للانظمة والتطوير - 772233564</p>
+    </div>
+    <div style="background:#fef3c7;border:1px solid #fcd34d;border-radius:10px;padding:.85rem;margin-bottom:1rem;font-size:.85rem;color:#92400e"><i class="fa-solid fa-triangle-exclamation"></i> هذا التطبيق يحتاج إلى تنشيط. إذا لم يكن لديك مفتاح ترخيص، يرجى التواصل على الرقم <strong>772233564</strong>.</div>
+    <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:1rem;margin-bottom:1rem">
+      <p style="margin:0 0 .5rem;color:#1e40af;font-size:.8rem;font-weight:700">معرف الجهاز (أرسله للدعم الفني):</p>
+      <div style="display:flex;gap:.5rem;align-items:center">
+        <code id="machineIdDisplay" style="flex:1;background:#fff;padding:.6rem;border-radius:6px;font-family:monospace;font-size:.9rem;color:#1e40af;font-weight:700;text-align:center;letter-spacing:1px">-</code>
+        <button onclick="copyMachineId()" style="background:#3b82f6;color:#fff;border:none;padding:.6rem 1rem;border-radius:6px;cursor:pointer;font-weight:700"><i class="fa-solid fa-copy"></i></button>
+      </div>
+    </div>
+    <div style="margin-bottom:1rem">
+      <label class="lbl">مفتاح الترخيص</label>
+      <textarea id="license-input" rows="4" placeholder="الصق المفتاح هنا..." style="font-family:monospace;font-size:.8rem;letter-spacing:.5px;resize:vertical"></textarea>
+    </div>
+    <div id="activation-error" style="background:#fee2e2;color:#dc2626;padding:.75rem;border-radius:8px;font-size:.85rem;margin-bottom:1rem;display:none"></div>
+    <div id="activation-success" style="background:#d1fae5;color:#059669;padding:.75rem;border-radius:8px;font-size:.85rem;margin-bottom:1rem;display:none"></div>
+    <button onclick="activateLicense()" style="width:100%;background:linear-gradient(135deg,#059669,#047857);color:#fff;border:none;padding:1rem;border-radius:10px;font-weight:800;font-size:1rem;cursor:pointer"><i class="fa-solid fa-shield-halved"></i> تنشيط النظام</button>
+    <div style="text-align:center;margin-top:1rem;font-size:.75rem;color:#9ca3af">© 2026 زكريا الحاج للانظمة والتطوير - 772233564</div>
+  </div>
+</div>
+
+<div id="loginScreen" class="hidden">
+  <div style="background:#fff;border-radius:16px;padding:2.5rem;width:420px;max-width:92%;box-shadow:0 25px 50px rgba(0,0,0,.3)">
+    <div style="text-align:center;margin-bottom:1.5rem">
+      <div style="width:70px;height:70px;background:#2563eb;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto .75rem"><i class="fa-solid fa-bolt" style="color:#facc15;font-size:2rem"></i></div>
+      <h1 style="margin:0;font-size:1.5rem;font-weight:800;color:#1f2937">نظام محطات الكهرباء</h1>
+      <p style="margin:.3rem 0 0;color:#6b7280;font-size:.85rem">زكريا الحاج للانظمة والتطوير - 772233564</p>
+    </div>
+    <div style="margin-bottom:1rem"><label class="lbl">اسم المستخدم</label><input type="text" id="login-user" placeholder="admin" autocomplete="off"></div>
+    <div style="margin-bottom:1rem"><label class="lbl">كلمة المرور</label><input type="password" id="login-pass" placeholder="admin" autocomplete="off"></div>
+    <div id="login-error" style="background:#fee2e2;color:#dc2626;padding:.5rem;border-radius:8px;font-size:.85rem;margin-bottom:1rem;display:none"></div>
+    <button onclick="doLogin()" style="width:100%;background:#2563eb;color:#fff;border:none;padding:.85rem;border-radius:10px;font-weight:800;font-size:1rem;cursor:pointer">تسجيل الدخول</button>
+    <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid #e5e7eb;font-size:.75rem;color:#6b7280;text-align:center">
+      <p style="margin:0 0 .5rem"><b>حسابات تجريبية:</b></p>
+      <p style="margin:.15rem 0">مدير: <code style="background:#f3f4f6;padding:.15rem .4rem;border-radius:4px">admin / admin</code></p>
+      <p style="margin:.15rem 0">محاسب: <code style="background:#f3f4f6;padding:.15rem .4rem;border-radius:4px">acc / acc</code></p>
+      <p style="margin:.15rem 0">محصل: <code style="background:#f3f4f6;padding:.15rem .4rem;border-radius:4px">col / col</code></p>
+    </div>
+    <div style="margin-top:1rem;text-align:center;font-size:.7rem;color:#9ca3af" id="licenseInfo"></div>
+  </div>
+</div>
+
+<div id="sidebarOverlay" onclick="toggleSidebar(false)"></div>
+
+<div id="appWrap" style="display:none;height:100vh;overflow:hidden">
+<aside id="sb" class="noprint" style="width:260px;background:#111827;color:#fff;display:flex;flex-direction:column;overflow-y:auto">
+  <div style="height:60px;display:flex;align-items:center;justify-content:center;background:#030712;border-bottom:1px solid #1f2937;position:sticky;top:0;z-index:5">
+    <i class="fa-solid fa-bolt" style="color:#facc15;font-size:1.3rem;margin-left:.5rem"></i>
+    <span style="font-size:1.05rem;font-weight:800">نظام الكهرباء</span>
+  </div>
+  <div id="userBox" style="padding:.75rem;background:#1f2937;border-bottom:1px solid #374151;font-size:.8rem">
+    <div style="display:flex;align-items:center;gap:.5rem">
+      <div id="userAvatar" style="width:36px;height:36px;border-radius:50%;background:#2563eb;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800">م</div>
+      <div style="flex:1;min-width:0">
+        <div id="userName" style="font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">مدير النظام</div>
+        <div id="userRole" style="color:#9ca3af;font-size:.7rem">مدير النظام</div>
+      </div>
+      <button onclick="doLogout()" title="خروج" style="background:transparent;border:none;color:#ef4444;cursor:pointer;font-size:1rem"><i class="fa-solid fa-right-from-bracket"></i></button>
+    </div>
+  </div>
+  <nav style="flex:1;padding:.5rem;font-size:.85rem"></nav>
+</aside>
+<main style="flex:1;display:flex;flex-direction:column;overflow:hidden">
+  <header class="noprint" style="height:60px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.05);display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;z-index:10">
+    <div style="display:flex;align-items:center">
+      <button id="hamburger" onclick="toggleSidebar()" title="القائمة"><i class="fa-solid fa-bars"></i></button>
+      <h1 id="title" style="font-size:1.1rem;font-weight:800;color:#1f2937;margin:0">لوحة التحكم</h1>
+    </div>
+    <div style="display:flex;gap:.5rem;align-items:center">
+      <span id="licenseBadge" style="font-size:.75rem;padding:.3rem .6rem;border-radius:99px;font-weight:700"></span>
+      <button id="installBtn" onclick="installPWA()"><i class="fa-solid fa-download"></i> <span class="hide-mobile">تثبيت</span></button>
+      <button id="resetBtn" onclick="resetAll()" style="background:#fee2e2;color:#dc2626;border:none;padding:.5rem .9rem;border-radius:8px;font-weight:700;font-size:.8rem;cursor:pointer"><i class="fa-solid fa-rotate-left"></i> <span class="hide-mobile">إعادة</span></button>
+    </div>
+  </header>
+  <div id="content" style="flex:1;overflow-y:auto;padding:1.5rem"></div>
+</main>
+</div>
+
+<div id="prt" style="display:none"></div>
+<div id="modal-container"></div>
+
+<script>
+// ============================================================
+// =================== نظام الترخيص ====================
+// ============================================================
+const LICENSE_SECRET = 'EBDA3-SOFT-ELEC-2026-SECRET-KEY-DO-NOT-SHARE-9f8e7d6c5b4a';
+const LICENSE_PREFIX = 'EBD3';
+
+function getMachineId() {
+  let stored = localStorage.getItem('elec_machine_id');
+  if (stored) return stored;
+  const data = [navigator.userAgent, navigator.language, navigator.platform, screen.width + 'x' + screen.height, screen.colorDepth, new Date().getTimezoneOffset(), navigator.hardwareConcurrency || 0].join('|');
+  let hash = 0;
+  for (let i = 0; i < data.length; i++) { hash = ((hash << 5) - hash) + data.charCodeAt(i); hash = hash & hash; }
+  const hex = Math.abs(hash).toString(16).padStart(8, '0').toUpperCase();
+  const rand = Math.random().toString(36).slice(2, 6).toUpperCase();
+  const id = 'MCH-' + hex.slice(0, 4) + '-' + hex.slice(4, 8) + '-' + rand + '-ELEC';
+  localStorage.setItem('elec_machine_id', id);
+  return id;
+}
+
+async function hmacSign(message, secret) {
+  const enc = new TextEncoder();
+  const key = await crypto.subtle.importKey('raw', enc.encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+  const sig = await crypto.subtle.sign('HMAC', key, enc.encode(message));
+  const bytes = new Uint8Array(sig);
+  let binary = '';
+  for (let i = 0; i < bytes.byteLength; i++) binary += String.fromCharCode(bytes[i]);
+  return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+function base64UrlToString(b64url) {
+  let b64 = b64url.replace(/-/g, '+').replace(/_/g, '/');
+  while (b64.length % 4) b64 += '=';
+  const binary = atob(b64);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+  return new TextDecoder().decode(bytes);
+}
+
+async function validateLicense(licenseKey) {
+  try {
+    const parts = licenseKey.trim().split('.');
+    if (parts.length !== 3) return { valid: false, reason: 'صيغة المفتاح غير صحيحة' };
+    const [prefix, payloadB64, signature] = parts;
+    if (prefix !== LICENSE_PREFIX) return { valid: false, reason: 'نوع الترخيص غير مدعوم' };
+    const expectedSig = await hmacSign(payloadB64, LICENSE_SECRET);
+    if (expectedSig !== signature) return { valid: false, reason: 'التوقيع الرقمي غير صحيح' };
+    const payload = JSON.parse(base64UrlToString(payloadB64));
+    const myMachineId = getMachineId();
+    if (payload.m !== myMachineId) return { valid: false, reason: 'هذا الترخيص مخصص لجهاز آخر' };
+    const now = new Date();
+    const start = new Date(payload.s);
+    const end = new Date(payload.e);
+    if (now < start) return { valid: false, reason: 'الترخيص لم يبدأ بعد: ' + payload.s };
+    if (now > end) return { valid: false, reason: 'انتهت صلاحية الترخيص في: ' + payload.e };
+    const daysLeft = Math.ceil((end - now) / (1000 * 60 * 60 * 24));
+    return { valid: true, data: { customer: payload.c, startDate: payload.s, endDate: payload.e, maxUsers: payload.u, maxSubscribers: payload.b, type: payload.t, version: payload.v, features: payload.f || [], daysLeft, machineId: payload.m } };
+  } catch (e) { return { valid: false, reason: 'خطأ: ' + e.message }; }
+}
+
+function copyMachineId() {
+  navigator.clipboard.writeText(document.getElementById('machineIdDisplay').textContent).then(() => alert('تم نسخ معرف الجهاز ✓'));
+}
+
+async function activateLicense() {
+  const key = document.getElementById('license-input').value.trim();
+  if (!key) { showActivationError('الرجاء إدخال مفتاح الترخيص'); return; }
+  const result = await validateLicense(key);
+  if (!result.valid) { showActivationError(result.reason); return; }
+  localStorage.setItem('elec_license_key', key);
+  DB.license = { key, company: result.data.customer, startDate: result.data.startDate, endDate: result.data.endDate, maxUsers: result.data.maxUsers, maxSubscribers: result.data.maxSubscribers, type: result.data.type, features: result.data.features, active: true, machineId: result.data.machineId, branch: 'المقر الرئيسي' };
+  save();
+  document.getElementById('activation-success').style.display = 'block';
+  document.getElementById('activation-success').innerText = '✓ تم التنشيط بنجاح! جاري فتح النظام...';
+  setTimeout(() => { document.getElementById('activationScreen').style.display = 'none'; showLoginOrApp(); }, 1200);
+}
+
+function showActivationError(msg) {
+  const el = document.getElementById('activation-error');
+  el.style.display = 'block'; el.innerText = '❌ ' + msg;
+  document.getElementById('activation-success').style.display = 'none';
+}
+
+async function checkLicense() {
+  const savedKey = localStorage.getItem('elec_license_key');
+  if (!savedKey) return false;
+  const result = await validateLicense(savedKey);
+  if (!result.valid) return false;
+  DB.license = { key: savedKey, company: result.data.customer, startDate: result.data.startDate, endDate: result.data.endDate, maxUsers: result.data.maxUsers, maxSubscribers: result.data.maxSubscribers, type: result.data.type, features: result.data.features, active: true, machineId: result.data.machineId, branch: 'المقر الرئيسي' };
+  save();
+  return true;
+}
+
+// ============================================================
+// =================== قاعدة البيانات ====================
+// ============================================================
+const DEFAULT_DB = () => ({
+  users:[
+    {id:1,username:'admin',password:'admin',name:'مدير النظام',role:'admin',active:true,phone:''},
+    {id:2,username:'acc',password:'acc',name:'محاسب رئيسي',role:'accountant',active:true,phone:''},
+    {id:3,username:'col',password:'col',name:'محصل ميداني',role:'collector',active:true,phone:''}
+  ],
+  roles:[
+    {id:'admin',name:'مدير النظام',description:'صلاحيات كاملة',permissions:['*']},
+    {id:'accountant',name:'محاسب',description:'الفواتير والتقارير المالية',permissions:['dashboard','setup','ops','reports','op-collection','op-invoice','op-quick']},
+    {id:'collector',name:'محصل ميداني',description:'العمليات الميدانية',permissions:['dashboard','op-collection','op-cut-notice','setup-subscribers','rep-field','rep-current']}
+  ],
+  license:{key:'',company:'غير مفعل',branch:'',startDate:'',endDate:'',maxUsers:50,maxSubscribers:5000,active:false},
+  branches:[{id:1,name:'الفرع الرئيسي',address:'شارع الزراعة',phone:'772233564',manager:'مدير النظام'},{id:2,name:'فرع المنطقة الشرقية',address:'شارع التجار',phone:'772233564',manager:'محمد الحداد'}],
+  settings:{companyName:'زكريا الحاج للانظمة والتطوير',phone:'772233564',address:'الجمهورية اليمنية',taxNumber:'123456789',currency:'ريال',smsEnabled:true,smsSender:'ZAKARIA',smsApiKey:'SMS-KEY-DEMO-12345'},
+  smsLogs:[],subMigrations:[],
+  stations:[{id:1,name:'محطة المركز الرئيسي',nameEn:'Main Station',address:'شارع الزراعة',phone:'772233564'},{id:2,name:'محطة الفرع الشرقي',nameEn:'East Branch',address:'شارع التجار',phone:'772233564'}],
+  areas:[{id:1,name:'شارع الزراعة',stationId:1,notes:''},{id:2,name:'شارع التجار',stationId:1,notes:''},{id:3,name:'حارة فروه',stationId:1,notes:''},{id:4,name:'شارع المشحنين',stationId:2,notes:''}],
+  squares:[{id:1,name:'مربع الزراعة 1',areaId:1,collectorId:1,notes:''},{id:2,name:'مربع التجار 1',areaId:2,collectorId:2,notes:''},{id:3,name:'مربع فروه',areaId:3,collectorId:1,notes:''}],
+  collectors:[{id:1,name:'عصام الشيباني',address:'شارع الزراعة',phone:'775100001'},{id:2,name:'محمد الحداد',address:'شارع التجار',phone:'775100002'}],
+  meters:[{id:1,name:'العداد الرئيسي 1',stationId:1,reading:50000},{id:2,name:'العداد الرئيسي 2',stationId:1,reading:35000}],
+  tariffsConsumption:[{id:1,name:'تعرفة 1 فاز',tiers:[{from:0,to:1000,price:250},{from:1001,to:2000,price:300},{from:2001,to:99999,price:400}]},{id:2,name:'تعرفة 2 فاز',tiers:[{from:0,to:1000,price:300},{from:1001,to:2000,price:350},{from:2001,to:99999,price:450}]}],
+  tariffsSubscription:[{id:1,name:'اشتراك شهري 1 فاز',type:'شهري',amount:400,cap:0},{id:2,name:'اشتراك شهري 2 فاز',type:'شهري',amount:600,cap:0},{id:3,name:'اشتراك أسبوعي',type:'أسبوعي',amount:150,cap:0}],
+  contracts:[{id:1,type:'عقد منزلي',name:'عقد اشتراك منزلي',terms:'يلتزم المشترك بسداد قيمة الاستهلاك شهرياً'},{id:2,type:'عقد تجاري',name:'عقد اشتراك تجاري',terms:'يلتزم المشترك بسداد الاستهلاك + الاشتراك'}],
+  services:[{id:1,name:'نقل عداد',price:5000,status:'مستمر'},{id:2,name:'فحص عداد',price:2000,status:'مستمر'},{id:3,name:'توصيل مؤقت',price:30000,status:'مستمر'}],
+  penalties:[{id:1,name:'ربط من خارج العداد',amount:50000,status:'مستمر'},{id:2,name:'التلاعب بالعداد',amount:30000,status:'مستمر'}],
+  subscribers:[
+    {id:'1001',name:'أحمد محمد علي',account:'أحمد محمد علي',type:'منزلي',squareId:1,areaId:1,tariffConsId:1,tariffSubId:1,contractId:1,meterId:1,meterNo:'M-1001',phone:'777111001',address:'شارع الزراعة',prevReading:1000,currentReading:1000,debt:0,status:'نشط'},
+    {id:'1002',name:'مؤسسة النور التجارية',account:'مؤسسة النور',type:'تجاري',squareId:2,areaId:2,tariffConsId:2,tariffSubId:2,contractId:2,meterId:1,meterNo:'M-1002',phone:'777111002',address:'شارع التجار',prevReading:5000,currentReading:5000,debt:0,status:'نشط'},
+    {id:'1003',name:'سعيد صالح',account:'سعيد صالح',type:'منزلي',squareId:3,areaId:3,tariffConsId:1,tariffSubId:1,contractId:1,meterId:2,meterNo:'M-1003',phone:'777111003',address:'حارة فروه',prevReading:800,currentReading:800,debt:1200,status:'متأخر'},
+    {id:'1004',name:'إبراهيم حسن',account:'إبراهيم حسن',type:'منزلي',squareId:1,areaId:1,tariffConsId:1,tariffSubId:1,contractId:1,meterId:2,meterNo:'M-1004',phone:'777111004',address:'شارع الزراعة',prevReading:1500,currentReading:1500,debt:0,status:'نشط'}
+  ],
+  openings:[],invoices:[],payments:[],
+  meterMovements:[{id:1,meterId:1,prev:48000,current:50000,loss:0,from:'2026-09-01',to:'2026-09-25',notes:''}],
+  cutNotices:[],serviceRequests:[],penaltyIssues:[],
+  logs:['تم تشغيل النظام','تم تحميل البيانات التجريبية']
+});
+
+let DB = JSON.parse(localStorage.getItem('elec_db_v5')) || DEFAULT_DB();
+let CURRENT_USER = JSON.parse(sessionStorage.getItem('elec_user')) || null;
+const save = () => localStorage.setItem('elec_db_v5', JSON.stringify(DB));
+const nextId = (arr) => arr.length ? Math.max(...arr.map(x=>parseInt(x.id)||0)) + 1 : 1;
+const uid = (p) => p + '-' + Date.now().toString().slice(-8);
+const fmt = (n) => Number(n||0).toLocaleString('en-US');
+const log = (msg) => { const t=new Date().toLocaleTimeString('ar-YE',{hour:'2-digit',minute:'2-digit'}); DB.logs.unshift(`${t} - ${CURRENT_USER?CURRENT_USER.name:'نظام'} - ${msg}`); if(DB.logs.length>200) DB.logs.pop(); save(); };
+
+function resetAll(){ if(confirm('سيتم استعادة البيانات التجريبية. متابعة؟')){ DB=DEFAULT_DB(); save(); location.reload(); } }
+
+function doLogin(){
+  const u = document.getElementById('login-user').value.trim();
+  const p = document.getElementById('login-pass').value;
+  const user = DB.users.find(x=>x.username===u && x.password===p && x.active);
+  if(!user){ document.getElementById('login-error').style.display='block'; document.getElementById('login-error').innerText='❌ اسم المستخدم أو كلمة المرور غير صحيحة'; return; }
+  CURRENT_USER = user;
+  sessionStorage.setItem('elec_user', JSON.stringify(user));
+  log('تسجيل دخول: '+user.name);
+  startApp();
+}
+function doLogout(){ if(confirm('تسجيل الخروج؟')){ log('تسجيل خروج: '+CURRENT_USER.name); CURRENT_USER=null; sessionStorage.removeItem('elec_user'); location.reload(); } }
+function hasPermission(perm){
+  if(!CURRENT_USER) return false;
+  const role = DB.roles.find(r=>r.id===CURRENT_USER.role);
+  if(!role) return false;
+  if(role.permissions.includes('*')) return true;
+  return role.permissions.includes(perm);
+}
+function startApp(){
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('activationScreen').style.display = 'none';
+  document.getElementById('appWrap').style.display = 'flex';
+  document.getElementById('userName').innerText = CURRENT_USER.name;
+  document.getElementById('userRole').innerText = (DB.roles.find(r=>r.id===CURRENT_USER.role)||{}).name || CURRENT_USER.role;
+  document.getElementById('userAvatar').innerText = CURRENT_USER.name.charAt(0);
+  updateLicenseBadge();
+  buildMenu();
+  nav('dashboard');
+}
+
+function updateLicenseBadge(){
+  const badge = document.getElementById('licenseBadge');
+  if(!badge || !DB.license || !DB.license.endDate) return;
+  const days = Math.ceil((new Date(DB.license.endDate) - new Date())/(1000*60*60*24));
+  if(days < 0){ badge.style.background='#fee2e2'; badge.style.color='#dc2626'; badge.innerHTML='<i class="fa-solid fa-circle-xmark"></i> منتهي'; }
+  else if(days < 30){ badge.style.background='#fef3c7'; badge.style.color='#d97706'; badge.innerHTML=`<i class="fa-solid fa-triangle-exclamation"></i> ${days} يوم`; }
+  else { badge.style.background='#d1fae5'; badge.style.color='#059669'; badge.innerHTML=`<i class="fa-solid fa-circle-check"></i> ${days} يوم`; }
+}
+
+const MENU = [
+  {id:'dashboard',label:'لوحة التحكم',icon:'fa-house'},
+  {id:'guide',label:'دليل الاستخدام',icon:'fa-book-open',action:'openGuide'},
+  {id:'setup',label:'التهيئة',icon:'fa-gear',permission:'setup',children:[
+    {id:'setup-stations',label:'المحطات',icon:'fa-building'},
+    {id:'setup-areas',label:'المناطق',icon:'fa-map'},
+    {id:'setup-squares',label:'المربعات',icon:'fa-border-all'},
+    {id:'setup-collectors',label:'المحصلين',icon:'fa-user-tie'},
+    {id:'setup-meters',label:'العدادات المركزية',icon:'fa-gauge'},
+    {id:'setup-tariff-consumption',label:'تعرفة الاستهلاك',icon:'fa-bolt'},
+    {id:'setup-tariff-subscription',label:'تعرفة الاشتراكات',icon:'fa-calendar'},
+    {id:'setup-contracts',label:'نماذج العقود',icon:'fa-file-contract'},
+    {id:'setup-services',label:'الخدمات',icon:'fa-screwdriver-wrench'},
+    {id:'setup-penalties',label:'الغرامات',icon:'fa-triangle-exclamation'},
+    {id:'setup-subscribers',label:'المشتركين',icon:'fa-users'},
+    {id:'setup-openings',label:'الأرصدة الافتتاحية',icon:'fa-scale-balanced'}
+  ]},
+  {id:'ops',label:'العمليات',icon:'fa-play',permission:'ops',children:[
+    {id:'op-invoice',label:'إصدار فاتورة',icon:'fa-file-invoice',permission:'op-invoice'},
+    {id:'op-quick',label:'الإصدار السريع',icon:'fa-bolt',permission:'op-quick'},
+    {id:'op-collection',label:'التحصيل السريع',icon:'fa-cash-register',permission:'op-collection'},
+    {id:'op-meter-move',label:'حركة العدادات',icon:'fa-right-left'},
+    {id:'op-cut-notice',label:'إشعار فصل تيار',icon:'fa-power-off',permission:'op-cut-notice'},
+    {id:'op-service-req',label:'طلب خدمة',icon:'fa-ticket'},
+    {id:'op-penalty-issue',label:'إصدار الغرامات',icon:'fa-gavel'},
+    {id:'op-sub-migrate',label:'ترحيل الاشتراكات',icon:'fa-calendar-check'}
+  ]},
+  {id:'reports',label:'التقارير',icon:'fa-chart-pie',permission:'reports',children:[
+    {id:'rep-invoices',label:'فواتير المشتركين',icon:'fa-file-lines'},
+    {id:'rep-late',label:'المتأخرات',icon:'fa-clock'},
+    {id:'rep-due',label:'المبالغ المستحقة',icon:'fa-hand-holding-dollar'},
+    {id:'rep-current',label:'القراءات الحالية',icon:'fa-eye'},
+    {id:'rep-field',label:'النزول الميداني',icon:'fa-person-walking'},
+    {id:'rep-consumption',label:'إجمالي الاستهلاك',icon:'fa-fire'},
+    {id:'rep-collected',label:'المحصلة والمتبقية',icon:'fa-coins'},
+    {id:'rep-services',label:'الخدمات',icon:'fa-list-check'},
+    {id:'rep-penalties',label:'الغرامات',icon:'fa-scale-balanced'},
+    {id:'rep-logs',label:'سجل العمليات',icon:'fa-list'}
+  ]},
+  {id:'system',label:'إدارة النظام',icon:'fa-shield-halved',permission:'system',children:[
+    {id:'system-users',label:'المستخدمين',icon:'fa-user-shield'},
+    {id:'system-roles',label:'الصلاحيات',icon:'fa-key'},
+    {id:'system-branches',label:'الفروع',icon:'fa-code-branch'},
+    {id:'system-settings',label:'الإعدادات',icon:'fa-sliders'},
+    {id:'system-license',label:'الترخيص',icon:'fa-certificate'},
+    {id:'system-sms',label:'سجل الرسائل',icon:'fa-comment-sms'}
+  ]}
+];
+
+function buildMenu(){
+  const nav = document.querySelector('aside nav');
+  nav.innerHTML = MENU.filter(item => !item.permission || hasPermission(item.permission) || hasPermission('*')).map(item => {
+    if(item.children){
+      const vc = item.children.filter(c => !c.permission || hasPermission(c.permission) || hasPermission('*'));
+      if(!vc.length) return '';
+      return `<div><button onclick="toggleGrp('${item.id}')" style="width:100%;display:flex;justify-content:space-between;align-items:center;background:transparent;border:none;color:#d1d5db;padding:.7rem 1rem;border-radius:8px;font-weight:600;cursor:pointer;font-family:inherit"><span style="display:flex;gap:.75rem;align-items:center"><i class="fa-solid ${item.icon}"></i>${item.label}</span><i class="fa-solid fa-chevron-left" id="ar-${item.id}" style="font-size:.7rem;transition:.2s"></i></button><div class="grp" id="g-${item.id}">${vc.map(c=>`<a href="#" onclick="nav('${c.id}');return false;" class="nav-a" data-id="${c.id}"><i class="fa-solid ${c.icon}" style="margin-left:.4rem"></i> ${c.label}</a>`).join('')}</div></div>`;
+    }
+    return `<a href="#" onclick="${item.action ? item.action + '()' : "nav('" + item.id + "')"};return false;" class="nav-a" data-id="${item.id}" style="display:flex;gap:.75rem;align-items:center;color:#d1d5db;padding:.7rem 1rem;border-radius:8px;font-weight:600;text-decoration:none;margin-bottom:.15rem"><i class="fa-solid ${item.icon}"></i>${item.label}</a>`;
+  }).join('');
+}
+function toggleGrp(id){ const g=document.getElementById('g-'+id); const a=document.getElementById('ar-'+id); g.classList.toggle('on'); if(a) a.style.transform = g.classList.contains('on') ? 'rotate(-90deg)' : ''; }
+
+const TITLES = {'dashboard':'لوحة التحكم','guide':'دليل الاستخدام','setup-stations':'المحطات','setup-areas':'المناطق','setup-squares':'المربعات','setup-collectors':'المحصلين','setup-meters':'العدادات المركزية','setup-tariff-consumption':'تعرفة الاستهلاك','setup-tariff-subscription':'تعرفة الاشتراكات','setup-contracts':'نماذج العقود','setup-services':'الخدمات','setup-penalties':'الغرامات','setup-subscribers':'المشتركين','setup-openings':'الأرصدة الافتتاحية','op-invoice':'إصدار فاتورة','op-quick':'الإصدار السريع','op-collection':'التحصيل السريع','op-meter-move':'حركة العدادات','op-cut-notice':'إشعار فصل تيار','op-service-req':'طلب خدمة','op-penalty-issue':'إصدار الغرامات','op-sub-migrate':'ترحيل الاشتراكات','rep-invoices':'تقرير الفواتير','rep-late':'المتأخرات','rep-due':'المبالغ المستحقة','rep-current':'القراءات الحالية','rep-field':'النزول الميداني','rep-consumption':'إجمالي الاستهلاك','rep-collected':'المحصلة والمتبقية','rep-services':'تقرير الخدمات','rep-penalties':'تقرير الغرامات','rep-logs':'سجل العمليات','system-users':'المستخدمين','system-roles':'الصلاحيات','system-branches':'الفروع','system-settings':'إعدادات النظام','system-license':'الترخيص','system-sms':'سجل الرسائل'};
+
+const RENDERERS = {};
+function openGuide() {
+  window.open('guide.html', '_blank');
+}
+function nav(id){
+  document.querySelectorAll('.nav-a').forEach(a => a.classList.toggle('active', a.dataset.id === id));
+  document.getElementById('title').innerText = TITLES[id] || '';
+  const c = document.getElementById('content'); c.innerHTML='';
+  if(RENDERERS[id]) RENDERERS[id](c); else c.innerHTML = '<div class="card"><p style="text-align:center;color:#999">قيد التطوير</p></div>';
+  if(window.innerWidth <= 768) toggleSidebar(false);
+}
+
+function modal(title, fields, onSubmit){
+  const html = `<div class="modal on" id="m-active" onclick="if(event.target===this)closeM()"><div class="modal-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #e5e7eb;padding-bottom:.75rem;margin-bottom:1rem">
+      <h3 style="margin:0;font-weight:800;color:#1f2937">${title}</h3>
+      <button onclick="closeM()" style="background:none;border:none;color:#6b7280;font-size:1.2rem;cursor:pointer"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <form id="m-form">${fields.map(f=>{
+      if(f.type==='select') return `<div style="margin-bottom:.75rem"><label class="lbl">${f.label}</label><select name="${f.name}" ${f.required?'required':''}>${f.options.map(o=>`<option value="${o.value}">${o.text}</option>`).join('')}</select></div>`;
+      if(f.type==='textarea') return `<div style="margin-bottom:.75rem"><label class="lbl">${f.label}</label><textarea name="${f.name}" rows="3" ${f.required?'required':''}>${f.value||''}</textarea></div>`;
+      if(f.type==='number') return `<div style="margin-bottom:.75rem"><label class="lbl">${f.label}</label><input type="number" name="${f.name}" value="${f.value??''}" ${f.required?'required':''} step="any"></div>`;
+      if(f.type==='date') return `<div style="margin-bottom:.75rem"><label class="lbl">${f.label}</label><input type="date" name="${f.name}" value="${f.value||new Date().toISOString().slice(0,10)}"></div>`;
+      if(f.type==='password') return `<div style="margin-bottom:.75rem"><label class="lbl">${f.label}</label><input type="password" name="${f.name}" value="${f.value||''}" ${f.required?'required':''}></div>`;
+      if(f.type==='checkbox') return `<div style="margin-bottom:.75rem"><label style="display:flex;align-items:center;gap:.5rem;cursor:pointer"><input type="checkbox" name="${f.name}" value="1" style="width:auto" ${f.value?'checked':''}><span class="lbl" style="margin:0">${f.label}</span></label></div>`;
+      return `<div style="margin-bottom:.75rem"><label class="lbl">${f.label}</label><input type="text" name="${f.name}" value="${f.value||''}" ${f.required?'required':''}></div>`;
+    }).join('')}<div style="display:flex;gap:.5rem;justify-content:flex-end;border-top:1px solid #e5e7eb;padding-top:1rem;margin-top:.5rem"><button type="button" onclick="closeM()" style="background:#e5e7eb;color:#374151;border:none;padding:.6rem 1.2rem;border-radius:8px;font-weight:700;cursor:pointer">إلغاء</button><button type="submit" style="background:#2563eb;color:#fff;border:none;padding:.6rem 1.2rem;border-radius:8px;font-weight:700;cursor:pointer">حفظ</button></div></form></div></div>`;
+  document.getElementById('modal-container').innerHTML = html;
+  document.getElementById('m-form').onsubmit = (e)=>{ e.preventDefault(); const data={}; new FormData(e.target).forEach((v,k)=>data[k]=v); onSubmit(data); closeM(); };
+}
+function closeM(){ document.getElementById('modal-container').innerHTML=''; }
+
+function crudSection(container, {title, data, columns, onAdd, onDel}){
+  const c = document.createElement('div'); c.className='card';
+  c.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;border-bottom:1px solid #f3f4f6;padding-bottom:.75rem;flex-wrap:wrap;gap:.5rem"><h2 style="margin:0;font-weight:800;font-size:1.05rem;color:#1f2937">${title}</h2><button class="btn" style="background:#2563eb;color:#fff;border:none;padding:.5rem 1rem;border-radius:8px;font-weight:700;font-size:.85rem"><i class="fa-solid fa-plus"></i> إضافة</button></div><div style="overflow-x:auto"><table><thead><tr>${columns.map(cl=>`<th>${cl}</th>`).join('')}<th style="width:60px"></th></tr></thead><tbody></tbody></table></div>`;
+  container.appendChild(c);
+  const tbody = c.querySelector('tbody');
+  const renderRows = () => { tbody.innerHTML = data.length ? data.map((row,i)=>`<tr>${columns.map((_,ci)=>`<td>${row.__cells?row.__cells[ci]:''}</td>`).join('')}<td><button onclick="window.__delRow(${i})" style="background:none;border:none;color:#dc2626;cursor:pointer"><i class="fa-solid fa-trash"></i></button></td></tr>`).join('') : `<tr><td colspan="${columns.length+1}" style="text-align:center;color:#999;padding:1.5rem">لا توجد بيانات</td></tr>`; };
+  window.__delRow = (i)=>{ if(confirm('حذف؟')){ onDel(i); renderRows(); } };
+  renderRows();
+  c.querySelector('.btn').onclick = () => onAdd(()=>renderRows());
+}
+
+// ============== RENDERERS - الجزء الأول ==============
+RENDERERS.dashboard = (c) => {
+  const totalDebt = DB.subscribers.reduce((s,x)=>s+x.debt,0);
+  const totalCollected = DB.payments.reduce((s,x)=>s+x.amount,0);
+  c.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:1.5rem">
+    ${statCard('إجمالي المشتركين', DB.subscribers.length, 'fa-users', 'blue')}
+    ${statCard('إجمالي الفواتير', DB.invoices.length, 'fa-file-invoice', 'orange')}
+    ${statCard('إجمالي المحصل', fmt(totalCollected)+' ريال', 'fa-money-bill-wave', 'green')}
+    ${statCard('إجمالي المديونيات', fmt(totalDebt)+' ريال', 'fa-triangle-exclamation', 'red')}
+  </div><h2 style="font-weight:800;color:#1f2937;margin-bottom:.75rem;font-size:1rem">المهام السريعة</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;margin-bottom:1.5rem">
+    ${quickBtn('op-invoice','إصدار فاتورة','fa-file-invoice-dollar','blue')}
+    ${quickBtn('op-collection','تحصيل سريع','fa-cash-register','green')}
+    ${quickBtn('setup-subscribers','إضافة مشترك','fa-user-plus','purple')}
+    ${quickBtn('rep-collected','التقارير','fa-chart-simple','orange')}
+  </div><div class="card"><h2 style="font-weight:800;color:#1f2937;margin-bottom:.75rem;font-size:1rem;border-bottom:1px solid #f3f4f6;padding-bottom:.5rem">آخر العمليات</h2><div style="max-height:280px;overflow-y:auto">${DB.logs.slice(0,20).map(l=>`<div style="padding:.5rem 0;border-bottom:1px solid #f9fafb;font-size:.85rem;color:#4b5563"><i class="fa-solid fa-circle-check" style="color:#10b981;margin-left:.4rem;font-size:.75rem"></i>${l}</div>`).join('')}</div></div>`;
+};
+function statCard(label,value,icon,color){ const colors={blue:['#dbeafe','#2563eb'],green:['#d1fae5','#10b981'],red:['#fee2e2','#dc2626'],orange:['#fed7aa','#ea580c'],purple:['#e9d5ff','#9333ea']}; const [bg,fg]=colors[color]||colors.blue;
+  return `<div class="card" style="display:flex;justify-content:space-between;align-items:center;border-right:4px solid ${fg}"><div><p style="margin:0;color:#6b7280;font-size:.8rem;font-weight:600">${label}</p><p style="margin:.3rem 0 0;font-size:1.3rem;font-weight:800;color:#1f2937">${value}</p></div><div style="width:44px;height:44px;background:${bg};color:${fg};border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem"><i class="fa-solid ${icon}"></i></div></div>`; }
+function quickBtn(id,label,icon,color){ const colors={blue:['#dbeafe','#2563eb'],green:['#d1fae5','#10b981'],purple:['#e9d5ff','#9333ea'],orange:['#fed7aa','#ea580c']}; const [bg,fg]=colors[color]||colors.blue;
+  return `<button class="card btn" onclick="nav('${id}')" style="cursor:pointer;text-align:center;display:flex;flex-direction:column;align-items:center;gap:.5rem;padding:1.25rem;border:1px solid #f3f4f6"><div style="width:56px;height:56px;background:${bg};color:${fg};border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem"><i class="fa-solid ${icon}"></i></div><span style="font-weight:700;color:#374151;font-size:.9rem">${label}</span></button>`; }RENDERERS['setup-stations']=(c)=>{ const data=DB.stations.map(s=>({...s,__cells:[s.id,s.name,s.nameEn||'-',s.address||'-',s.phone||'-']}));
+  crudSection(c,{title:'بيانات المحطات',data,columns:['الرقم','الاسم','الاسم الإنجليزي','العنوان','الهاتف'],
+    onAdd:(r)=>{ modal('إضافة محطة',[{name:'name',label:'اسم المحطة',required:true},{name:'nameEn',label:'الاسم الإنجليزي'},{name:'address',label:'العنوان'},{name:'phone',label:'الهاتف'}],(d)=>{ DB.stations.push({id:nextId(DB.stations),...d}); save(); log('إضافة محطة: '+d.name); nav('setup-stations'); }); },
+    onDel:(i)=>{ DB.stations.splice(i,1); save(); }}); };
+
+RENDERERS['setup-areas']=(c)=>{ const data=DB.areas.map(a=>{const st=DB.stations.find(s=>s.id===a.stationId); return {...a,__cells:[a.id,a.name,st?st.name:'-',a.notes||'-']};});
+  crudSection(c,{title:'دليل المناطق',data,columns:['الرقم','المنطقة','المحطة','ملاحظات'],
+    onAdd:(r)=>{ modal('إضافة منطقة',[{name:'name',label:'اسم المنطقة',required:true},{name:'stationId',label:'المحطة',type:'select',options:DB.stations.map(s=>({value:s.id,text:s.name}))},{name:'notes',label:'ملاحظات'}],(d)=>{ d.stationId=parseInt(d.stationId); DB.areas.push({id:nextId(DB.areas),...d}); save(); nav('setup-areas'); }); },
+    onDel:(i)=>{ DB.areas.splice(i,1); save(); }}); };
+
+RENDERERS['setup-squares']=(c)=>{ const data=DB.squares.map(sq=>{const a=DB.areas.find(x=>x.id===sq.areaId); const co=DB.collectors.find(x=>x.id===sq.collectorId); return {...sq,__cells:[sq.id,sq.name,a?a.name:'-',co?co.name:'-',sq.notes||'-']};});
+  crudSection(c,{title:'دليل المربعات',data,columns:['الرقم','المربع','المنطقة','المحصل','ملاحظات'],
+    onAdd:(r)=>{ modal('إضافة مربع',[{name:'name',label:'اسم المربع',required:true},{name:'areaId',label:'المنطقة',type:'select',options:DB.areas.map(a=>({value:a.id,text:a.name}))},{name:'collectorId',label:'المحصل',type:'select',options:[{value:'',text:'بدون'}].concat(DB.collectors.map(x=>({value:x.id,text:x.name})))},{name:'notes',label:'ملاحظات'}],(d)=>{ d.areaId=parseInt(d.areaId); d.collectorId=d.collectorId?parseInt(d.collectorId):null; DB.squares.push({id:nextId(DB.squares),...d}); save(); nav('setup-squares'); }); },
+    onDel:(i)=>{ DB.squares.splice(i,1); save(); }}); };
+
+RENDERERS['setup-collectors']=(c)=>{ const data=DB.collectors.map(x=>({...x,__cells:[x.id,x.name,x.address||'-',x.phone||'-']}));
+  crudSection(c,{title:'دليل المحصلين',data,columns:['الرقم','الاسم','العنوان','الهاتف'],
+    onAdd:(r)=>{ modal('إضافة محصل',[{name:'name',label:'اسم المحصل',required:true},{name:'address',label:'العنوان'},{name:'phone',label:'الهاتف'}],(d)=>{ DB.collectors.push({id:nextId(DB.collectors),...d}); save(); nav('setup-collectors'); }); },
+    onDel:(i)=>{ DB.collectors.splice(i,1); save(); }}); };
+
+RENDERERS['setup-meters']=(c)=>{ const data=DB.meters.map(m=>{const st=DB.stations.find(x=>x.id===m.stationId); return {...m,__cells:[m.id,m.name,st?st.name:'-',m.reading]};});
+  crudSection(c,{title:'العدادات المركزية',data,columns:['الرقم','الاسم','المحطة','القراءة'],
+    onAdd:(r)=>{ modal('إضافة عداد',[{name:'name',label:'اسم العداد',required:true},{name:'stationId',label:'المحطة',type:'select',options:DB.stations.map(s=>({value:s.id,text:s.name}))},{name:'reading',label:'القراءة',type:'number',value:0,required:true}],(d)=>{ d.stationId=parseInt(d.stationId); d.reading=parseFloat(d.reading); DB.meters.push({id:nextId(DB.meters),...d}); save(); nav('setup-meters'); }); },
+    onDel:(i)=>{ DB.meters.splice(i,1); save(); }}); };
+
+RENDERERS['setup-tariff-consumption']=(c)=>{ const container=document.createElement('div'); container.className='card';
+  container.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;border-bottom:1px solid #f3f4f6;padding-bottom:.75rem"><h2 style="margin:0;font-weight:800;font-size:1.05rem">تعرفة الاستهلاك</h2><button id="addTC" class="btn" style="background:#2563eb;color:#fff;border:none;padding:.5rem 1rem;border-radius:8px;font-weight:700;font-size:.85rem"><i class="fa-solid fa-plus"></i> إضافة</button></div><div id="tc-list"></div>`;
+  c.appendChild(container); const list=container.querySelector('#tc-list');
+  const render=()=>{ list.innerHTML=DB.tariffsConsumption.length?DB.tariffsConsumption.map(t=>`<div style="border:1px solid #e5e7eb;border-radius:10px;padding:1rem;margin-bottom:.75rem;background:#f9fafb"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem"><h3 style="margin:0;font-weight:800">${t.name}</h3><button onclick="delTC(${t.id})" style="background:none;border:none;color:#dc2626;cursor:pointer"><i class="fa-solid fa-trash"></i></button></div><div style="overflow-x:auto"><table style="font-size:.8rem"><thead><tr><th>من</th><th>إلى</th><th>السعر</th></tr></thead><tbody>${t.tiers.map(ti=>`<tr><td>${ti.from}</td><td>${ti.to}</td><td style="font-weight:700">${ti.price}</td></tr>`).join('')}</tbody></table></div></div>`).join(''):'<p style="text-align:center;color:#999;padding:1rem">لا توجد</p>'; };
+  window.delTC=(id)=>{ if(confirm('حذف؟')){ DB.tariffsConsumption=DB.tariffsConsumption.filter(t=>t.id!==id); save(); render(); } };
+  render();
+  container.querySelector('#addTC').onclick=()=>{ modal('إضافة تعرفة',[{name:'name',label:'اسم التعرفة',required:true},{name:'tiers',label:'الشرائح (من-إلى-سعر)',required:true,value:'0-1000-250, 1001-2000-300, 2001-99999-400'}],(d)=>{ const tiers=d.tiers.split(',').map(s=>s.trim()).map(s=>{const [f,t,p]=s.split('-').map(x=>parseFloat(x)); return {from:f,to:t,price:p};}).filter(x=>!isNaN(x.from)&&!isNaN(x.to)&&!isNaN(x.price)); DB.tariffsConsumption.push({id:nextId(DB.tariffsConsumption),name:d.name,tiers}); save(); log('إضافة تعرفة: '+d.name); nav('setup-tariff-consumption'); }); }; };
+
+RENDERERS['setup-tariff-subscription']=(c)=>{ const data=DB.tariffsSubscription.map(t=>({...t,__cells:[t.id,t.name,t.type,fmt(t.amount)+' ريال',t.cap>0?t.cap+' ريال':'بدون']}));
+  crudSection(c,{title:'تعرفة الاشتراكات',data,columns:['الرقم','الاسم','النوع','المبلغ','سقف الفاتورة'],
+    onAdd:(r)=>{ modal('إضافة تعرفة اشتراك',[{name:'name',label:'الاسم',required:true},{name:'type',label:'النوع',type:'select',options:[{value:'شهري',text:'شهري'},{value:'أسبوعي',text:'أسبوعي'},{value:'أسبوعان',text:'أسبوعان'},{value:'عشرة أيام',text:'عشرة أيام'}]},{name:'amount',label:'المبلغ',type:'number',value:400,required:true},{name:'cap',label:'سقف الفاتورة (0=بدون)',type:'number',value:0}],(d)=>{ d.amount=parseFloat(d.amount); d.cap=parseFloat(d.cap); DB.tariffsSubscription.push({id:nextId(DB.tariffsSubscription),...d}); save(); nav('setup-tariff-subscription'); }); },
+    onDel:(i)=>{ DB.tariffsSubscription.splice(i,1); save(); }}); };
+
+RENDERERS['setup-contracts']=(c)=>{ const data=DB.contracts.map(x=>({...x,__cells:[x.id,x.type,x.name,x.terms||'-']}));
+  crudSection(c,{title:'نماذج العقود',data,columns:['الرقم','النوع','الاسم','الشروط'],
+    onAdd:(r)=>{ modal('إضافة عقد',[{name:'type',label:'النوع',type:'select',options:[{value:'عقد منزلي',text:'عقد منزلي'},{value:'عقد تجاري',text:'عقد تجاري'},{value:'عقد اشتراك',text:'عقد اشتراك'},{value:'عقد خدمات',text:'عقد خدمات'}]},{name:'name',label:'اسم النموذج',required:true},{name:'terms',label:'الشروط',type:'textarea'}],(d)=>{ DB.contracts.push({id:nextId(DB.contracts),...d}); save(); nav('setup-contracts'); }); },
+    onDel:(i)=>{ DB.contracts.splice(i,1); save(); }}); };
+
+RENDERERS['setup-services']=(c)=>{ const data=DB.services.map(x=>({...x,__cells:[x.id,x.name,fmt(x.price)+' ريال',x.status]}));
+  crudSection(c,{title:'دليل الخدمات',data,columns:['الرقم','الخدمة','السعر','الحالة'],
+    onAdd:(r)=>{ modal('إضافة خدمة',[{name:'name',label:'اسم الخدمة',required:true},{name:'price',label:'السعر',type:'number',required:true},{name:'status',label:'الحالة',type:'select',options:[{value:'مستمر',text:'مستمر'},{value:'موقوف',text:'موقوف'}]}],(d)=>{ d.price=parseFloat(d.price); DB.services.push({id:nextId(DB.services),...d}); save(); nav('setup-services'); }); },
+    onDel:(i)=>{ DB.services.splice(i,1); save(); }}); };
+
+RENDERERS['setup-penalties']=(c)=>{ const data=DB.penalties.map(x=>({...x,__cells:[x.id,x.name,fmt(x.amount)+' ريال',x.status]}));
+  crudSection(c,{title:'دليل الغرامات',data,columns:['الرقم','الغرامة','المبلغ','الحالة'],
+    onAdd:(r)=>{ modal('إضافة غرامة',[{name:'name',label:'اسم الغرامة',required:true},{name:'amount',label:'المبلغ',type:'number',required:true},{name:'status',label:'الحالة',type:'select',options:[{value:'مستمر',text:'مستمر'},{value:'موقوف',text:'موقوف'}]}],(d)=>{ d.amount=parseFloat(d.amount); DB.penalties.push({id:nextId(DB.penalties),...d}); save(); nav('setup-penalties'); }); },
+    onDel:(i)=>{ DB.penalties.splice(i,1); save(); }}); };
+
+RENDERERS['setup-subscribers']=(c)=>{ const container=document.createElement('div'); container.className='card';
+  container.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;border-bottom:1px solid #f3f4f6;padding-bottom:.75rem;flex-wrap:wrap;gap:.5rem"><h2 style="margin:0;font-weight:800;font-size:1.05rem">المشتركين (${DB.subscribers.length}${DB.license&&DB.license.maxSubscribers?' / '+DB.license.maxSubscribers:''})</h2><div style="display:flex;gap:.5rem;flex-wrap:wrap"><input id="searchSub" placeholder="بحث..." style="width:200px;padding:.5rem"><button id="addSub" class="btn" style="background:#2563eb;color:#fff;border:none;padding:.5rem 1rem;border-radius:8px;font-weight:700;font-size:.85rem"><i class="fa-solid fa-user-plus"></i> إضافة</button></div></div><div style="overflow-x:auto"><table><thead><tr><th>الرقم</th><th>الاسم</th><th>النوع</th><th>المربع</th><th>الهاتف</th><th>القراءة</th><th>المديونية</th><th>الحالة</th><th></th></tr></thead><tbody id="subTbody"></tbody></table></div>`;
+  c.appendChild(container);
+  const render=()=>{ const q=(container.querySelector('#searchSub').value||'').toLowerCase(); const list=DB.subscribers.filter(s=>!q||s.name.toLowerCase().includes(q)||s.id.includes(q)); container.querySelector('#subTbody').innerHTML=list.length?list.map(s=>{const sq=DB.squares.find(x=>x.id===s.squareId); return `<tr><td style="font-weight:700">${s.id}</td><td>${s.name}</td><td>${s.type}</td><td>${sq?sq.name:'-'}</td><td>${s.phone||'-'}</td><td>${s.currentReading}</td><td style="font-weight:700;color:${s.debt>0?'#dc2626':'#10b981'}">${fmt(s.debt)}</td><td><span style="background:${s.status==='نشط'?'#d1fae5':'#fee2e2'};color:${s.status==='نشط'?'#059669':'#dc2626'};padding:.2rem .5rem;border-radius:99px;font-size:.75rem;font-weight:700">${s.status}</span></td><td><button onclick="delSub('${s.id}')" style="background:none;border:none;color:#dc2626;cursor:pointer"><i class="fa-solid fa-trash"></i></button></td></tr>`;}).join(''):'<tr><td colspan="9" style="text-align:center;color:#999;padding:1.5rem">لا يوجد</td></tr>'; };
+  window.delSub=(id)=>{ if(confirm('حذف؟')){ DB.subscribers=DB.subscribers.filter(x=>x.id!==id); save(); render(); } };
+  container.querySelector('#searchSub').oninput=render;
+  container.querySelector('#addSub').onclick=()=>{
+    if(DB.license&&DB.license.maxSubscribers&&DB.subscribers.length>=DB.license.maxSubscribers){ alert('⚠️ وصلت للحد الأقصى في الترخيص: '+DB.license.maxSubscribers+' مشترك'); return; }
+    const newId='100'+(DB.subscribers.length+1); modal('إضافة مشترك',[{name:'name',label:'الاسم',required:true},{name:'type',label:'النوع',type:'select',options:[{value:'منزلي',text:'منزلي'},{value:'تجاري',text:'تجاري'},{value:'حكومي',text:'حكومي'}]},{name:'squareId',label:'المربع',type:'select',options:DB.squares.map(s=>({value:s.id,text:s.name}))},{name:'tariffConsId',label:'تعرفة الاستهلاك',type:'select',options:DB.tariffsConsumption.map(t=>({value:t.id,text:t.name}))},{name:'tariffSubId',label:'تعرفة الاشتراك',type:'select',options:DB.tariffsSubscription.map(t=>({value:t.id,text:t.name+' - '+t.amount}))},{name:'contractId',label:'العقد',type:'select',options:[{value:'',text:'بدون'}].concat(DB.contracts.map(x=>({value:x.id,text:x.name})))},{name:'phone',label:'الهاتف'},{name:'address',label:'العنوان'},{name:'meterNo',label:'رقم العداد'},{name:'prevReading',label:'القراءة الافتتاحية',type:'number',value:0},{name:'debt',label:'الرصيد الافتتاحي',type:'number',value:0},{name:'status',label:'الحالة',type:'select',options:[{value:'نشط',text:'نشط'},{value:'موقوف',text:'موقوف'}]}],(d)=>{ d.id=newId; d.squareId=parseInt(d.squareId); const sq=DB.squares.find(x=>x.id===d.squareId); d.areaId=sq?sq.areaId:null; d.tariffConsId=parseInt(d.tariffConsId); d.tariffSubId=parseInt(d.tariffSubId); d.contractId=d.contractId?parseInt(d.contractId):null; d.prevReading=parseFloat(d.prevReading)||0; d.currentReading=d.prevReading; d.debt=parseFloat(d.debt)||0; d.account=d.name; DB.subscribers.push(d); save(); log('إضافة مشترك: '+d.name); nav('setup-subscribers'); }); };
+  render(); };
+
+RENDERERS['setup-openings']=(c)=>{ const data=DB.openings.map(o=>{const s=DB.subscribers.find(x=>x.id===o.subId); return {...o,__cells:[o.id,s?s.name:'-',o.meterNo||'-',o.reading,o.date||'-']};});
+  crudSection(c,{title:'الأرصدة الافتتاحية',data,columns:['الرقم','المشترك','العداد','القراءة','التاريخ'],
+    onAdd:(r)=>{ modal('إضافة رصيد',[{name:'subId',label:'المشترك',type:'select',options:DB.subscribers.map(s=>({value:s.id,text:s.name}))},{name:'meterNo',label:'رقم العداد'},{name:'reading',label:'القراءة',type:'number',value:0,required:true},{name:'date',label:'التاريخ',type:'date'}],(d)=>{ d.reading=parseFloat(d.reading); DB.openings.push({id:nextId(DB.openings),...d}); save(); nav('setup-openings'); }); },
+    onDel:(i)=>{ DB.openings.splice(i,1); save(); }}); };
+
+// ============== العمليات ==============
+RENDERERS['op-invoice']=(c)=>{ c.innerHTML=`<div class="card" style="max-width:900px;margin:0 auto"><h2 style="margin:0 0 1rem;font-weight:800;font-size:1.05rem;border-bottom:1px solid #f3f4f6;padding-bottom:.75rem">إصدار فاتورة</h2><div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem"><div><label class="lbl">المشترك</label><select id="inv-sub" onchange="calcInv()"><option value="">-- اختر --</option>${DB.subscribers.map(s=>`<option value="${s.id}">${s.name} (${s.id})</option>`).join('')}</select></div><div><label class="lbl">التاريخ</label><input type="date" id="inv-date" value="${new Date().toISOString().slice(0,10)}"></div></div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem;margin-bottom:1rem;background:#eff6ff;padding:1rem;border-radius:10px"><div><label class="lbl">السابقة</label><input id="inv-prev" readonly style="background:#e5e7eb"></div><div><label class="lbl">الحالية</label><input type="number" id="inv-curr" oninput="calcInv()"></div><div><label class="lbl">الاستهلاك</label><input id="inv-cons" readonly style="background:#e5e7eb;color:#2563eb;font-weight:700"></div></div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem;margin-bottom:1rem"><div style="background:#f9fafb;padding:.75rem;border-radius:10px"><p style="margin:0;color:#6b7280;font-size:.75rem">قيمة الاستهلاك</p><p id="inv-cost" style="margin:.3rem 0 0;font-size:1.05rem;font-weight:800">0</p></div><div style="background:#f9fafb;padding:.75rem;border-radius:10px"><p style="margin:0;color:#6b7280;font-size:.75rem">الاشتراك</p><p id="inv-subfee" style="margin:.3rem 0 0;font-size:1.05rem;font-weight:800">0</p></div><div style="background:#ecfdf5;padding:.75rem;border-radius:10px;border:1px solid #a7f3d0"><p style="margin:0;color:#059669;font-size:.75rem">الإجمالي</p><p id="inv-total" style="margin:.3rem 0 0;font-size:1.2rem;font-weight:800;color:#059669">0</p></div></div><div style="display:flex;gap:.5rem;justify-content:flex-end;border-top:1px solid #f3f4f6;padding-top:1rem;flex-wrap:wrap"><button onclick="nav('dashboard')" style="background:#e5e7eb;color:#374151;border:none;padding:.6rem 1.2rem;border-radius:8px;font-weight:700;cursor:pointer">إلغاء</button><button onclick="saveInv()" style="background:#2563eb;color:#fff;border:none;padding:.6rem 1.2rem;border-radius:8px;font-weight:700;cursor:pointer"><i class="fa-solid fa-print"></i> حفظ وطباعة</button></div></div>`; };
+function calcInv(){ const sub=DB.subscribers.find(s=>s.id===document.getElementById('inv-sub').value); if(!sub) return; document.getElementById('inv-prev').value=sub.currentReading; const curr=parseFloat(document.getElementById('inv-curr').value)||0; if(curr<=sub.currentReading){ document.getElementById('inv-cons').value=0; document.getElementById('inv-cost').innerText='0 ريال'; document.getElementById('inv-subfee').innerText='0 ريال'; document.getElementById('inv-total').innerText='0 ريال'; document.getElementById('inv-total').dataset.total=0; return; } const cons=curr-sub.currentReading; document.getElementById('inv-cons').value=cons; const tariff=DB.tariffsConsumption.find(t=>t.id===sub.tariffConsId); let cost=0; if(tariff&&tariff.tiers.length){ let rem=cons; for(const tier of tariff.tiers){ if(rem<=0) break; const size=tier.to-tier.from+1; const used=Math.min(rem,size); cost+=used*tier.price; rem-=used; } } else cost=cons*250; const subT=DB.tariffsSubscription.find(t=>t.id===sub.tariffSubId); const subFee=subT?subT.amount:400; let total=cost+subFee; if(subT&&subT.cap>0&&total>subT.cap) total=subT.cap; document.getElementById('inv-cost').innerText=fmt(cost)+' ريال'; document.getElementById('inv-subfee').innerText=fmt(subFee)+' ريال'; document.getElementById('inv-total').innerText=fmt(total)+' ريال'; document.getElementById('inv-total').dataset.total=total; }
+function saveInv(){ const sub=DB.subscribers.find(s=>s.id===document.getElementById('inv-sub').value); const curr=parseFloat(document.getElementById('inv-curr').value); if(!sub||!curr||curr<=sub.currentReading){ alert('تأكد من الاختيار'); return; } const total=parseFloat(document.getElementById('inv-total').dataset.total||0); const cons=curr-sub.currentReading; const inv={id:uid('INV'),subId:sub.id,subName:sub.name,date:document.getElementById('inv-date').value,prevReading:sub.currentReading,currentReading:curr,consumption:cons,total,subFee:parseFloat(document.getElementById('inv-subfee').innerText)}; sub.currentReading=curr; sub.debt+=total; DB.invoices.push(inv); save(); log(`فاتورة لـ ${sub.name} بمبلغ ${total} ريال`); if(sub.phone && DB.settings.smsEnabled) sendSMS(sub.phone, `تم إصدار فاتورة بمبلغ ${fmt(total)} ريال. شكراً - ${DB.settings.companyName}`); printInvoice(inv); }
+function printInvoice(inv){ const prt=document.getElementById('prt'); prt.style.display='block'; prt.innerHTML=`<div class="pdoc"><div class="phdr"><h1 style="margin:0;font-size:1.4rem">${DB.settings.companyName}</h1><h2 style="margin:.25rem 0;font-size:1rem">فاتورة كهرباء</h2></div><div style="display:flex;justify-content:space-between;margin-bottom:1rem"><div><b>المشترك:</b> ${inv.subName}</div><div><b>الرقم:</b> ${inv.subId}</div></div><div style="display:flex;justify-content:space-between;margin-bottom:1rem"><div><b>التاريخ:</b> ${inv.date}</div><div><b>الفاتورة:</b> ${inv.id}</div></div><table class="ptb"><tr><th>السابقة</th><th>الحالية</th><th>الاستهلاك</th></tr><tr><td>${inv.prevReading}</td><td>${inv.currentReading}</td><td><b>${inv.consumption}</b></td></tr></table><div style="text-align:left;margin-top:1rem"><p>الاشتراك: <b>${fmt(inv.subFee)} ريال</b></p><hr style="border-top:2px solid #333;margin:.5rem 0"><p style="font-size:1.2rem">الإجمالي: <b>${fmt(inv.total)} ريال</b></p></div><div style="text-align:center;margin-top:2rem;border-top:1px dashed #999;padding-top:.75rem;font-size:.75rem">هاتف: ${DB.settings.phone}</div></div>`; window.print(); setTimeout(()=>{ prt.style.display='none'; alert('تم الحفظ!'); nav('dashboard'); }, 200); }
+
+function sendSMS(phone, message){ DB.smsLogs.unshift({id:uid('SMS'),phone,message,date:new Date().toLocaleString('ar-YE'),status:'مرسل'}); if(DB.smsLogs.length>500) DB.smsLogs.pop(); save(); }
+
+RENDERERS['op-quick']=(c)=>{ c.innerHTML=`<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;border-bottom:1px solid #f3f4f6;padding-bottom:.75rem;flex-wrap:wrap;gap:.5rem"><h2 style="margin:0;font-weight:800;font-size:1.05rem">الإصدار السريع</h2><div style="display:flex;gap:.5rem;flex-wrap:wrap"><button onclick="loadQuick()" style="background:#2563eb;color:#fff;border:none;padding:.5rem 1rem;border-radius:8px;font-weight:700;cursor:pointer"><i class="fa-solid fa-eye"></i> عرض</button><button onclick="saveQuick()" style="background:#059669;color:#fff;border:none;padding:.5rem 1rem;border-radius:8px;font-weight:700;cursor:pointer"><i class="fa-solid fa-print"></i> إصدار الجميع</button></div></div><div id="quick-tbl" style="overflow-x:auto"><table><thead><tr><th>الرقم</th><th>الاسم</th><th>السابقة</th><th>الحالية</th><th>الاستهلاك</th><th>الإجمالي</th></tr></thead><tbody><tr><td colspan="6" style="text-align:center;color:#999;padding:1.5rem">اضغط عرض</td></tr></tbody></table></div></div>`; };
+function calcSubTotal(s){ const cons=Math.max(0,s.currentReading-s.prevReading); const tariff=DB.tariffsConsumption.find(t=>t.id===s.tariffConsId); let cost=0; if(tariff&&tariff.tiers.length){ let rem=cons; for(const tier of tariff.tiers){ if(rem<=0) break; const size=tier.to-tier.from+1; const used=Math.min(rem,size); cost+=used*tier.price; rem-=used; } } else cost=cons*250; const subT=DB.tariffsSubscription.find(t=>t.id===s.tariffSubId); const subFee=subT?subT.amount:400; let total=cost+subFee; if(subT&&subT.cap>0&&total>subT.cap) total=subT.cap; return {cons,cost,subFee,total}; }
+function loadQuick(){ const tb=document.querySelector('#quick-tbl tbody'); tb.innerHTML=DB.subscribers.map(s=>{ const c=calcSubTotal(s); return `<tr><td style="font-weight:700">${s.id}</td><td>${s.name}</td><td>${s.prevReading}</td><td>${s.currentReading}</td><td>${c.cons}</td><td style="font-weight:700">${fmt(c.total)}</td></tr>`; }).join('')||'<tr><td colspan="6" style="text-align:center;padding:1.5rem">لا يوجد</td></tr>'; }
+function saveQuick(){ if(!confirm('إصدار فواتير لكل المشتركين؟')) return; let count=0; DB.subscribers.forEach(s=>{ const c=calcSubTotal(s); if(c.cons<=0) return; DB.invoices.push({id:uid('INV'),subId:s.id,subName:s.name,date:new Date().toISOString().slice(0,10),prevReading:s.prevReading,currentReading:s.currentReading,consumption:c.cons,total:c.total,subFee:c.subFee}); s.debt+=c.total; count++; }); save(); log(`إصدار سريع لـ ${count} فاتورة`); alert(`تم إصدار ${count} فاتورة`); nav('dashboard'); }
+
+RENDERERS['op-collection']=(c)=>{ c.innerHTML=`<div class="card" style="max-width:700px;margin:0 auto"><h2 style="margin:0 0 1rem;font-weight:800;font-size:1.05rem;border-bottom:1px solid #f3f4f6;padding-bottom:.75rem">التحصيل السريع</h2><div style="margin-bottom:1rem"><label class="lbl">المشترك</label><select id="col-sub" onchange="loadCol()"><option value="">-- اختر --</option>${DB.subscribers.map(s=>`<option value="${s.id}">${s.name} (${s.id})</option>`).join('')}</select></div><div style="background:#fef2f2;border:1px solid #fecaca;border-radius:10px;padding:1rem;margin-bottom:1rem"><p style="margin:0;color:#dc2626;font-size:.8rem">المديونية</p><p id="col-debt" style="margin:.3rem 0 0;font-size:1.6rem;font-weight:800;color:#dc2626">0</p></div><div style="margin-bottom:1rem"><label class="lbl">المبلغ المحصل</label><input type="number" id="col-amount" style="font-size:1.3rem;font-weight:700;text-align:center;border:2px solid #10b981"></div><button onclick="doCollect()" style="width:100%;background:#059669;color:#fff;border:none;padding:1rem;border-radius:10px;font-size:1.05rem;font-weight:800;cursor:pointer"><i class="fa-solid fa-print"></i> تأكيد وطباعة السند</button></div>`; };
+function loadCol(){ const s=DB.subscribers.find(x=>x.id===document.getElementById('col-sub').value); if(s){ document.getElementById('col-debt').innerText=fmt(s.debt)+' ريال'; document.getElementById('col-amount').value=s.debt; } }
+function doCollect(){ const sub=DB.subscribers.find(x=>x.id===document.getElementById('col-sub').value); const amt=parseFloat(document.getElementById('col-amount').value)||0; if(!sub||amt<=0){ alert('تأكد'); return; } sub.debt=Math.max(0,sub.debt-amt); const pay={id:uid('REC'),subId:sub.id,subName:sub.name,date:new Date().toISOString().slice(0,10),amount:amt,remaining:sub.debt}; DB.payments.push(pay); save(); log(`تحصيل ${amt} من ${sub.name}`); if(sub.phone && DB.settings.smsEnabled) sendSMS(sub.phone, `تم استلام مبلغ ${fmt(amt)} ريال. المتبقي: ${fmt(sub.debt)} ريال. شكراً`); const prt=document.getElementById('prt'); prt.style.display='block'; prt.innerHTML=`<div class="pdoc"><div class="phdr"><h1 style="margin:0;font-size:1.4rem">${DB.settings.companyName}</h1><h2 style="margin:.25rem 0;font-size:1rem">سند قبض</h2></div><div style="display:flex;justify-content:space-between;margin-bottom:1rem"><div><b>السند:</b> ${pay.id}</div><div><b>التاريخ:</b> ${pay.date}</div></div><p style="font-size:1rem">تم استلام: <b style="font-size:1.3rem;color:#2563eb">${fmt(amt)} ريال</b></p><p>من: <b>${sub.name}</b></p><p style="background:#f9fafb;padding:.75rem;border-radius:6px">المتبقي: <b>${fmt(sub.debt)} ريال</b></p><div style="display:flex;justify-content:space-between;margin-top:2.5rem"><div>المحصل: ........</div><div>المستلم: ........</div></div></div>`; window.print(); setTimeout(()=>{ prt.style.display='none'; alert('تم!'); nav('dashboard'); }, 200); }
+
+RENDERERS['op-meter-move']=(c)=>{ const data=DB.meterMovements.map(mv=>{const m=DB.meters.find(x=>x.id===mv.meterId); const loss=mv.current-mv.prev-mv.loss; return {...mv,__cells:[mv.id,m?m.name:'-',mv.prev,mv.current,mv.from||'-',mv.to||'-',`<span style="font-weight:700;color:${loss>0?'#dc2626':'#10b981'}">${loss}</span>`]};});
+  crudSection(c,{title:'حركة العدادات',data,columns:['الرقم','العداد','السابقة','الحالية','من','إلى','الفارق'],
+    onAdd:(r)=>{ modal('إضافة حركة',[{name:'meterId',label:'العداد',type:'select',options:DB.meters.map(m=>({value:m.id,text:m.name}))},{name:'prev',label:'السابقة',type:'number',value:0},{name:'current',label:'الحالية',type:'number',required:true},{name:'loss',label:'الفارق المقدر',type:'number',value:0},{name:'from',label:'من',type:'date'},{name:'to',label:'إلى',type:'date'}],(d)=>{ d.meterId=parseInt(d.meterId); d.prev=parseFloat(d.prev); d.current=parseFloat(d.current); d.loss=parseFloat(d.loss); const m=DB.meters.find(x=>x.id===d.meterId); if(m) m.reading=d.current; DB.meterMovements.push({id:nextId(DB.meterMovements),...d}); save(); nav('op-meter-move'); }); },
+    onDel:(i)=>{ DB.meterMovements.splice(i,1); save(); }}); };
+
+RENDERERS['op-cut-notice']=(c)=>{ const data=DB.cutNotices.map(x=>({...x,__cells:[x.id,x.subName,x.reason,x.date,`<button onclick="printCut('${x.id}')" style="background:none;border:none;color:#2563eb;cursor:pointer"><i class="fa-solid fa-print"></i></button>`]}));
+  crudSection(c,{title:'إشعارات فصل التيار',data,columns:['الرقم','المشترك','السبب','التاريخ','طباعة'],
+    onAdd:(r)=>{ modal('إشعار فصل',[{name:'subId',label:'المشترك',type:'select',options:DB.subscribers.map(s=>({value:s.id,text:s.name}))},{name:'reason',label:'السبب',type:'textarea',required:true}],(d)=>{ const sub=DB.subscribers.find(x=>x.id===d.subId); DB.cutNotices.push({id:nextId(DB.cutNotices),subId:d.subId,subName:sub?sub.name:'',reason:d.reason,date:new Date().toISOString().slice(0,10)}); save(); if(sub&&sub.phone&&DB.settings.smsEnabled) sendSMS(sub.phone, `تنبيه: سيتم فصل التيار. السبب: ${d.reason}`); nav('op-cut-notice'); }); },
+    onDel:(i)=>{ DB.cutNotices.splice(i,1); save(); }}); };
+window.printCut=(id)=>{ const c=DB.cutNotices.find(x=>x.id==id); const prt=document.getElementById('prt'); prt.style.display='block'; prt.innerHTML=`<div class="pdoc"><div class="phdr"><h1 style="margin:0;font-size:1.4rem">إشعار فصل تيار</h1></div><p>السيد/السادة: <b>${c.subName}</b></p><p>سيتم فصل التيار بسبب:</p><p style="background:#fef3c7;padding:.75rem;border-radius:6px"><b>${c.reason}</b></p><div style="margin-top:3rem;text-align:left">التاريخ: ${c.date}</div></div>`; window.print(); setTimeout(()=>prt.style.display='none', 200); };
+
+RENDERERS['op-service-req']=(c)=>{ const data=DB.serviceRequests.map(x=>({...x,__cells:[x.id,x.subName,x.serviceName,fmt(x.price)+' ريال',x.date]}));
+  crudSection(c,{title:'طلبات الخدمة',data,columns:['الرقم','الطالب','الخدمة','السعر','التاريخ'],
+    onAdd:(r)=>{ modal('طلب خدمة',[{name:'subId',label:'الطالب',type:'select',options:DB.subscribers.map(s=>({value:s.id,text:s.name}))},{name:'serviceId',label:'الخدمة',type:'select',options:DB.services.filter(s=>s.status==='مستمر').map(s=>({value:s.id,text:s.name+' - '+s.price}))},{name:'notes',label:'ملاحظات',type:'textarea'}],(d)=>{ const sub=DB.subscribers.find(x=>x.id===d.subId); const svc=DB.services.find(x=>x.id==d.serviceId); DB.serviceRequests.push({id:nextId(DB.serviceRequests),subId:d.subId,subName:sub?sub.name:'',serviceId:d.serviceId,serviceName:svc?svc.name:'',price:svc?svc.price:0,notes:d.notes,date:new Date().toISOString().slice(0,10)}); save(); nav('op-service-req'); }); },
+    onDel:(i)=>{ DB.serviceRequests.splice(i,1); save(); }}); };
+
+RENDERERS['op-penalty-issue']=(c)=>{ const data=DB.penaltyIssues.map(x=>({...x,__cells:[x.id,x.subName,x.penaltyName,fmt(x.amount)+' ريال',x.date]}));
+  crudSection(c,{title:'الغرامات الصادرة',data,columns:['الرقم','المشترك','الغرامة','المبلغ','التاريخ'],
+    onAdd:(r)=>{ modal('إصدار غرامة',[{name:'subId',label:'المشترك',type:'select',options:DB.subscribers.map(s=>({value:s.id,text:s.name}))},{name:'penaltyId',label:'الغرامة',type:'select',options:DB.penalties.filter(p=>p.status==='مستمر').map(p=>({value:p.id,text:p.name+' - '+p.amount}))}],(d)=>{ const sub=DB.subscribers.find(x=>x.id===d.subId); const pn=DB.penalties.find(x=>x.id==d.penaltyId); if(sub&&pn) sub.debt+=pn.amount; DB.penaltyIssues.push({id:nextId(DB.penaltyIssues),subId:d.subId,subName:sub?sub.name:'',penaltyId:d.penaltyId,penaltyName:pn?pn.name:'',amount:pn?pn.amount:0,date:new Date().toISOString().slice(0,10)}); save(); nav('op-penalty-issue'); }); },
+    onDel:(i)=>{ DB.penaltyIssues.splice(i,1); save(); }}); };
+
+RENDERERS['op-sub-migrate']=(c)=>{
+  c.innerHTML=`<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;border-bottom:1px solid #f3f4f6;padding-bottom:.75rem;flex-wrap:wrap;gap:.5rem"><h2 style="margin:0;font-weight:800;font-size:1.05rem">ترحيل الاشتراكات الشهرية</h2><div><button onclick="migrateSubs()" style="background:#059669;color:#fff;border:none;padding:.5rem 1rem;border-radius:8px;font-weight:700;cursor:pointer"><i class="fa-solid fa-arrow-left"></i> ترحيل الكل</button></div></div><div style="background:#eff6ff;padding:1rem;border-radius:10px;margin-bottom:1rem;border-right:4px solid #2563eb"><p style="margin:0;color:#1e40af;font-size:.85rem"><i class="fa-solid fa-info-circle"></i> عند الترحيل، يُضاف مبلغ الاشتراك الشهري تلقائياً إلى مديونية كل مشترك نشط.</p></div><div style="overflow-x:auto"><table><thead><tr><th>الرقم</th><th>الاسم</th><th>نوع الاشتراك</th><th>قيمة الاشتراك</th><th>الحالة</th></tr></thead><tbody id="migTbody"></tbody></table></div></div>`;
+  const render=()=>{ document.getElementById('migTbody').innerHTML=DB.subscribers.filter(s=>s.status==='نشط').map(s=>{ const t=DB.tariffsSubscription.find(x=>x.id===s.tariffSubId); return `<tr><td style="font-weight:700">${s.id}</td><td>${s.name}</td><td>${t?t.name:'-'}</td><td>${t?fmt(t.amount)+' ريال':'0'}</td><td><span style="background:#d1fae5;color:#059669;padding:.2rem .5rem;border-radius:99px;font-size:.75rem;font-weight:700">نشط</span></td></tr>`; }).join('')||'<tr><td colspan="5" style="text-align:center;padding:1.5rem">لا يوجد</td></tr>'; };
+  window.migrateSubs=()=>{ if(!confirm('سيتم ترحيل الاشتراكات لكل المشتركين النشطين. متابعة؟')) return; let count=0, total=0; DB.subscribers.filter(s=>s.status==='نشط').forEach(s=>{ const t=DB.tariffsSubscription.find(x=>x.id===s.tariffSubId); if(!t) return; s.debt+=t.amount; total+=t.amount; count++; DB.subMigrations.push({id:uid('MIG'),subId:s.id,subName:s.name,amount:t.amount,date:new Date().toISOString().slice(0,10)}); if(s.phone&&DB.settings.smsEnabled) sendSMS(s.phone, `تم ترحيل اشتراك بمبلغ ${fmt(t.amount)} ريال`); }); save(); log(`ترحيل اشتراكات لـ ${count} مشترك بمبلغ ${total}`); alert(`تم ترحيل ${count} اشتراك بقيمة إجمالية ${fmt(total)} ريال`); nav('dashboard'); };
+  render();
+};
+
+// ============== التقارير ==============
+function reportCard(title,headers,rows){ return `<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;border-bottom:1px solid #f3f4f6;padding-bottom:.75rem;flex-wrap:wrap;gap:.5rem"><h2 style="margin:0;font-weight:800;font-size:1.05rem">${title}</h2><button onclick="printReport(this)" style="background:#1f2937;color:#fff;border:none;padding:.5rem 1rem;border-radius:8px;font-weight:700;cursor:pointer;font-size:.85rem"><i class="fa-solid fa-print"></i> طباعة</button></div><div style="overflow-x:auto"><table><thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.length?rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join(''):`<tr><td colspan="${headers.length}" style="text-align:center;color:#999;padding:1.5rem">لا توجد بيانات</td></tr>`}</tbody></table></div></div>`; }
+
+RENDERERS['rep-invoices']=(c)=>{ const rows=DB.invoices.map(i=>[i.id,i.subName,i.date,i.consumption,fmt(i.total)+' ريال','<span style="background:#dbeafe;color:#2563eb;padding:.2rem .5rem;border-radius:99px;font-size:.75rem;font-weight:700">صادرة</span>']); c.innerHTML=reportCard('تقرير فواتير المشتركين ('+DB.invoices.length+')',['رقم','المشترك','التاريخ','الاستهلاك','الإجمالي','الحالة'],rows); };
+RENDERERS['rep-late']=(c)=>{ const rows=DB.subscribers.filter(s=>s.debt>0).map(s=>[s.id,s.name,s.type,fmt(s.debt)+' ريال','<span style="background:#fee2e2;color:#dc2626;padding:.2rem .5rem;border-radius:99px;font-size:.75rem;font-weight:700">متأخر</span>']); c.innerHTML=reportCard('المتأخرات ('+rows.length+')',['الرقم','الاسم','النوع','المديونية','الحالة'],rows); };
+RENDERERS['rep-due']=(c)=>{ const rows=DB.subscribers.filter(s=>s.debt>0).map(s=>{const sq=DB.squares.find(x=>x.id===s.squareId);const ar=DB.areas.find(x=>x.id===s.areaId);const co=sq?DB.collectors.find(x=>x.id===sq.collectorId):null; return [s.name,ar?ar.name:'-',sq?sq.name:'-',fmt(s.debt)+' ريال',co?co.name:'-'];}); c.innerHTML=reportCard('المبالغ المستحقة',['المشترك','المنطقة','المربع','المستحق','المحصل'],rows); };
+RENDERERS['rep-current']=(c)=>{ const rows=DB.subscribers.map(s=>{const sq=DB.squares.find(x=>x.id===s.squareId);const ar=DB.areas.find(x=>x.id===s.areaId); return [s.id,s.name,ar?ar.name:'-',sq?sq.name:'-',s.currentReading];}); c.innerHTML=reportCard('القراءات الحالية',['الرقم','الاسم','المنطقة','المربع','القراءة'],rows); };
+RENDERERS['rep-field']=(c)=>{ const rows=DB.subscribers.map(s=>{const sq=DB.squares.find(x=>x.id===s.squareId);const ar=DB.areas.find(x=>x.id===s.areaId); return [s.id,s.name,ar?ar.name:'-',sq?sq.name:'-',s.meterNo||'-',s.prevReading,'<span style="color:#dc2626">______</span>'];}); c.innerHTML=reportCard('كشف النزول الميداني',['الرقم','الاسم','المنطقة','المربع','العداد','السابقة','الحالية'],rows); };
+RENDERERS['rep-consumption']=(c)=>{ const rows=DB.subscribers.map(s=>{const c1=calcSubTotal(s); return [s.name,c1.cons,fmt(c1.cost)+' ريال'];}); c.innerHTML=reportCard('إجمالي الاستهلاك',['المشترك','الاستهلاك','القيمة'],rows); };
+RENDERERS['rep-collected']=(c)=>{ const rows=DB.subscribers.map(s=>{ const invTotal=DB.invoices.filter(i=>i.subId===s.id).reduce((t,i)=>t+i.total,0); const paid=DB.payments.filter(p=>p.subId===s.id).reduce((t,p)=>t+p.amount,0); return [s.name,fmt(invTotal)+' ريال',fmt(paid)+' ريال','<span style="font-weight:700;color:'+(s.debt>0?'#dc2626':'#059669')+'">'+fmt(s.debt)+' ريال</span>']; }); c.innerHTML=reportCard('المحصلة والمتبقية',['المشترك','المستحق','المحصل','المتبقي'],rows); };
+RENDERERS['rep-services']=(c)=>{ const rows=DB.serviceRequests.map(r=>[r.id,r.subName,r.serviceName,fmt(r.price)+' ريال',r.date]); c.innerHTML=reportCard('تقرير الخدمات',['الرقم','الطالب','الخدمة','السعر','التاريخ'],rows); };
+RENDERERS['rep-penalties']=(c)=>{ const rows=DB.penaltyIssues.map(r=>[r.id,r.subName,r.penaltyName,fmt(r.amount)+' ريال',r.date]); c.innerHTML=reportCard('تقرير الغرامات',['الرقم','المشترك','الغرامة','المبلغ','التاريخ'],rows); };
+RENDERERS['rep-logs']=(c)=>{ const rows=DB.logs.map((l,i)=>[i+1,l]); c.innerHTML=reportCard('سجل العمليات',['#','العملية'],rows); };
+
+// ============== إدارة النظام ==============
+RENDERERS['system-users']=(c)=>{
+  const data=DB.users.map(u=>({...u,__cells:[u.id,u.username,u.name,(DB.roles.find(r=>r.id===u.role)||{}).name||u.role,`<span style="background:${u.active?'#d1fae5':'#fee2e2'};color:${u.active?'#059669':'#dc2626'};padding:.2rem .5rem;border-radius:99px;font-size:.75rem;font-weight:700">${u.active?'نشط':'معطل'}</span>`]}));
+  const maxU = DB.license&&DB.license.maxUsers ? DB.license.maxUsers : 999;
+  crudSection(c,{title:'إدارة المستخدمين ('+DB.users.length+' / '+maxU+')',data,columns:['#','اسم المستخدم','الاسم الكامل','الدور','الحالة'],
+    onAdd:(r)=>{ if(DB.users.length>=maxU){ alert('⚠️ وصلت للحد الأقصى: '+maxU+' مستخدم'); return; }
+      modal('إضافة مستخدم',[{name:'username',label:'اسم المستخدم',required:true},{name:'password',label:'كلمة المرور',type:'password',required:true},{name:'name',label:'الاسم الكامل',required:true},{name:'role',label:'الدور',type:'select',options:DB.roles.map(x=>({value:x.id,text:x.name}))},{name:'phone',label:'الهاتف'}],(d)=>{ DB.users.push({id:nextId(DB.users),...d,active:true}); save(); log('إضافة مستخدم: '+d.username); nav('system-users'); }); },
+    onDel:(i)=>{ if(DB.users[i].username==='admin'){ alert('لا يمكن حذف المدير الرئيسي'); return; } DB.users.splice(i,1); save(); }});
+};
+RENDERERS['system-roles']=(c)=>{
+  const data=DB.roles.map(r=>({...r,__cells:[r.id,r.name,r.description||'-',r.permissions.includes('*')?'الكل':r.permissions.length+' صلاحية']}));
+  crudSection(c,{title:'الأدوار والصلاحيات',data,columns:['الرمز','الاسم','الوصف','الصلاحيات'],
+    onAdd:(r)=>{ modal('إضافة دور',[{name:'id',label:'رمز الدور',required:true},{name:'name',label:'الاسم',required:true},{name:'description',label:'الوصف'},{name:'permissions',label:'الصلاحيات (مفصولة بفاصلة)',value:'dashboard,ops,reports'}],(d)=>{ d.permissions=d.permissions.split(',').map(x=>x.trim()).filter(x=>x); DB.roles.push(d); save(); nav('system-roles'); }); },
+    onDel:(i)=>{ if(['admin','accountant','collector'].includes(DB.roles[i].id)){ alert('لا يمكن حذف الأدوار الأساسية'); return; } DB.roles.splice(i,1); save(); }});
+};
+RENDERERS['system-branches']=(c)=>{
+  const data=DB.branches.map(b=>({...b,__cells:[b.id,b.name,b.address||'-',b.phone||'-',b.manager||'-']}));
+  crudSection(c,{title:'إدارة الفروع',data,columns:['الرقم','الاسم','العنوان','الهاتف','المدير'],
+    onAdd:(r)=>{ modal('إضافة فرع',[{name:'name',label:'اسم الفرع',required:true},{name:'address',label:'العنوان'},{name:'phone',label:'الهاتف'},{name:'manager',label:'المدير'}],(d)=>{ DB.branches.push({id:nextId(DB.branches),...d}); save(); nav('system-branches'); }); },
+    onDel:(i)=>{ DB.branches.splice(i,1); save(); }});
+};
+RENDERERS['system-settings']=(c)=>{
+  const s=DB.settings;
+  c.innerHTML=`<div class="card" style="max-width:800px;margin:0 auto"><h2 style="margin:0 0 1rem;font-weight:800;font-size:1.05rem;border-bottom:1px solid #f3f4f6;padding-bottom:.75rem">إعدادات النظام</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+      <div><label class="lbl">اسم الشركة</label><input id="set-companyName" value="${s.companyName||''}"></div>
+      <div><label class="lbl">الهاتف</label><input id="set-phone" value="${s.phone||''}"></div>
+      <div><label class="lbl">العنوان</label><input id="set-address" value="${s.address||''}"></div>
+      <div><label class="lbl">الرقم الضريبي</label><input id="set-taxNumber" value="${s.taxNumber||''}"></div>
+      <div><label class="lbl">العملة</label><input id="set-currency" value="${s.currency||'ريال'}"></div>
+      <div><label class="lbl">اسم مرسل SMS</label><input id="set-smsSender" value="${s.smsSender||''}"></div>
+      <div style="grid-column:1/-1"><label class="lbl">مفتاح SMS API</label><input id="set-smsApiKey" value="${s.smsApiKey||''}"></div>
+      <div style="grid-column:1/-1"><label style="display:flex;align-items:center;gap:.5rem;cursor:pointer"><input type="checkbox" id="set-smsEnabled" ${s.smsEnabled?'checked':''} style="width:auto"><span class="lbl" style="margin:0">تفعيل إرسال SMS</span></label></div>
+    </div>
+    <div style="display:flex;justify-content:flex-end;border-top:1px solid #f3f4f6;padding-top:1rem"><button onclick="saveSettings()" style="background:#2563eb;color:#fff;border:none;padding:.6rem 1.5rem;border-radius:8px;font-weight:700;cursor:pointer"><i class="fa-solid fa-save"></i> حفظ الإعدادات</button></div></div>`;
+};
+window.saveSettings=()=>{ DB.settings.companyName=document.getElementById('set-companyName').value; DB.settings.phone=document.getElementById('set-phone').value; DB.settings.address=document.getElementById('set-address').value; DB.settings.taxNumber=document.getElementById('set-taxNumber').value; DB.settings.currency=document.getElementById('set-currency').value; DB.settings.smsSender=document.getElementById('set-smsSender').value; DB.settings.smsApiKey=document.getElementById('set-smsApiKey').value; DB.settings.smsEnabled=document.getElementById('set-smsEnabled').checked; save(); log('تحديث إعدادات النظام'); alert('تم الحفظ بنجاح'); };
+
+RENDERERS['system-license']=(c)=>{
+  const l=DB.license||{}; 
+  if(!l.endDate){ c.innerHTML='<div class="card"><p style="text-align:center;color:#999;padding:2rem">لا يوجد ترخيص مفعل</p></div>'; return; }
+  const end=new Date(l.endDate); const now=new Date(); const days=Math.ceil((end-now)/(1000*60*60*24));
+  const statusColor = days<0?'#dc2626':days<30?'#d97706':'#059669';
+  const statusText = days<0?'منتهي':days<30?`متبقي ${days} يوم`:`نشط - متبقي ${days} يوم`;
+  c.innerHTML=`<div class="card" style="max-width:900px;margin:0 auto">
+    <h2 style="margin:0 0 1rem;font-weight:800;font-size:1.05rem;border-bottom:1px solid #f3f4f6;padding-bottom:.75rem">معلومات الترخيص</h2>
+    <div style="background:linear-gradient(135deg,#1e3a8a,#2563eb);color:#fff;padding:1.5rem;border-radius:12px;margin-bottom:1.5rem">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem">
+        <div><p style="margin:0;font-size:.8rem;opacity:.8">معرف الجهاز</p><p style="margin:.3rem 0;font-size:.9rem;font-weight:800;letter-spacing:1px;font-family:monospace;word-break:break-all">${l.machineId||'-'}</p>
+        <p style="margin:.5rem 0 0;font-size:.85rem"><i class="fa-solid fa-building"></i> ${l.company}</p>
+        <p style="margin:.2rem 0 0;font-size:.85rem"><i class="fa-solid fa-phone"></i> ${DB.settings.phone}</p></div>
+        <div style="text-align:left"><span style="background:${statusColor};color:#fff;padding:.5rem 1rem;border-radius:99px;font-weight:800;font-size:.8rem">${statusText}</span></div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+      <div style="background:#f9fafb;padding:1rem;border-radius:10px"><p style="margin:0;color:#6b7280;font-size:.8rem">تاريخ البدء</p><p style="margin:.3rem 0 0;font-weight:800">${l.startDate}</p></div>
+      <div style="background:#f9fafb;padding:1rem;border-radius:10px"><p style="margin:0;color:#6b7280;font-size:.8rem">تاريخ الانتهاء</p><p style="margin:.3rem 0 0;font-weight:800">${l.endDate}</p></div>
+      <div style="background:#f9fafb;padding:1rem;border-radius:10px"><p style="margin:0;color:#6b7280;font-size:.8rem">الحد الأقصى للمستخدمين</p><p style="margin:.3rem 0 0;font-weight:800">${DB.users.length} / ${l.maxUsers}</p><div style="background:#e5e7eb;height:6px;border-radius:99px;margin-top:.5rem"><div style="background:#2563eb;height:100%;width:${Math.min(100,DB.users.length/l.maxUsers*100)}%;border-radius:99px"></div></div></div>
+      <div style="background:#f9fafb;padding:1rem;border-radius:10px"><p style="margin:0;color:#6b7280;font-size:.8rem">الحد الأقصى للمشتركين</p><p style="margin:.3rem 0 0;font-weight:800">${DB.subscribers.length} / ${l.maxSubscribers}</p><div style="background:#e5e7eb;height:6px;border-radius:99px;margin-top:.5rem"><div style="background:#059669;height:100%;width:${Math.min(100,DB.subscribers.length/l.maxSubscribers*100)}%;border-radius:99px"></div></div></div>
+    </div>
+    <div style="margin-top:1.5rem;padding:1rem;background:#eff6ff;border-radius:10px;border-right:4px solid #2563eb"><p style="margin:0;font-size:.85rem;color:#1e40af"><i class="fa-solid fa-info-circle"></i> لتجديد الترخيص، تواصل مع زكريا الحاج للانظمة والتطوير - 772233564</p></div>
+    <div style="display:flex;gap:.5rem;justify-content:flex-end;margin-top:1.5rem;flex-wrap:wrap"><button onclick="changeLicense()" style="background:#f59e0b;color:#fff;border:none;padding:.6rem 1.5rem;border-radius:8px;font-weight:700;cursor:pointer"><i class="fa-solid fa-key"></i> تغيير مفتاح الترخيص</button></div>
+  </div>`;
+};
+window.changeLicense=()=>{ if(confirm('سيتم إلغاء الترخيص الحالي والعودة لشاشة التنشيط. متابعة؟')){ localStorage.removeItem('elec_license_key'); location.reload(); } };
+
+RENDERERS['system-sms']=(c)=>{
+  const rows=DB.smsLogs.slice(0,100).map(s=>[s.id,s.phone,s.message.substring(0,50)+'...',s.date,'<span style="background:#d1fae5;color:#059669;padding:.2rem .5rem;border-radius:99px;font-size:.75rem;font-weight:700">'+s.status+'</span>']);
+  c.innerHTML=`<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;border-bottom:1px solid #f3f4f6;padding-bottom:.75rem;flex-wrap:wrap;gap:.5rem"><h2 style="margin:0;font-weight:800;font-size:1.05rem">سجل الرسائل (${DB.smsLogs.length})</h2><button onclick="testSMS()" style="background:#2563eb;color:#fff;border:none;padding:.5rem 1rem;border-radius:8px;font-weight:700;cursor:pointer"><i class="fa-solid fa-paper-plane"></i> اختبار إرسال</button></div><div style="overflow-x:auto"><table><thead><tr><th>#</th><th>الهاتف</th><th>الرسالة</th><th>التاريخ</th><th>الحالة</th></tr></thead><tbody>${rows.length?rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join(''):'<tr><td colspan="5" style="text-align:center;padding:1.5rem;color:#999">لا توجد رسائل</td></tr>'}</tbody></table></div></div>`;
+};
+window.testSMS=()=>{ modal('اختبار إرسال SMS',[{name:'phone',label:'رقم الهاتف',value:'772233564',required:true},{name:'message',label:'الرسالة',value:'رسالة تجريبية من نظام محطات الكهرباء',required:true}],(d)=>{ sendSMS(d.phone,d.message); alert('تم إرسال الرسالة بنجاح!'); nav('system-sms'); }); };
+
+// ============== الطباعة ==============
+function printReport(btn){ const card=btn.closest('.card'); if(!card){ window.print(); return; } const clone=card.cloneNode(true); clone.querySelectorAll('button').forEach(b=>b.remove()); const title=card.querySelector('h2')?.innerText||'تقرير'; const date=new Date().toLocaleDateString('ar-YE'); const time=new Date().toLocaleTimeString('ar-YE',{hour:'2-digit',minute:'2-digit'}); const prt=document.getElementById('prt'); prt.innerHTML=`<div style="text-align:center;border-bottom:2px solid #333;padding-bottom:.75rem;margin-bottom:1rem"><h1 style="margin:0;font-size:1.3rem;font-weight:800">${DB.settings.companyName}</h1><h2 style="margin:.3rem 0 0;font-size:1rem;font-weight:600;color:#444">${title}</h2><p style="margin:.3rem 0 0;font-size:.8rem;color:#666">تاريخ الطباعة: ${date} - ${time}</p></div>${clone.outerHTML}<div style="text-align:center;margin-top:2rem;border-top:1px dashed #999;padding-top:.75rem;font-size:.75rem;color:#666">${DB.settings.companyName} - هاتف: ${DB.settings.phone}</div>`; prt.style.display='block'; window.print(); setTimeout(()=>{ prt.style.display='none'; prt.innerHTML=''; }, 300); }
+
+// ============== PWA ==============
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('service-worker.js').then((reg) => console.log('✅ SW:', reg.scope)).catch((err) => console.log('❌ SW:', err));
+  });
+}
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault(); deferredPrompt = e;
+  document.getElementById('installBtn')?.classList.add('show');
+});
+function installPWA() {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then((choice) => {
+      if (choice.outcome === 'accepted') document.getElementById('installBtn')?.classList.remove('show');
+      deferredPrompt = null;
+    });
+  } else {
+    alert('لتثبيت التطبيق:\n\n📱 على الجوال:\nقائمة المتصفح → "إضافة إلى الشاشة الرئيسية"\n\n💻 على الكمبيوتر:\nأيقونة التثبيت بجانب شريط العنوان');
+  }
+}
+window.addEventListener('appinstalled', () => { document.getElementById('installBtn')?.classList.remove('show'); });
+function toggleSidebar(forceState) {
+  const sb = document.getElementById('sb');
+  const ov = document.getElementById('sidebarOverlay');
+  if (!sb || !ov) return;
+  const shouldOpen = forceState !== undefined ? forceState : !sb.classList.contains('open');
+  if (shouldOpen) { sb.classList.add('open'); ov.classList.add('on'); }
+  else { sb.classList.remove('open'); ov.classList.remove('on'); }
+}
+document.addEventListener('click', (e) => {
+  if (window.innerWidth <= 768 && e.target.closest('.nav-a')) toggleSidebar(false);
+});
+window.addEventListener('resize', () => { if (window.innerWidth > 768) toggleSidebar(false); });
+window.addEventListener('online', () => console.log('✅ متصل'));
+window.addEventListener('offline', () => {
+  const toast = document.createElement('div');
+  toast.style.cssText = 'position:fixed;bottom:1rem;left:50%;transform:translateX(-50%);background:#f59e0b;color:#fff;padding:.75rem 1.5rem;border-radius:10px;font-weight:700;z-index:10001;box-shadow:0 10px 30px rgba(0,0,0,.2);font-size:.85rem';
+  toast.innerHTML = '<i class="fa-solid fa-wifi"></i> وضع عدم الاتصال';
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 3000);
+});
+
+// ============== دليل الاستخدام ==============
+const SCREEN_SHOTS = {
+  login: `<svg viewBox="0 0 720 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
+    <defs><linearGradient id="bg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1e3a8a"/><stop offset="100%" stop-color="#111827"/></linearGradient></defs>
+    <rect width="720" height="400" fill="url(#bg1)"/>
+    <rect x="230" y="50" width="260" height="300" fill="#fff" rx="14"/>
+    <circle cx="360" cy="110" r="30" fill="#2563eb"/>
+    <text x="360" y="120" fill="#facc15" font-size="24" text-anchor="middle" font-family="Arial" font-weight="bold">Z</text>
+    <text x="360" y="165" fill="#1f2937" font-size="15" text-anchor="middle" font-family="Arial" font-weight="bold">نظام محطات الكهرباء</text>
+    <text x="360" y="183" fill="#6b7280" font-size="10" text-anchor="middle" font-family="Arial">زكريا الحاج - 772233564</text>
+    <text x="250" y="220" fill="#374151" font-size="10" font-family="Arial" font-weight="bold">اسم المستخدم</text>
+    <rect x="245" y="225" width="230" height="28" fill="#f9fafb" rx="6" stroke="#d1d5db"/>
+    <text x="255" y="243" fill="#9ca3af" font-size="11" font-family="Arial">admin</text>
+    <text x="250" y="275" fill="#374151" font-size="10" font-family="Arial" font-weight="bold">كلمة المرور</text>
+    <rect x="245" y="280" width="230" height="28" fill="#f9fafb" rx="6" stroke="#d1d5db"/>
+    <text x="255" y="298" fill="#9ca3af" font-size="11" font-family="Arial">........</text>
+    <rect x="245" y="320" width="230" height="30" fill="#2563eb" rx="6"/>
+    <text x="360" y="340" fill="#fff" font-size="12" text-anchor="middle" font-family="Arial" font-weight="bold">تسجيل الدخول</text>
+  </svg>`,
+
+  dashboard: `<svg viewBox="0 0 720 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
+    <rect width="720" height="400" fill="#f3f4f6"/>
+    <rect width="160" height="400" fill="#111827"/>
+    <rect x="10" y="15" width="140" height="28" fill="#1f2937" rx="6"/>
+    <text x="80" y="33" fill="#facc15" font-size="12" text-anchor="middle" font-family="Arial" font-weight="bold">نظام الكهرباء</text>
+    <rect x="10" y="60" width="140" height="24" fill="#2563eb" rx="6"/>
+    <text x="20" y="77" fill="#fff" font-size="11" font-family="Arial">لوحة التحكم</text>
+    <text x="20" y="107" fill="#9ca3af" font-size="11" font-family="Arial">التهيئة</text>
+    <text x="20" y="137" fill="#9ca3af" font-size="11" font-family="Arial">العمليات</text>
+    <text x="20" y="167" fill="#9ca3af" font-size="11" font-family="Arial">التقارير</text>
+    <text x="20" y="197" fill="#9ca3af" font-size="11" font-family="Arial">النظام</text>
+    <text x="180" y="35" fill="#1f2937" font-size="14" font-family="Arial" font-weight="bold">لوحة التحكم</text>
+    <rect x="180" y="55" width="125" height="70" fill="#fff" rx="8" stroke="#e5e7eb"/>
+    <rect x="180" y="55" width="4" height="70" fill="#2563eb" rx="2"/>
+    <text x="195" y="75" fill="#6b7280" font-size="9" font-family="Arial">المشتركين</text>
+    <text x="195" y="100" fill="#1f2937" font-size="18" font-family="Arial" font-weight="bold">1240</text>
+    <rect x="320" y="55" width="125" height="70" fill="#fff" rx="8" stroke="#e5e7eb"/>
+    <rect x="320" y="55" width="4" height="70" fill="#f59e0b" rx="2"/>
+    <text x="335" y="75" fill="#6b7280" font-size="9" font-family="Arial">الفواتير</text>
+    <text x="335" y="100" fill="#1f2937" font-size="18" font-family="Arial" font-weight="bold">320</text>
+    <rect x="460" y="55" width="125" height="70" fill="#fff" rx="8" stroke="#e5e7eb"/>
+    <rect x="460" y="55" width="4" height="70" fill="#10b981" rx="2"/>
+    <text x="475" y="75" fill="#6b7280" font-size="9" font-family="Arial">المحصل</text>
+    <text x="475" y="100" fill="#1f2937" font-size="16" font-family="Arial" font-weight="bold">45000</text>
+    <rect x="600" y="55" width="100" height="70" fill="#fff" rx="8" stroke="#e5e7eb"/>
+    <rect x="600" y="55" width="4" height="70" fill="#dc2626" rx="2"/>
+    <text x="612" y="75" fill="#6b7280" font-size="9" font-family="Arial">الديون</text>
+    <text x="612" y="100" fill="#1f2937" font-size="16" font-family="Arial" font-weight="bold">12000</text>
+    <text x="180" y="155" fill="#1f2937" font-size="12" font-family="Arial" font-weight="bold">المهام السريعة</text>
+    <rect x="180" y="170" width="120" height="90" fill="#fff" rx="8" stroke="#e5e7eb"/>
+    <circle cx="240" cy="205" r="18" fill="#dbeafe"/>
+    <text x="240" y="210" fill="#2563eb" font-size="14" text-anchor="middle" font-family="Arial" font-weight="bold">1</text>
+    <text x="240" y="242" fill="#374151" font-size="10" text-anchor="middle" font-family="Arial">إصدار فاتورة</text>
+    <rect x="315" y="170" width="120" height="90" fill="#fff" rx="8" stroke="#e5e7eb"/>
+    <circle cx="375" cy="205" r="18" fill="#d1fae5"/>
+    <text x="375" y="210" fill="#059669" font-size="14" text-anchor="middle" font-family="Arial" font-weight="bold">2</text>
+    <text x="375" y="242" fill="#374151" font-size="10" text-anchor="middle" font-family="Arial">تحصيل</text>
+    <rect x="450" y="170" width="120" height="90" fill="#fff" rx="8" stroke="#e5e7eb"/>
+    <circle cx="510" cy="205" r="18" fill="#e9d5ff"/>
+    <text x="510" y="210" fill="#9333ea" font-size="14" text-anchor="middle" font-family="Arial" font-weight="bold">3</text>
+    <text x="510" y="242" fill="#374151" font-size="10" text-anchor="middle" font-family="Arial">إضافة مشترك</text>
+    <rect x="585" y="170" width="115" height="90" fill="#fff" rx="8" stroke="#e5e7eb"/>
+    <circle cx="642" cy="205" r="18" fill="#fed7aa"/>
+    <text x="642" y="210" fill="#ea580c" font-size="14" text-anchor="middle" font-family="Arial" font-weight="bold">4</text>
+    <text x="642" y="242" fill="#374151" font-size="10" text-anchor="middle" font-family="Arial">التقارير</text>
+    <rect x="180" y="275" width="520" height="110" fill="#fff" rx="8" stroke="#e5e7eb"/>
+    <text x="195" y="295" fill="#1f2937" font-size="11" font-family="Arial" font-weight="bold">آخر العمليات</text>
+    <circle cx="200" cy="320" r="4" fill="#10b981"/>
+    <text x="215" y="323" fill="#4b5563" font-size="10" font-family="Arial">تم إصدار فاتورة للمشترك أحمد محمد علي</text>
+    <circle cx="200" cy="345" r="4" fill="#10b981"/>
+    <text x="215" y="348" fill="#4b5563" font-size="10" font-family="Arial">تم تحصيل مبلغ 1200 ريال من المشترك سعيد صالح</text>
+    <circle cx="200" cy="370" r="4" fill="#f59e0b"/>
+    <text x="215" y="373" fill="#4b5563" font-size="10" font-family="Arial">تم ترحيل الاشتراكات الشهرية لجميع المشتركين</text>
+  </svg>`,
+
+  setup: `<svg viewBox="0 0 720 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
+    <rect width="720" height="400" fill="#fff"/>
+    <text x="20" y="35" fill="#1f2937" font-size="16" font-family="Arial" font-weight="bold">التهيئة — 12 قسماً أساسياً</text>
+    <line x1="20" y1="50" x2="700" y2="50" stroke="#e5e7eb" stroke-width="2"/>
+    <rect x="20" y="70" width="160" height="80" fill="#f9fafb" rx="10" stroke="#e5e7eb"/>
+    <circle cx="100" cy="100" r="20" fill="#dbeafe"/>
+    <text x="100" y="107" fill="#2563eb" font-size="16" text-anchor="middle" font-family="Arial" font-weight="bold">1</text>
+    <text x="100" y="138" fill="#374151" font-size="11" text-anchor="middle" font-family="Arial" font-weight="bold">المحطات</text>
+    <rect x="195" y="70" width="160" height="80" fill="#f9fafb" rx="10" stroke="#e5e7eb"/>
+    <circle cx="275" cy="100" r="20" fill="#dbeafe"/>
+    <text x="275" y="107" fill="#2563eb" font-size="16" text-anchor="middle" font-family="Arial" font-weight="bold">2</text>
+    <text x="275" y="138" fill="#374151" font-size="11" text-anchor="middle" font-family="Arial" font-weight="bold">المناطق</text>
+    <rect x="370" y="70" width="160" height="80" fill="#f9fafb" rx="10" stroke="#e5e7eb"/>
+    <circle cx="450" cy="100" r="20" fill="#dbeafe"/>
+    <text x="450" y="107" fill="#2563eb" font-size="16" text-anchor="middle" font-family="Arial" font-weight="bold">3</text>
+    <text x="450" y="138" fill="#374151" font-size="11" text-anchor="middle" font-family="Arial" font-weight="bold">المربعات</text>
+    <rect x="545" y="70" width="160" height="80" fill="#f9fafb" rx="10" stroke="#e5e7eb"/>
+    <circle cx="625" cy="100" r="20" fill="#dbeafe"/>
+    <text x="625" y="107" fill="#2563eb" font-size="16" text-anchor="middle" font-family="Arial" font-weight="bold">4</text>
+    <text x="625" y="138" fill="#374151" font-size="11" text-anchor="middle" font-family="Arial" font-weight="bold">المحصلين</text>
+    <rect x="20" y="170" width="160" height="80" fill="#f9fafb" rx="10" stroke="#e5e7eb"/>
+    <circle cx="100" cy="200" r="20" fill="#dbeafe"/>
+    <text x="100" y="207" fill="#2563eb" font-size="16" text-anchor="middle" font-family="Arial" font-weight="bold">5</text>
+    <text x="100" y="238" fill="#374151" font-size="11" text-anchor="middle" font-family="Arial" font-weight="bold">العدادات</text>
+    <rect x="195" y="170" width="160" height="80" fill="#f9fafb" rx="10" stroke="#e5e7eb"/>
+    <circle cx="275" cy="200" r="20" fill="#dbeafe"/>
+    <text x="275" y="207" fill="#2563eb" font-size="16" text-anchor="middle" font-family="Arial" font-weight="bold">6</text>
+    <text x="275" y="238" fill="#374151" font-size="10" text-anchor="middle" font-family="Arial" font-weight="bold">تعرفة الاستهلاك</text>
+    <rect x="370" y="170" width="160" height="80" fill="#f9fafb" rx="10" stroke="#e5e7eb"/>
+    <circle cx="450" cy="200" r="20" fill="#dbeafe"/>
+    <text x="450" y="207" fill="#2563eb" font-size="16" text-anchor="middle" font-family="Arial" font-weight="bold">7</text>
+    <text x="450" y="238" fill="#374151" font-size="10" text-anchor="middle" font-family="Arial" font-weight="bold">تعرفة الاشتراك</text>
+    <rect x="545" y="170" width="160" height="80" fill="#f9fafb" rx="10" stroke="#e5e7eb"/>
+    <circle cx="625" cy="200" r="20" fill="#dbeafe"/>
+    <text x="625" y="207" fill="#2563eb" font-size="16" text-anchor="middle" font-family="Arial" font-weight="bold">8</text>
+    <text x="625" y="238" fill="#374151" font-size="11" text-anchor="middle" font-family="Arial" font-weight="bold">نماذج العقود</text>
+    <rect x="20" y="270" width="160" height="80" fill="#f9fafb" rx="10" stroke="#e5e7eb"/>
+    <circle cx="100" cy="300" r="20" fill="#dbeafe"/>
+    <text x="100" y="307" fill="#2563eb" font-size="16" text-anchor="middle" font-family="Arial" font-weight="bold">9</text>
+    <text x="100" y="338" fill="#374151" font-size="11" text-anchor="middle" font-family="Arial" font-weight="bold">الخدمات</text>
+    <rect x="195" y="270" width="160" height="80" fill="#f9fafb" rx="10" stroke="#e5e7eb"/>
+    <circle cx="275" cy="300" r="20" fill="#dbeafe"/>
+    <text x="275" y="307" fill="#2563eb" font-size="16" text-anchor="middle" font-family="Arial" font-weight="bold">10</text>
+    <text x="275" y="338" fill="#374151" font-size="11" text-anchor="middle" font-family="Arial" font-weight="bold">الغرامات</text>
+    <rect x="370" y="270" width="160" height="80" fill="#ecfdf5" rx="10" stroke="#10b981" stroke-width="2"/>
+    <circle cx="450" cy="300" r="20" fill="#10b981"/>
+    <text x="450" y="307" fill="#fff" font-size="16" text-anchor="middle" font-family="Arial" font-weight="bold">11</text>
+    <text x="450" y="338" fill="#059669" font-size="11" text-anchor="middle" font-family="Arial" font-weight="bold">المشتركين ★</text>
+    <rect x="545" y="270" width="160" height="80" fill="#f9fafb" rx="10" stroke="#e5e7eb"/>
+    <circle cx="625" cy="300" r="20" fill="#dbeafe"/>
+    <text x="625" y="307" fill="#2563eb" font-size="16" text-anchor="middle" font-family="Arial" font-weight="bold">12</text>
+    <text x="625" y="338" fill="#374151" font-size="11" text-anchor="middle" font-family="Arial" font-weight="bold">الأرصدة</text>
+  </svg>`,
+
+  subscribers: `<svg viewBox="0 0 720 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
+    <rect width="720" height="400" fill="#fff"/>
+    <text x="20" y="30" fill="#1f2937" font-size="14" font-family="Arial" font-weight="bold">دليل المشتركين (4)</text>
+    <rect x="540" y="12" width="160" height="28" fill="#2563eb" rx="6"/>
+    <text x="620" y="31" fill="#fff" font-size="11" text-anchor="middle" font-family="Arial" font-weight="bold">+ إضافة مشترك</text>
+    <rect x="20" y="55" width="680" height="32" fill="#f3f4f6"/>
+    <text x="35" y="75" fill="#4b5563" font-size="11" font-family="Arial" font-weight="bold">الرقم</text>
+    <text x="130" y="75" fill="#4b5563" font-size="11" font-family="Arial" font-weight="bold">الاسم</text>
+    <text x="300" y="75" fill="#4b5563" font-size="11" font-family="Arial" font-weight="bold">النوع</text>
+    <text x="410" y="75" fill="#4b5563" font-size="11" font-family="Arial" font-weight="bold">الهاتف</text>
+    <text x="540" y="75" fill="#4b5563" font-size="11" font-family="Arial" font-weight="bold">المديونية</text>
+    <text x="630" y="75" fill="#4b5563" font-size="11" font-family="Arial" font-weight="bold">الحالة</text>
+    <rect x="20" y="87" width="680" height="40" fill="#fff"/>
+    <text x="35" y="112" fill="#1f2937" font-size="12" font-family="Arial" font-weight="bold">1001</text>
+    <text x="130" y="112" fill="#374151" font-size="12" font-family="Arial">أحمد محمد علي</text>
+    <text x="300" y="112" fill="#374151" font-size="12" font-family="Arial">منزلي</text>
+    <text x="410" y="112" fill="#374151" font-size="12" font-family="Arial">777111001</text>
+    <text x="540" y="112" fill="#10b981" font-size="12" font-family="Arial" font-weight="bold">0</text>
+    <rect x="630" y="99" width="55" height="20" fill="#d1fae5" rx="10"/>
+    <text x="657" y="113" fill="#059669" font-size="10" text-anchor="middle" font-family="Arial" font-weight="bold">نشط</text>
+    <rect x="20" y="127" width="680" height="40" fill="#fafafa"/>
+    <text x="35" y="152" fill="#1f2937" font-size="12" font-family="Arial" font-weight="bold">1002</text>
+    <text x="130" y="152" fill="#374151" font-size="12" font-family="Arial">مؤسسة النور</text>
+    <text x="300" y="152" fill="#374151" font-size="12" font-family="Arial">تجاري</text>
+    <text x="410" y="152" fill="#374151" font-size="12" font-family="Arial">777111002</text>
+    <text x="540" y="152" fill="#10b981" font-size="12" font-family="Arial" font-weight="bold">0</text>
+    <rect x="630" y="139" width="55" height="20" fill="#d1fae5" rx="10"/>
+    <text x="657" y="153" fill="#059669" font-size="10" text-anchor="middle" font-family="Arial" font-weight="bold">نشط</text>
+    <rect x="20" y="167" width="680" height="40" fill="#fff"/>
+    <text x="35" y="192" fill="#1f2937" font-size="12" font-family="Arial" font-weight="bold">1003</text>
+    <text x="130" y="192" fill="#374151" font-size="12" font-family="Arial">سعيد صالح</text>
+    <text x="300" y="192" fill="#374151" font-size="12" font-family="Arial">منزلي</text>
+    <text x="410" y="192" fill="#374151" font-size="12" font-family="Arial">777111003</text>
+    <text x="540" y="192" fill="#dc2626" font-size="12" font-family="Arial" font-weight="bold">1200</text>
+    <rect x="630" y="179" width="55" height="20" fill="#fee2e2" rx="10"/>
+    <text x="657" y="193" fill="#dc2626" font-size="10" text-anchor="middle" font-family="Arial" font-weight="bold">متأخر</text>
+    <rect x="20" y="207" width="680" height="40" fill="#fafafa"/>
+    <text x="35" y="232" fill="#1f2937" font-size="12" font-family="Arial" font-weight="bold">1004</text>
+    <text x="130" y="232" fill="#374151" font-size="12" font-family="Arial">إبراهيم حسن</text>
+    <text x="300" y="232" fill="#374151" font-size="12" font-family="Arial">منزلي</text>
+    <text x="410" y="232" fill="#374151" font-size="12" font-family="Arial">777111004</text>
+    <text x="540" y="232" fill="#10b981" font-size="12" font-family="Arial" font-weight="bold">0</text>
+    <rect x="630" y="219" width="55" height="20" fill="#d1fae5" rx="10"/>
+    <text x="657" y="233" fill="#059669" font-size="10" text-anchor="middle" font-family="Arial" font-weight="bold">نشط</text>
+    <rect x="20" y="270" width="680" height="60" fill="#eff6ff" rx="8"/>
+    <text x="40" y="295" fill="#1e40af" font-size="12" font-family="Arial" font-weight="bold">ملاحظة:</text>
+    <text x="40" y="315" fill="#1e40af" font-size="11" font-family="Arial">لا يمكن إصدار فاتورة أو تحصيل بدون إضافة المشترك أولاً.</text>
+  </svg>`,
+
+  invoice: `<svg viewBox="0 0 720 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
+    <rect width="720" height="400" fill="#f3f4f6"/>
+    <rect x="80" y="15" width="560" height="370" fill="#fff" rx="12" stroke="#e5e7eb"/>
+    <text x="100" y="45" fill="#1f2937" font-size="15" font-family="Arial" font-weight="bold">إصدار فاتورة كهرباء</text>
+    <line x1="100" y1="58" x2="620" y2="58" stroke="#e5e7eb"/>
+    <text x="100" y="85" fill="#374151" font-size="11" font-family="Arial" font-weight="bold">المشترك</text>
+    <rect x="100" y="92" width="240" height="32" fill="#f9fafb" rx="6" stroke="#d1d5db"/>
+    <text x="112" y="113" fill="#1f2937" font-size="11" font-family="Arial">أحمد محمد علي (1001) ▼</text>
+    <text x="360" y="85" fill="#374151" font-size="11" font-family="Arial" font-weight="bold">التاريخ</text>
+    <rect x="360" y="92" width="260" height="32" fill="#f9fafb" rx="6" stroke="#d1d5db"/>
+    <text x="372" y="113" fill="#1f2937" font-size="11" font-family="Arial">2026-09-26</text>
+    <rect x="100" y="140" width="520" height="65" fill="#eff6ff" rx="8"/>
+    <text x="115" y="163" fill="#374151" font-size="10" font-family="Arial" font-weight="bold">السابقة</text>
+    <rect x="115" y="168" width="155" height="28" fill="#e5e7eb" rx="4"/>
+    <text x="192" y="187" fill="#6b7280" font-size="12" text-anchor="middle" font-family="Arial" font-weight="bold">1000</text>
+    <text x="290" y="163" fill="#374151" font-size="10" font-family="Arial" font-weight="bold">الحالية</text>
+    <rect x="290" y="168" width="155" height="28" fill="#fff" rx="4" stroke="#2563eb"/>
+    <text x="367" y="187" fill="#1f2937" font-size="12" text-anchor="middle" font-family="Arial" font-weight="bold">1800</text>
+    <text x="465" y="163" fill="#374151" font-size="10" font-family="Arial" font-weight="bold">الاستهلاك</text>
+    <rect x="465" y="168" width="140" height="28" fill="#e5e7eb" rx="4"/>
+    <text x="535" y="187" fill="#2563eb" font-size="12" text-anchor="middle" font-family="Arial" font-weight="bold">800</text>
+    <rect x="100" y="220" width="165" height="65" fill="#f9fafb" rx="8" stroke="#e5e7eb"/>
+    <text x="115" y="245" fill="#6b7280" font-size="10" font-family="Arial">قيمة الاستهلاك</text>
+    <text x="115" y="270" fill="#1f2937" font-size="14" font-family="Arial" font-weight="bold">215,000</text>
+    <rect x="278" y="220" width="165" height="65" fill="#f9fafb" rx="8" stroke="#e5e7eb"/>
+    <text x="293" y="245" fill="#6b7280" font-size="10" font-family="Arial">الاشتراك</text>
+    <text x="293" y="270" fill="#1f2937" font-size="14" font-family="Arial" font-weight="bold">400</text>
+    <rect x="456" y="220" width="165" height="65" fill="#ecfdf5" rx="8" stroke="#a7f3d0"/>
+    <text x="471" y="245" fill="#059669" font-size="10" font-family="Arial">الإجمالي</text>
+    <text x="471" y="270" fill="#059669" font-size="15" font-family="Arial" font-weight="bold">215,400</text>
+    <rect x="480" y="330" width="140" height="35" fill="#2563eb" rx="6"/>
+    <text x="550" y="353" fill="#fff" font-size="12" text-anchor="middle" font-family="Arial" font-weight="bold">حفظ وطباعة</text>
+  </svg>`,
+
+  collection: `<svg viewBox="0 0 720 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
+    <rect width="720" height="400" fill="#f3f4f6"/>
+    <rect x="130" y="15" width="460" height="370" fill="#fff" rx="12" stroke="#e5e7eb"/>
+    <text x="360" y="45" fill="#1f2937" font-size="15" text-anchor="middle" font-family="Arial" font-weight="bold">التحصيل السريع</text>
+    <line x1="150" y1="58" x2="570" y2="58" stroke="#e5e7eb"/>
+    <text x="150" y="85" fill="#374151" font-size="11" font-family="Arial" font-weight="bold">المشترك</text>
+    <rect x="150" y="92" width="420" height="36" fill="#f9fafb" rx="6" stroke="#d1d5db"/>
+    <text x="162" y="115" fill="#1f2937" font-size="12" font-family="Arial">سعيد صالح (1003) ▼</text>
+    <rect x="150" y="145" width="420" height="70" fill="#fef2f2" rx="10" stroke="#fecaca"/>
+    <text x="165" y="168" fill="#dc2626" font-size="11" font-family="Arial">إجمالي المديونية</text>
+    <text x="360" y="200" fill="#dc2626" font-size="22" text-anchor="middle" font-family="Arial" font-weight="bold">1,200 ريال</text>
+    <text x="150" y="245" fill="#374151" font-size="11" font-family="Arial" font-weight="bold">المبلغ المحصل</text>
+    <rect x="150" y="252" width="420" height="45" fill="#fff" rx="8" stroke="#10b981" stroke-width="2"/>
+    <text x="360" y="281" fill="#1f2937" font-size="18" text-anchor="middle" font-family="Arial" font-weight="bold">1,200</text>
+    <rect x="150" y="320" width="420" height="45" fill="#059669" rx="10"/>
+    <text x="360" y="348" fill="#fff" font-size="13" text-anchor="middle" font-family="Arial" font-weight="bold">تأكيد وطباعة السند</text>
+  </svg>`,
+
+  reports: `<svg viewBox="0 0 720 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
+    <rect width="720" height="400" fill="#fff"/>
+    <text x="20" y="30" fill="#1f2937" font-size="14" font-family="Arial" font-weight="bold">تقرير المبالغ المحصلة والمتبقية</text>
+    <rect x="580" y="12" width="120" height="28" fill="#1f2937" rx="6"/>
+    <text x="640" y="31" fill="#fff" font-size="11" text-anchor="middle" font-family="Arial">طباعة</text>
+    <rect x="20" y="55" width="680" height="32" fill="#f3f4f6"/>
+    <text x="35" y="75" fill="#4b5563" font-size="11" font-family="Arial" font-weight="bold">المشترك</text>
+    <text x="280" y="75" fill="#4b5563" font-size="11" font-family="Arial" font-weight="bold">المستحق</text>
+    <text x="420" y="75" fill="#4b5563" font-size="11" font-family="Arial" font-weight="bold">المحصل</text>
+    <text x="560" y="75" fill="#4b5563" font-size="11" font-family="Arial" font-weight="bold">المتبقي</text>
+    <rect x="20" y="87" width="680" height="40" fill="#fff"/>
+    <text x="35" y="112" fill="#374151" font-size="12" font-family="Arial">أحمد محمد علي</text>
+    <text x="280" y="112" fill="#1f2937" font-size="12" font-family="Arial">50,000 ريال</text>
+    <text x="420" y="112" fill="#059669" font-size="12" font-family="Arial" font-weight="bold">50,000 ريال</text>
+    <text x="560" y="112" fill="#10b981" font-size="12" font-family="Arial" font-weight="bold">0 ريال</text>
+    <rect x="20" y="127" width="680" height="40" fill="#fafafa"/>
+    <text x="35" y="152" fill="#374151" font-size="12" font-family="Arial">مؤسسة النور</text>
+    <text x="280" y="152" fill="#1f2937" font-size="12" font-family="Arial">120,000 ريال</text>
+    <text x="420" y="152" fill="#059669" font-size="12" font-family="Arial" font-weight="bold">108,000 ريال</text>
+    <text x="560" y="152" fill="#dc2626" font-size="12" font-family="Arial" font-weight="bold">12,000 ريال</text>
+    <rect x="20" y="167" width="680" height="40" fill="#fff"/>
+    <text x="35" y="192" fill="#374151" font-size="12" font-family="Arial">سعيد صالح</text>
+    <text x="280" y="192" fill="#1f2937" font-size="12" font-family="Arial">35,000 ريال</text>
+    <text x="420" y="192" fill="#059669" font-size="12" font-family="Arial" font-weight="bold">33,800 ريال</text>
+    <text x="560" y="192" fill="#dc2626" font-size="12" font-family="Arial" font-weight="bold">1,200 ريال</text>
+    <rect x="20" y="207" width="680" height="40" fill="#fafafa"/>
+    <text x="35" y="232" fill="#374151" font-size="12" font-family="Arial">إبراهيم حسن</text>
+    <text x="280" y="232" fill="#1f2937" font-size="12" font-family="Arial">20,000 ريال</text>
+    <text x="420" y="232" fill="#059669" font-size="12" font-family="Arial" font-weight="bold">20,000 ريال</text>
+    <text x="560" y="232" fill="#10b981" font-size="12" font-family="Arial" font-weight="bold">0 ريال</text>
+    <rect x="20" y="270" width="680" height="70" fill="#eff6ff" rx="8"/>
+    <text x="40" y="300" fill="#1e40af" font-size="12" font-family="Arial" font-weight="bold">الإجمالي الكلي:</text>
+    <text x="180" y="300" fill="#1f2937" font-size="12" font-family="Arial">225,000 ريال</text>
+    <text x="330" y="300" fill="#059669" font-size="12" font-family="Arial" font-weight="bold">211,800 ريال</text>
+    <text x="500" y="300" fill="#dc2626" font-size="12" font-family="Arial" font-weight="bold">13,200 ريال</text>
+    <text x="40" y="325" fill="#6b7280" font-size="10" font-family="Arial">هذا التقرير يساعدك على متابعة المبالغ المحصلة والمتبقية لكل مشترك</text>
+  </svg>`,
+
+  license: `<svg viewBox="0 0 720 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
+    <rect width="720" height="400" fill="#f3f4f6"/>
+    <rect x="80" y="30" width="560" height="340" fill="#fff" rx="12" stroke="#e5e7eb"/>
+    <text x="360" y="60" fill="#1f2937" font-size="14" text-anchor="middle" font-family="Arial" font-weight="bold">معلومات الترخيص</text>
+    <line x1="100" y1="75" x2="620" y2="75" stroke="#e5e7eb"/>
+    <rect x="100" y="95" width="520" height="85" fill="#1e3a8a" rx="10"/>
+    <text x="115" y="118" fill="#bfdbfe" font-size="10" font-family="Arial">معرف الجهاز</text>
+    <text x="115" y="137" fill="#fff" font-size="12" font-family="Courier New" font-weight="bold">MCH-6F54-2E31-9RWQ-ELEC</text>
+    <text x="115" y="158" fill="#fff" font-size="11" font-family="Arial">زكريا الحاج للانظمة والتطوير</text>
+    <text x="115" y="173" fill="#bfdbfe" font-size="10" font-family="Arial">772233564</text>
+    <rect x="525" y="118" width="80" height="28" fill="#059669" rx="14"/>
+    <text x="565" y="137" fill="#fff" font-size="11" text-anchor="middle" font-family="Arial" font-weight="bold">نشط</text>
+    <rect x="100" y="195" width="250" height="55" fill="#f9fafb" rx="8" stroke="#e5e7eb"/>
+    <text x="115" y="215" fill="#6b7280" font-size="10" font-family="Arial">تاريخ البدء</text>
+    <text x="115" y="235" fill="#1f2937" font-size="12" font-family="Arial" font-weight="bold">2026-01-01</text>
+    <rect x="370" y="195" width="250" height="55" fill="#f9fafb" rx="8" stroke="#e5e7eb"/>
+    <text x="385" y="215" fill="#6b7280" font-size="10" font-family="Arial">تاريخ الانتهاء</text>
+    <text x="385" y="235" fill="#1f2937" font-size="12" font-family="Arial" font-weight="bold">2027-12-31</text>
+    <rect x="100" y="260" width="250" height="55" fill="#f9fafb" rx="8" stroke="#e5e7eb"/>
+    <text x="115" y="280" fill="#6b7280" font-size="10" font-family="Arial">المستخدمين</text>
+    <text x="115" y="300" fill="#1f2937" font-size="12" font-family="Arial" font-weight="bold">3 من 50</text>
+    <rect x="370" y="260" width="250" height="55" fill="#f9fafb" rx="8" stroke="#e5e7eb"/>
+    <text x="385" y="280" fill="#6b7280" font-size="10" font-family="Arial">المشتركين</text>
+    <text x="385" y="300" fill="#1f2937" font-size="12" font-family="Arial" font-weight="bold">4 من 5000</text>
+    <rect x="100" y="325" width="520" height="35" fill="#eff6ff" rx="8"/>
+    <text x="115" y="348" fill="#1e40af" font-size="10" font-family="Arial">للتجديد تواصل: 772233564</text>
+  </svg>`
+};
+
+const GUIDE_DATA = [
+  {id:'intro',title:'مقدمة',icon:'fa-circle-info',color:'#2563eb',image:'login',sections:[{title:'مرحباً بك في نظام محطات الكهرباء',desc:'نظام متكامل لإدارة محطات الكهرباء والمشتركين والفواتير والتحصيل، مصمم ليكون سهل الاستخدام وسريعاً.',list:['سهولة الاستخدام والتنقل السريع بين الشاشات','دعم كامل للغة العربية من اليمين لليسار','يعمل على الكمبيوتر والتابلت والجوال','حساب تلقائي للفواتير حسب شرائح التعرفة','إصدار فواتير جماعية بضغطة زر واحدة','تقارير متنوعة قابلة للطباعة والتصدير','إرسال رسائل SMS تلقائية للمشتركين','يعمل بدون إنترنت بعد التثبيت (PWA)'],tip:'يُنصح بالبدء بتهيئة النظام كاملاً قبل البدء بالعمليات اليومية'}]},
+  {id:'setup',title:'أولاً: التهيئة',icon:'fa-gear',color:'#10b981',image:'setup',intro:'قبل البدء بالعمل اليومي، يجب تهيئة البيانات الأساسية بالترتيب التالي:',sections:[
+    {title:'1.1 تهيئة بيانات المحطة',desc:'أول خطوة إلزامية. إدخال بيانات محطة الكهرباء الأساسية.',steps:['اذهب إلى: التهيئة ← المحطات','اضغط زر "إضافة"','أدخل: اسم المحطة بالعربية، الاسم بالإنجليزية، العنوان، الهاتف','اضغط "حفظ"'],tip:'يمكنك إضافة أكثر من محطة إذا كنت تدير أكثر من موقع'},
+    {title:'1.2 تهيئة المحصلين',desc:'إدخال بيانات المحصلين الميدانيين الذين يقومون بتحصيل الفواتير.',steps:['اذهب إلى: التهيئة ← المحصلين','اضغط "إضافة"','أدخل: اسم المحصل، العنوان، رقم الهاتف','اضغط "حفظ"'],tip:'سيتم ربط كل محصل بمربع معين لاحقاً'},
+    {title:'1.3 تهيئة العدادات المركزية',desc:'العدادات الرئيسية التي تقيس استهلاك المنطقة كاملة، تُستخدم لحساب فارق التيار.',steps:['اذهب إلى: التهيئة ← العدادات المركزية','اضغط "إضافة"','أدخل: اسم العداد، اختر المحطة، القراءة الحالية','اضغط "حفظ"'],tip:'فارق التيار يساعدك على كشف السرقات والتسريبات'},
+    {title:'1.4 تهيئة المناطق',desc:'تقسيم المحطة إلى مناطق جغرافية لتسهيل إدارة المشتركين.',steps:['اذهب إلى: التهيئة ← المناطق','اضغط "إضافة"','أدخل: اسم المنطقة، اختر المحطة','اضغط "حفظ"']},
+    {title:'1.5 تهيئة المربعات',desc:'تقسيم المناطق إلى مربعات أصغر وربط كل مربع بمحصل مسؤول.',steps:['اذهب إلى: التهيئة ← المربعات','اضغط "إضافة"','أدخل: اسم المربع، اختر المنطقة، اختر المحصل','اضغط "حفظ"'],tip:'هذا التقسيم يساعد في تقارير النزول الميداني'},
+    {title:'1.6 تهيئة تعرفة الاستهلاك',desc:'تحديد شرائح أسعار الكيلو واط. مثال: (0-1000) بـ 250 ريال، (1001-2000) بـ 300 ريال.',steps:['اذهب إلى: التهيئة ← تعرفة الاستهلاك','اضغط "إضافة"','أدخل اسم التعرفة','أدخل الشرائح بصيغة: من-إلى-السعر','مثال: 0-1000-250, 1001-2000-300, 2001-99999-400','اضغط "حفظ"'],tip:'يمكنك إضافة عدة تعرفات (فاز 1، فاز 2، تجاري، حكومي)'},
+    {title:'1.7 تهيئة تعرفة الاشتراكات',desc:'تحديد قيمة الاشتراك الشهري أو الأسبوعي.',steps:['اذهب إلى: التهيئة ← تعرفة الاشتراكات','اضغط "إضافة"','أدخل: اسم المجموعة، النوع (شهري/أسبوعي)، المبلغ','سقف الفاتورة: اتركه 0 إذا لا تريد حد أعلى','اضغط "حفظ"']},
+    {title:'1.8 تهيئة نماذج العقود',desc:'قوالب عقود جاهزة تُطبع مع بيانات المشترك.',steps:['اذهب إلى: التهيئة ← نماذج العقود','اضغط "إضافة"','اختر النوع، أدخل اسم النموذج','أدخل شروط العقد','اضغط "حفظ"']},
+    {title:'1.9 تهيئة الخدمات',desc:'الخدمات الإضافية (نقل عداد، فحص عداد، توصيل مؤقت...).',steps:['اذهب إلى: التهيئة ← الخدمات','اضغط "إضافة"','أدخل: اسم الخدمة، السعر، الحالة','اضغط "حفظ"']},
+    {title:'1.10 تهيئة الغرامات',desc:'أنواع المخالفات ومبالغ الغرامات.',steps:['اذهب إلى: التهيئة ← الغرامات','اضغط "إضافة"','أدخل: اسم الغرامة، المبلغ، الحالة','اضغط "حفظ"']},
+    {title:'1.11 تهيئة المشتركين',desc:'الخطوة الأهم! إدخال بيانات كل مشترك وربطه بكل ما سبق.',image:'subscribers',steps:['اذهب إلى: التهيئة ← المشتركين','اضغط زر "إضافة"','أدخل: اسم المشترك، النوع','اختر: المربع، تعرفة الاستهلاك، تعرفة الاشتراك','اختر: نموذج العقد، رقم العداد، الهاتف، العنوان','أدخل: القراءة الافتتاحية والرصيد الافتتاحي','اضغط "حفظ"'],tip:'لا يمكن إصدار فاتورة بدون إضافة المشترك أولاً'},
+    {title:'1.12 تهيئة الأرصدة الافتتاحية',desc:'تسجيل القراءات الأولية للمشتركين عند البدء.',steps:['اذهب إلى: التهيئة ← الأرصدة الافتتاحية','اضغط "إضافة"','اختر المشترك، أدخل رقم العداد والقراءة والتاريخ','اضغط "حفظ"']}
+  ]},
+  {id:'ops',title:'ثانياً: العمليات',icon:'fa-play',color:'#f59e0b',image:'invoice',intro:'بعد الانتهاء من التهيئة، نبدأ بالعمليات اليومية:',sections:[
+    {title:'2.1 إصدار فاتورة كهرباء',desc:'إصدار فاتورة لمشترك واحد محدد عن طريق إدخال القراءة الحالية.',image:'invoice',steps:['اذهب إلى: العمليات ← إصدار فاتورة','اختر المشترك من القائمة','ستظهر القراءة السابقة تلقائياً','أدخل القراءة الحالية','سيحسب النظام تلقائياً: الاستهلاك + السعر + الاشتراك','اضغط "حفظ وطباعة"'],tip:'يمكنك طباعة الفاتورة مباشرة أو حفظها PDF'},
+    {title:'2.2 الإصدار السريع للفواتير',desc:'إصدار فواتير لجميع المشتركين دفعة واحدة بضغطة زر.',steps:['اذهب إلى: العمليات ← الإصدار السريع','اضغط "عرض" لرؤية الفواتير المحسوبة','تأكد من المبالغ','اضغط "إصدار الجميع"','سيتم إصدار فواتير لكل المشتركين'],tip:'مثالي لإصدار الفواتير الشهرية دفعة واحدة'},
+    {title:'2.3 التحصيل السريع للمبالغ',desc:'تحصيل مبالغ من المشتركين وإصدار سندات قبض.',image:'collection',steps:['اذهب إلى: العمليات ← التحصيل السريع','اختر المشترك','ستظهر مديونيته كاملة','أدخل المبلغ المحصل','اضغط "تأكيد وطباعة السند"'],tip:'المبلغ المتبقي يظهر تلقائياً في سند القبض'},
+    {title:'2.4 حركة العدادات المركزية',desc:'تسجيل قراءات العدادات الرئيسية لحساب فارق التيار.',steps:['اذهب إلى: العمليات ← حركة العدادات','اضغط "إضافة"','اختر العداد، أدخل القراءة السابقة والحالية','أدخل فارق التيار المقدر','حدد من/إلى تاريخ','اضغط "حفظ"'],tip:'إذا كان الفارق كبيراً فهناك سرقة أو تسريب'},
+    {title:'2.5 إشعار فصل تيار',desc:'إصدار إشعار رسمي للمشترك المتأخر قبل فصل التيار.',steps:['اذهب إلى: العمليات ← إشعار فصل تيار','اضغط "إصدار إشعار"','اختر المشترك، اكتب سبب الإشعار','اضغط "حفظ"','يمكنك طباعة الإشعار بضغط زر الطباعة']},
+    {title:'2.6 طلب خدمة',desc:'تسجيل طلبات الخدمات المقدمة للمشتركين.',steps:['اذهب إلى: العمليات ← طلب خدمة','اضغط "طلب خدمة"','اختر المشترك','اختر الخدمة المطلوبة','اضغط "حفظ"'],tip:'يظهر السعر تلقائياً من دليل الخدمات'},
+    {title:'2.7 إصدار الغرامات',desc:'إصدار غرامة على مشترك مخالف.',steps:['اذهب إلى: العمليات ← إصدار الغرامات','اضغط "إصدار غرامة"','اختر المشترك ونوع الغرامة','اضغط "حفظ"','المبلغ يُضاف تلقائياً لمديونية المشترك']},
+    {title:'2.8 ترحيل الاشتراكات الشهرية',desc:'إضافة قيمة الاشتراك الشهري لجميع المشتركين دفعة واحدة.',steps:['اذهب إلى: العمليات ← ترحيل الاشتراكات','راجع القائمة','اضغط "ترحيل الكل"','سيتم إضافة الاشتراك لمديونية كل مشترك نشط'],tip:'يُنفذ في بداية كل شهر'}
+  ]},
+  {id:'reports',title:'ثالثاً: التقارير',icon:'fa-chart-pie',color:'#8b5cf6',image:'reports',intro:'التقارير هي مخرجات النظام. جميعها قابلة للطباعة كـ PDF.',sections:[
+    {title:'3.1 تقرير فواتير المشتركين',desc:'قائمة بجميع الفواتير الصادرة مع التفاصيل.',location:'التقارير ← فواتير المشتركين'},
+    {title:'3.2 تقرير المتأخرات',desc:'قائمة بجميع المشتركين الذين عليهم مديونيات.',location:'التقارير ← المتأخرات',tip:'مفيد للمتابعة والتحصيل'},
+    {title:'3.3 كشف المبالغ المستحقة',desc:'تفاصيل المديونيات حسب المنطقة والمربع والمحصل.',location:'التقارير ← المبالغ المستحقة'},
+    {title:'3.4 تقرير القراءات الحالية',desc:'آخر قراءة مسجلة لكل مشترك.',location:'التقارير ← القراءات الحالية'},
+    {title:'3.5 كشف النزول الميداني',desc:'كشف قابل للطباعة للمحصلين.',location:'التقارير ← النزول الميداني',tip:'اطبعه وأعطه للمحصل قبل نزوله للميدان'},
+    {title:'3.6 تقرير إجمالي الاستهلاك',desc:'إجمالي استهلاك كل مشترك وقيمته.',location:'التقارير ← إجمالي الاستهلاك'},
+    {title:'3.7 تقرير المحصلة والمتبقية',desc:'ملخص لكل مشترك: المستحق، المحصل، المتبقي.',location:'التقارير ← المحصلة والمتبقية'},
+    {title:'3.8 تقرير الخدمات',desc:'جميع الخدمات المقدمة للعملاء.',location:'التقارير ← الخدمات'},
+    {title:'3.9 تقرير الغرامات',desc:'جميع الغرامات الصادرة للمخالفين.',location:'التقارير ← الغرامات'},
+    {title:'3.10 سجل العمليات',desc:'سجل زمني لجميع العمليات.',location:'التقارير ← سجل العمليات'}
+  ]},
+  {id:'system',title:'إدارة النظام',icon:'fa-shield-halved',color:'#ef4444',image:'license',sections:[
+    {title:'المستخدمين',desc:'إضافة وتعديل المستخدمين وأدوارهم.',steps:['اذهب إلى: إدارة النظام ← المستخدمين','اضغط "إضافة" لإضافة مستخدم جديد','أدخل: اسم المستخدم، كلمة المرور، الاسم الكامل، الدور','لا يمكن حذف المستخدم admin الرئيسي']},
+    {title:'الصلاحيات والأدوار',desc:'النظام يدعم 3 أدوار أساسية: مدير النظام، محاسب، محصل ميداني.',steps:['اذهب إلى: إدارة النظام ← الصلاحيات','يمكنك إضافة أدوار جديدة','لا يمكن حذف الأدوار الأساسية الثلاثة']},
+    {title:'الفروع',desc:'إدارة فروع المحطة.',location:'إدارة النظام ← الفروع'},
+    {title:'الإعدادات',desc:'تعديل اسم الشركة، الهاتف، العنوان، بيانات SMS.',steps:['اذهب إلى: إدارة النظام ← الإعدادات','عدّل البيانات المطلوبة','اضغط "حفظ الإعدادات"','سيظهر اسم الشركة على الفواتير تلقائياً']},
+    {title:'الترخيص',desc:'عرض معلومات الترخيص.',image:'license',tip:'يمكنك تغيير مفتاح الترخيص من هذا القسم'},
+    {title:'سجل الرسائل',desc:'عرض جميع رسائل SMS التي أرسلها النظام.',tip:'مفيد لمتابعة الإشعارات المرسلة'}
+  ]},
+  {id:'faq',title:'الأسئلة الشائعة',icon:'fa-circle-question',color:'#06b6d4',sections:[
+    {title:'كيف أثبّت التطبيق على الكمبيوتر؟',desc:'من شريط العنوان في Edge، ابحث عن أيقونة التثبيت ⊕، أو من قائمة المتصفح اختر "تثبيت التطبيق".'},
+    {title:'كيف أثبّت التطبيق على الجوال؟',desc:'من متصفح الجوال، افتح قائمة المتصفح واختر "إضافة إلى الشاشة الرئيسية".'},
+    {title:'هل يعمل بدون إنترنت؟',desc:'نعم، بعد الفتح الأول، يمكنك استخدام التطبيق بدون إنترنت تماماً.'},
+    {title:'أين تُحفظ البيانات؟',desc:'البيانات تُحفظ محلياً في المتصفح. كل جهاز له بياناته الخاصة.'},
+    {title:'كيف أنقل البيانات لجهاز آخر؟',desc:'حالياً البيانات محلية. لنقلها نحتاج لاحقاً لإضافة تصدير/استيراد أو قاعدة بيانات سحابية.'},
+    {title:'نسيت كلمة المرور، ماذا أفعل؟',desc:'تواصل مع الدعم الفني: 772233564'},
+    {title:'ما هي الشرائح؟',desc:'الشرائح هي تقسيم الاستهلاك لأسعار مختلفة. مثال: أول 1000 كيلو بسعر 250 ريال، التالي بسعر أعلى.'},
+    {title:'كيف أغير الترخيص؟',desc:'من: إدارة النظام ← الترخيص ← تغيير مفتاح الترخيص.'}
+  ]}
+];
+
+function renderGuideContent(chapterId) {
+  const chapter = GUIDE_DATA.find(g => g.id === chapterId) || GUIDE_DATA[0];
+  const contentEl = document.getElementById('guide-content');
+  if (!contentEl) return;
+
+  // حاوية قابلة للتمرير للصور
+  const wrapImage = (svg) => `
+    <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;background:#f9fafb;border-radius:8px;padding:.5rem;margin:.75rem 0">
+      <div style="min-width:720px;width:100%">
+        ${svg}
+      </div>
+    </div>`;
+
+  contentEl.innerHTML = `
+    <div style="background:linear-gradient(135deg,${chapter.color},${chapter.color}cc);color:#fff;padding:1.25rem;border-radius:12px;margin-bottom:1rem">
+      <h2 style="margin:0;font-size:1.3rem;font-weight:800"><i class="fa-solid ${chapter.icon}"></i> ${chapter.title}</h2>
+      ${chapter.intro ? `<p style="margin:.5rem 0 0;font-size:.9rem;opacity:.95">${chapter.intro}</p>` : ''}
+    </div>
+    ${chapter.image && SCREEN_SHOTS[chapter.image] ? `
+      <div class="card" style="margin-bottom:1rem;padding:.5rem">
+        <p style="margin:0 0 .25rem;padding:.25rem .5rem;color:#6b7280;font-size:.75rem;font-weight:700">
+          <i class="fa-solid fa-image"></i> صورة توضيحية — <span style="color:#2563eb">اسحب يميناً/يساراً لرؤية التفاصيل ←</span>
+        </p>
+        ${wrapImage(SCREEN_SHOTS[chapter.image])}
+      </div>` : ''}
+    ${chapter.sections.map((s) => `
+      <div class="card" style="margin-bottom:1rem;border-right:4px solid ${chapter.color}">
+        <h3 style="margin:0 0 .5rem;font-size:1.05rem;font-weight:800;color:#1f2937">${s.title}</h3>
+        ${s.image && SCREEN_SHOTS[s.image] ? wrapImage(SCREEN_SHOTS[s.image]) : ''}
+        <p style="margin:0 0 .75rem;color:#4b5563;font-size:.9rem;line-height:1.7">${s.desc}</p>
+        ${s.list ? `<ul style="margin:.5rem 0;padding-right:1.25rem;color:#374151;font-size:.9rem;line-height:1.9">${s.list.map(l=>`<li>${l}</li>`).join('')}</ul>` : ''}
+        ${s.steps ? `<div style="background:#eff6ff;padding:.75rem;border-radius:8px;margin:.5rem 0"><p style="margin:0 0 .5rem;font-weight:700;color:#1e40af;font-size:.85rem"><i class="fa-solid fa-list-ol"></i> الخطوات:</p><ol style="margin:0;padding-right:1.25rem;color:#374151;font-size:.85rem;line-height:1.9">${s.steps.map(st=>`<li>${st}</li>`).join('')}</ol></div>` : ''}
+        ${s.location ? `<p style="margin:.5rem 0;background:#f0fdf4;padding:.5rem .75rem;border-radius:6px;color:#166534;font-size:.85rem"><i class="fa-solid fa-location-dot"></i> <b>المسار:</b> ${s.location}</p>` : ''}
+        ${s.tip ? `<p style="margin:.5rem 0 0;background:#fef3c7;padding:.5rem .75rem;border-radius:6px;color:#92400e;font-size:.85rem"><i class="fa-solid fa-lightbulb"></i> <b>نصيحة:</b> ${s.tip}</p>` : ''}
+      </div>
+    `).join('')}
+  `;
+  contentEl.scrollTop = 0;
+}
+
+RENDERERS['guide'] = (c) => {
+  c.innerHTML = `<div style="display:flex;gap:1rem;flex-wrap:wrap">
+    <div class="card" style="width:240px;flex-shrink:0;height:fit-content;position:sticky;top:0">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;border-bottom:1px solid #f3f4f6;padding-bottom:.5rem">
+        <h3 style="margin:0;font-weight:800;font-size:.95rem"><i class="fa-solid fa-book"></i> الفصول</h3>
+        <button onclick="printGuide()" title="طباعة الدليل" style="background:#1f2937;color:#fff;border:none;padding:.4rem .7rem;border-radius:6px;cursor:pointer;font-size:.75rem"><i class="fa-solid fa-print"></i></button>
+      </div>
+      <input id="guide-search" placeholder="🔍 بحث..." oninput="filterGuide()" style="width:100%;padding:.4rem .6rem;font-size:.8rem;margin-bottom:.5rem">
+      <div id="guide-toc"></div>
+    </div>
+    <div id="guide-content" style="flex:1;min-width:280px"></div>
+  </div>`;
+  
+  const toc = document.getElementById('guide-toc');
+  toc.innerHTML = GUIDE_DATA.map(ch => `<button onclick="selectChapter('${ch.id}')" data-chapter="${ch.id}" class="guide-chapter-btn"><i class="fa-solid ${ch.icon}" style="color:${ch.color};width:18px"></i> ${ch.title}</button>`).join('');
+  
+  window.selectChapter = (id) => {
+    document.querySelectorAll('.guide-chapter-btn').forEach(b => { b.style.background = 'transparent'; b.style.color = '#4b5563'; });
+    const btn = document.querySelector(`[data-chapter="${id}"]`);
+    if (btn) { btn.style.background = '#2563eb'; btn.style.color = '#fff'; }
+    renderGuideContent(id);
+  };
+  
+  window.filterGuide = () => {
+    const q = (document.getElementById('guide-search').value || '').toLowerCase();
+    document.querySelectorAll('.guide-chapter-btn').forEach(btn => {
+      const ch = GUIDE_DATA.find(g => g.id === btn.dataset.chapter);
+      if (!ch) return;
+      const matches = ch.title.toLowerCase().includes(q) || ch.sections.some(s => s.title.toLowerCase().includes(q) || (s.desc||'').toLowerCase().includes(q));
+      btn.style.display = matches ? 'flex' : 'none';
+    });
+  };
+  
+  window.printGuide = () => {
+    const w = window.open('', '_blank');
+    w.document.write(`<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><title>دليل استخدام نظام محطات الكهرباء</title><style>
+      body{font-family:'Tajawal',Arial,sans-serif;padding:2rem;line-height:1.7;color:#000;max-width:900px;margin:0 auto}
+      h1{color:#2563eb;border-bottom:3px solid #2563eb;padding-bottom:.5rem}
+      h2{color:#1e40af;margin-top:2rem;border-right:4px solid #2563eb;padding-right:.75rem}
+      h3{color:#374151;margin-top:1.25rem}
+      .section{background:#f9fafb;padding:1rem;border-radius:8px;margin-bottom:1rem;page-break-inside:avoid}
+      .steps{background:#eff6ff;padding:.75rem;border-radius:6px;margin:.5rem 0}
+      .tip{background:#fef3c7;padding:.5rem;border-radius:6px;color:#92400e;font-size:.9rem}
+      ul,ol{padding-right:1.5rem}
+      @media print{body{padding:0}.section{background:#fff;border:1px solid #ddd}}
+    </style></head><body>
+    <h1>📘 دليل استخدام نظام محطات الكهرباء</h1>
+    <p style="color:#666">زكريا الحاج للانظمة والتطوير - 772233564</p>
+    <p style="color:#666;font-size:.9rem">تاريخ الطباعة: ${new Date().toLocaleDateString('ar-YE')}</p>
+    ${GUIDE_DATA.map(ch => `
+      <h2>${ch.title}</h2>
+      ${ch.intro ? `<p>${ch.intro}</p>` : ''}
+      ${ch.image && SCREEN_SHOTS[ch.image] ? `<div style="margin:1rem 0;padding:.5rem;background:#f9fafb;border-radius:8px">${SCREEN_SHOTS[ch.image]}</div>` : ''}
+      ${ch.sections.map(s => `
+        <div class="section">
+          <h3>${s.title}</h3>
+          ${s.image && SCREEN_SHOTS[s.image] ? `<div style="margin:.75rem 0">${SCREEN_SHOTS[s.image]}</div>` : ''}
+          <p>${s.desc}</p>
+          ${s.list ? `<ul>${s.list.map(l=>`<li>${l}</li>`).join('')}</ul>` : ''}
+          ${s.steps ? `<div class="steps"><b>الخطوات:</b><ol>${s.steps.map(st=>`<li>${st}</li>`).join('')}</ol></div>` : ''}
+          ${s.location ? `<p><b>المسار:</b> ${s.location}</p>` : ''}
+          ${s.tip ? `<div class="tip">💡 <b>نصيحة:</b> ${s.tip}</div>` : ''}
+        </div>
+      `).join('')}
+    `).join('')}
+    <hr style="margin-top:3rem"><p style="text-align:center;color:#999;font-size:.85rem">© 2026 زكريا الحاج للانظمة والتطوير</p>
+    </body></html>`);
+    w.document.close();
+    setTimeout(() => w.print(), 500);
+  };
+  
+  selectChapter('intro');
+};
+
+// ============== التشغيل ==============
+function showLoginOrApp() {
+  if(CURRENT_USER) startApp();
+  else document.getElementById('loginScreen').classList.remove('hidden');
+}
+
+(async function boot() {
+  document.getElementById('machineIdDisplay').textContent = getMachineId();
+  const ok = await checkLicense();
+  if (!ok) {
+    document.getElementById('loginScreen').classList.add('hidden');
+    document.getElementById('activationScreen').style.display = 'flex';
+    return;
+  }
+  document.getElementById('activationScreen').style.display = 'none';
+  document.getElementById('licenseInfo').innerText = 'مُرخص لـ: ' + DB.license.company;
+  showLoginOrApp();
+})();
+
+document.getElementById('login-pass').addEventListener('keypress', (e)=>{ if(e.key==='Enter') doLogin(); });
+document.getElementById('login-user').addEventListener('keypress', (e)=>{ if(e.key==='Enter') document.getElementById('login-pass').focus(); });
+</script>
+</body>
+</html>

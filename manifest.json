@@ -1,0 +1,40 @@
+{
+  "name": "نظام محطات الكهرباء - زكريا الحاج",
+  "short_name": "الكهرباء",
+  "description": "نظام إدارة محطات الكهرباء والمشتركين والفواتير والتحصيل",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#111827",
+  "theme_color": "#2563eb",
+  "lang": "ar",
+  "dir": "rtl",
+  "categories": ["business", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjgwIiBmaWxsPSIjMjU2M2ViIi8+PHBhdGggZD0iTTI4MCA4MEwxNjAgMjgwaDgwTDIwMCA0MzJsMTIwLTIwMGgtODB6IiBmaWxsPSIjZmFjYzE1Ii8+PC9zdmc+",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxOTIgMTkyIj48cmVjdCB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgcng9IjMwIiBmaWxsPSIjMjU2M2ViIi8+PHBhdGggZD0iTTEwNSAzMEw2MCAxMDVoMzBMNzUgMTYybDQ1LTc1aC0zMHoiIGZpbGw9IiNmYWNjMTUiLz48L3N2Zz4=",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "إصدار فاتورة",
+      "short_name": "فاتورة",
+      "url": "./index.html#op-invoice"
+    },
+    {
+      "name": "تحصيل سريع",
+      "short_name": "تحصيل",
+      "url": "./index.html#op-collection"
+    }
+  ]
+}
