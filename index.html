@@ -43,7 +43,7 @@
   #sidebarOverlay.on{display:block}
   #installBtn{display:none;background:linear-gradient(135deg,#10b981,#059669);color:#fff;border:none;padding:.5rem .9rem;border-radius:8px;font-weight:700;font-size:.8rem;cursor:pointer;align-items:center;gap:.4rem}
   #installBtn.show{display:inline-flex}
-  #wipeBtn{background:#7f1d1d;color:#fff;border:none;padding:.5rem .9rem;border-radius:8px;font-weight:700;font-size:.8rem;cursor:pointer;align-items:center;gap:.4rem}
+  #wipeBtn{display:none;background:#7f1d1d;color:#fff;border:none;padding:.5rem .9rem;border-radius:8px;font-weight:700;font-size:.8rem;cursor:pointer;align-items:center;gap:.4rem}
   #wipeBtn.show{display:inline-flex}
   .guide-chapter-btn{width:100%;text-align:right;background:transparent;border:none;padding:.6rem .75rem;border-radius:8px;font-weight:600;cursor:pointer;font-family:inherit;font-size:.85rem;color:#4b5563;display:flex;align-items:center;gap:.5rem;margin-bottom:.25rem;transition:.2s}
   .guide-chapter-btn:hover{background:#f3f4f6}
@@ -321,8 +321,8 @@ const EMPTY_DB = () => {
     users: base.users,
     roles: base.roles,
     license: DB.license || base.license,
-    branches: base.branches,
     settings: base.settings,
+    branches: [],
     smsLogs: [],
     subMigrations: [],
     stations: [],
@@ -330,11 +330,11 @@ const EMPTY_DB = () => {
     squares: [],
     collectors: [],
     meters: [],
-    tariffsConsumption: base.tariffsConsumption,
-    tariffsSubscription: base.tariffsSubscription,
-    contracts: base.contracts,
-    services: base.services,
-    penalties: base.penalties,
+    tariffsConsumption: [],
+    tariffsSubscription: [],
+    contracts: [],
+    services: [],
+    penalties: [],
     subscribers: [],
     openings: [],
     invoices: [],
@@ -343,7 +343,7 @@ const EMPTY_DB = () => {
     cutNotices: [],
     serviceRequests: [],
     penaltyIssues: [],
-    logs: ['تم حذف البيانات التجريبية', 'النظام جاهز للبدء من الصفر']
+    logs: ['تم حذف جميع البيانات التجريبية', 'النظام جاهز للبدء من الصفر']
   };
 };
 
@@ -416,7 +416,9 @@ function updateLicenseBadge(){
   else { badge.style.background='#d1fae5'; badge.style.color='#059669'; badge.innerHTML=`<i class="fa-solid fa-circle-check"></i> ${days} يوم`; }
 }
 
-// ⬅️ استمر في الجزء 2const MENU = [
+// end part 2
+
+const MENU = [
   {id:'dashboard',label:'لوحة التحكم',icon:'fa-house'},
   {id:'guide',label:'دليل الاستخدام',icon:'fa-book-open',action:'openGuide'},
   {id:'setup',label:'التهيئة',icon:'fa-gear',permission:'setup',children:[
@@ -927,7 +929,7 @@ RENDERERS['guide'] = (c) => {
   };
   window.printGuide = () => {
     const w = window.open('', '_blank');
-    w.document.write(`<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><title>دليل الاستخدام</title><style>body{font-family:'Tajawal',Arial,sans-serif;padding:2rem;line-height:1.7;max-width:900px;margin:0 auto}h1{color:#2563eb;border-bottom:3px solid #2563eb;padding-bottom:.5rem}h2{color:#1e40af;margin-top:2rem;border-right:4px solid #2563eb;padding-right:.75rem}h3{color:#374151;margin-top:1.25rem}.section{background:#f9fafb;padding:1rem;border-radius:8px;margin-bottom:1rem;page-break-inside:avoid}.steps{background:#eff6ff;padding:.75rem;border-radius:6px}.tip{background:#fef3c7;padding:.5rem;border-radius:6px;color:#92400e}ul,ol{padding-right:1.5rem}@media print{body{padding:0}.section{background:#fff;border:1px solid #ddd}}</style></head><body><h1>📘 دليل استخدام نظام محطات الكهرباء</h1><p style="color:#666">زكريا الحاج للانظمة والتطوير - 772233564</p><p style="color:#666;font-size:.9rem">تاريخ الطباعة: ${new Date().toLocaleDateString('ar-YE')}</p>${GUIDE_DATA.map(ch=>`<h2>${ch.title}</h2>${ch.intro?`<p>${ch.intro}</p>`:''}${ch.image&&SCREEN_SHOTS[ch.image]?`<div style="margin:1rem 0">${SCREEN_SHOTS[ch.image]}</div>`:''}${ch.sections.map(s=>`<div class="section"><h3>${s.title}</h3>${s.image&&SCREEN_SHOTS[s.image]?`<div style="margin:.75rem 0">${SCREEN_SHOTS[s.image]}</div>`:''}<p>${s.desc}</p>${s.list?`<ul>${s.list.map(l=>`<li>${l}</li>`).join('')}</ul>`:''}${s.steps?`<div class="steps"><b>الخطوات:</b><ol>${s.steps.map(st=>`<li>${st}</li>`).join('')}</ol></div>`:''}${s.location?`<p><b>المسار:</b> ${s.location}</p>`:''}${s.tip?`<div class="tip">💡 ${s.tip}</div>`:''}</div>`).join('')}`).join('')}<hr style="margin-top:3rem"><p style="text-align:center;color:#999;font-size:.85rem">© 2026 زكريا الحاج للانظمة والتطوير</p></body></html>`);
+    w.document.write(`<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><title>دليل الاستخدام</title><style>body{font-family:'Tajawal',Arial,sans-serif;padding:2rem;line-height:1.7;max-width:900px;margin:0 auto}h1{color:#2563eb;border-bottom:3px solid #2563eb;padding-bottom:.5rem}h2{color:#1e40af;margin-top:2rem;border-right:4px solid #2563eb;padding-right:.75rem}h3{color:#374151;margin-top:1.25rem}.section{background:#f9fafb;padding:1rem;border-radius:8px;margin-bottom:1rem;page-break-inside:avoid}.steps{background:#eff6ff;padding:.75rem;border-radius:6px}.tip{background:#fef3c7;padding:.5rem;border-radius:6px;color:#92400e}ul,ol{padding-right:1.5rem}@media print{body{padding:0}.section{background:#fff;border:1px solid #ddd}}</style></head><body><h1>📘 دليل استخدام نظام محطات الكهرباء</h1><p style="color:#666">زكريا الحاج للانظمة والتطوير - 772233564</p><p style="color:#666;font-size:.9rem">تاريخ الطباعة: ${new Date().toLocaleDateString('ar-YE')}</p>${GUIDE_DATA.map(ch=>`<h2>${ch.title}</h2>${ch.intro?`<p>${ch.intro}</p>`:''}${ch.image&&SCREEN_SHOTS[ch.image]?`<div style="margin:1rem 0">${SCREEN_SHOTS[ch.image]}</div>`:''}${ch.sections.map(s=>`<div class="section"><h3>${s.title}</h3>${s.image&&SCREEN_SHOTS[s.image]?`<div style="margin:.75rem 0">${SCREEN_SHOTS[s.image]}</div>`:''}<p>${s.desc}</p>${s.list?`<ul>${s.list.map(l=>`<li>${l}</li>`).join('')}</ul>`:''}${s.steps?`<div class="steps"><b>الخطوات:</b><ol>${s.steps.map(st=>`<li>${st}</li>`).join('')}</ol></div>`:''}${s.location?`<p><b>المسار:</b> ${s.location}</p>`:''}${s.tip?`<div class="tip">💡 ${s.tip}</div>`:''}</div>`).join('')}`).join('')}<hr style="margin-top:3rem"><p style="text-align:center;color:#999;font-size:.85rem">© 2026 زكريا الحاج للانظمة والتطوير</p><script src="neutralino.js"><\/script></body></html>`);
     w.document.close();
     setTimeout(() => w.print(), 500);
   };
@@ -956,5 +958,5 @@ function showLoginOrApp() {
 document.getElementById('login-pass').addEventListener('keypress', (e)=>{ if(e.key==='Enter') doLogin(); });
 document.getElementById('login-user').addEventListener('keypress', (e)=>{ if(e.key==='Enter') document.getElementById('login-pass').focus(); });
 </script>
-</body>
+<script src="neutralino.js"><\/script></body>
 </html>
