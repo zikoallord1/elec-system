@@ -1,0 +1,14 @@
+{
+  "background_color": "#111827",
+  "dir": "rtl",
+  "display": "standalone",
+  "name": "نظام محطات الكهرباء",
+  "orientation": "portrait",
+  "scope": "/",
+  "short_name": "الكهرباء",
+  "start_url": "/",
+  "theme_color": "#2563eb",
+  "description": "نظام إدارة محطات الكهرباء والمشتركين",
+  "id": "zakaria-elec-system",
+  "lang": "ar"
+}
