@@ -326,6 +326,38 @@ const DEFAULT_DB = () => ({
   }
 })();
 
+// ============================================================
+// ============ حذف البيانات عبر الرابط ============
+// ============================================================
+(function checkWipeParameter() {
+  const params = new URLSearchParams(location.search);
+  if (params.get('wipe') === '1') {
+    const ok = confirm('⚠️ سيتم حذف جميع البيانات (مشتركين، فواتير، تحصيلات).\n\nالترخيص والمستخدمين والإعدادات ستبقى.\n\nمتابعة؟');
+    if (ok) {
+      localStorage.removeItem('elec_db_v5');
+      sessionStorage.setItem('justWiped', '1');
+      location.replace(location.pathname);
+      return;
+    }
+  }
+  if (params.get('fullwipe') === '1') {
+    const ok = confirm('⚠️⚠️ حذف كل شيء بما فيه الترخيص!\n\nهل أنت متأكد؟');
+    if (ok) {
+      localStorage.clear();
+      sessionStorage.setItem('justWiped', '2');
+      location.replace(location.pathname);
+      return;
+    }
+  }
+  if (sessionStorage.getItem('justWiped') === '1') {
+    sessionStorage.removeItem('justWiped');
+    setTimeout(() => alert('✅ تم حذف البيانات بنجاح!'), 500);
+  } else if (sessionStorage.getItem('justWiped') === '2') {
+    sessionStorage.removeItem('justWiped');
+    setTimeout(() => alert('✅ تم حذف كل شيء! ستحتاج لتنشيط النظام من جديد.'), 500);
+  }
+})();
+
  
 let DB = JSON.parse(localStorage.getItem('elec_db_v5')) || DEFAULT_DB();
 let CURRENT_USER = JSON.parse(sessionStorage.getItem('elec_user')) || null;
