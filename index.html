@@ -12,38 +12,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjgwIiBmaWxsPSIjMjU2M2ViIi8+PHBhdGggZD0iTTI4MCA4MEwxNjAgMjgwaDgwTDIwMCA0MzJsMTIwLTIwMGgtODB6IiBmaWxsPSIjZmFjYzE1Ii8+PC9zdmc+">
-<script src="assets/tailwind/tailwind.js"></script>
-<link rel="stylesheet" href="assets/fontawesome/css/all.min.css">
-<style>
-  @font-face {
-    font-family: 'Tajawal';
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: url('assets/fonts/Tajawal-Regular.woff2') format('woff2');
-  }
-  @font-face {
-    font-family: 'Tajawal';
-    font-style: normal;
-    font-weight: 500;
-    font-display: swap;
-    src: url('assets/fonts/Tajawal-Medium.woff2') format('woff2');
-  }
-  @font-face {
-    font-family: 'Tajawal';
-    font-style: normal;
-    font-weight: 700;
-    font-display: swap;
-    src: url('assets/fonts/Tajawal-Bold.woff2') format('woff2');
-  }
-  @font-face {
-    font-family: 'Tajawal';
-    font-style: normal;
-    font-weight: 800;
-    font-display: swap;
-    src: url('assets/fonts/Tajawal-ExtraBold.woff2') format('woff2');
-  }
-</style>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
   *{font-family:'Tajawal',sans-serif;box-sizing:border-box}
   html,body{margin:0;padding:0;height:100%;overflow:hidden;overscroll-behavior:none;-webkit-tap-highlight-color:transparent}
@@ -72,12 +43,14 @@
   #sidebarOverlay.on{display:block}
   #installBtn{display:none;background:linear-gradient(135deg,#10b981,#059669);color:#fff;border:none;padding:.5rem .9rem;border-radius:8px;font-weight:700;font-size:.8rem;cursor:pointer;align-items:center;gap:.4rem}
   #installBtn.show{display:inline-flex}
+  #wipeBtn{background:#7f1d1d;color:#fff;border:none;padding:.5rem .9rem;border-radius:8px;font-weight:700;font-size:.8rem;cursor:pointer;align-items:center;gap:.4rem}
+  #wipeBtn.show{display:inline-flex}
   .guide-chapter-btn{width:100%;text-align:right;background:transparent;border:none;padding:.6rem .75rem;border-radius:8px;font-weight:600;cursor:pointer;font-family:inherit;font-size:.85rem;color:#4b5563;display:flex;align-items:center;gap:.5rem;margin-bottom:.25rem;transition:.2s}
   .guide-chapter-btn:hover{background:#f3f4f6}
   .lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:10001;padding:1rem;overflow:auto;cursor:zoom-out;align-items:center;justify-content:center}
   .lightbox.on{display:flex}
   .lightbox img{max-width:100%;max-height:100%;border-radius:8px;box-shadow:0 0 60px rgba(255,255,255,.2)}
-  @media (max-width:768px){
+  @media (max-width: 768px) {
     #sb{position:fixed;top:0;right:0;bottom:0;transform:translateX(100%);transition:transform .3s ease;z-index:999;width:280px!important;max-width:85vw}
     #sb.open{transform:translateX(0)}
     main{width:100%!important}
@@ -96,11 +69,11 @@
     #resetBtn,#wipeBtn{padding:.4rem .6rem!important;font-size:.75rem!important}
     .guide-chapter-btn{min-height:44px}
   }
-  @media (max-width:375px){#content{padding:.75rem!important}.card{padding:.75rem!important}th,td{padding:.35rem .3rem!important;font-size:.7rem!important}}
-  @media (min-width:769px) and (max-width:1024px){#sb{width:220px!important}#content{padding:1.25rem!important}}
-  @media (hover:none){.btn{min-height:44px}.nav-a{min-height:44px}}
-  @media (max-width:768px) and (orientation:landscape){header{height:48px!important}#content{padding:.75rem!important}}
-  @media print{
+  @media (max-width: 375px){#content{padding:.75rem!important}.card{padding:.75rem!important}th,td{padding:.35rem .3rem!important;font-size:.7rem!important}}
+  @media (min-width: 769px) and (max-width: 1024px){#sb{width:220px!important}#content{padding:1.25rem!important}}
+  @media (hover: none){.btn{min-height:44px}.nav-a{min-height:44px}}
+  @media (max-width: 768px) and (orientation: landscape){header{height:48px!important}#content{padding:.75rem!important}}
+  @media print {
     body{background:#fff!important;margin:0!important;padding:0!important;height:auto!important;overflow:visible!important}
     body > div:not(#prt){display:none!important}
     #prt{display:block!important;position:static!important;width:100%!important;padding:1.5rem!important;background:#fff!important}
@@ -193,7 +166,7 @@
     <div style="display:flex;gap:.5rem;align-items:center">
       <span id="licenseBadge" style="font-size:.75rem;padding:.3rem .6rem;border-radius:99px;font-weight:700"></span>
       <button id="installBtn" onclick="installPWA()"><i class="fa-solid fa-download"></i> <span class="hide-mobile">تثبيت</span></button>
-      <button id="wipeBtn" onclick="wipeAll()" title="حذف البيانات التجريبية" style="background:#7f1d1d;color:#fff;border:none;padding:.5rem .9rem;border-radius:8px;font-weight:700;font-size:.8rem;cursor:pointer"><i class="fa-solid fa-trash"></i> <span class="hide-mobile">حذف البيانات</span></button>
+      <button id="wipeBtn" onclick="wipeAll()" title="حذف البيانات التجريبية نهائياً"><i class="fa-solid fa-broom"></i> <span class="hide-mobile">حذف البيانات التجريبية</span></button>
       <button id="resetBtn" onclick="resetAll()" style="background:#fee2e2;color:#dc2626;border:none;padding:.5rem .9rem;border-radius:8px;font-weight:700;font-size:.8rem;cursor:pointer"><i class="fa-solid fa-rotate-left"></i> <span class="hide-mobile">إعادة</span></button>
     </div>
   </header>
@@ -210,46 +183,8 @@
 
 <script>
 // ============================================================
-// ============ [1] فحص أمر الحذف (يجب أن يكون أولاً) ============
+// =================== نظام الترخيص ====================
 // ============================================================
-(function checkWipeParam() {
-  try {
-    const params = new URLSearchParams(window.location.search);
-    const wipeMode = params.get('wipe') || params.get('fullwipe');
-    if (!wipeMode) return;
-    
-    if (wipeMode === '1' && params.has('wipe')) {
-      const ok = confirm('⚠️ تحذير مهم\n\nسيتم حذف جميع البيانات:\n• المشتركين\n• الفواتير\n• التحصيلات\n• الحركات\n\nسيبقى محفوظاً:\n• الترخيص\n• المستخدمين\n• الإعدادات\n\nهل تريد المتابعة؟');
-      if (ok) {
-        localStorage.removeItem('elec_db_v5');
-        alert('✅ تم حذف جميع البيانات بنجاح!\n\nسيعاد فتح النظام من جديد.');
-        window.location.replace(window.location.origin + window.location.pathname);
-        return;
-      } else {
-        window.location.replace(window.location.origin + window.location.pathname);
-        return;
-      }
-    }
-    
-    if (params.has('fullwipe')) {
-      const ok = confirm('⚠️⚠️ حذف شامل\n\nسيتم حذف:\n• كل البيانات\n• المستخدمين\n• الترخيص\n• الإعدادات\n\nستحتاج لتنشيط النظام من جديد.\n\nهل أنت متأكد 100%؟');
-      if (ok) {
-        localStorage.clear();
-        sessionStorage.clear();
-        alert('✅ تم حذف كل شيء!\n\nسيعاد فتح النظام من جديد لتنشيطه.');
-        window.location.replace(window.location.origin + window.location.pathname);
-        return;
-      } else {
-        window.location.replace(window.location.origin + window.location.pathname);
-        return;
-      }
-    }
-  } catch(e) {
-    console.error('Wipe error:', e);
-  }
-})();
-
-// ============== نظام الترخيص ==============
 const LICENSE_SECRET = 'EBDA3-SOFT-ELEC-2026-SECRET-KEY-DO-NOT-SHARE-9f8e7d6c5b4a';
 const LICENSE_PREFIX = 'EBD3';
 
@@ -339,7 +274,9 @@ async function checkLicense() {
   return true;
 }
 
-// ⬅️ استمر في الجزء 2// ============== قاعدة البيانات ==============
+// ============================================================
+// =================== قاعدة البيانات ====================
+// ============================================================
 const DEFAULT_DB = () => ({
   users:[
     {id:1,username:'admin',password:'admin',name:'مدير النظام',role:'admin',active:true,phone:''},
@@ -377,13 +314,13 @@ const DEFAULT_DB = () => ({
   logs:['تم تشغيل النظام','تم تحميل البيانات التجريبية']
 });
 
-// قاعدة بيانات فارغة (للبدء من الصفر)
+// قاعدة بيانات فارغة - تحتفظ بالترخيص والمستخدمين والإعدادات فقط
 const EMPTY_DB = () => {
   const base = DEFAULT_DB();
   return {
     users: base.users,
     roles: base.roles,
-    license: base.license,
+    license: DB.license || base.license,
     branches: base.branches,
     settings: base.settings,
     smsLogs: [],
@@ -406,7 +343,7 @@ const EMPTY_DB = () => {
     cutNotices: [],
     serviceRequests: [],
     penaltyIssues: [],
-    logs: ['تم تفريغ البيانات التجريبية', 'النظام جاهز للبدء من الصفر']
+    logs: ['تم حذف البيانات التجريبية', 'النظام جاهز للبدء من الصفر']
   };
 };
 
@@ -419,13 +356,15 @@ const fmt = (n) => Number(n||0).toLocaleString('en-US');
 const log = (msg) => { const t=new Date().toLocaleTimeString('ar-YE',{hour:'2-digit',minute:'2-digit'}); DB.logs.unshift(`${t} - ${CURRENT_USER?CURRENT_USER.name:'نظام'} - ${msg}`); if(DB.logs.length>200) DB.logs.pop(); save(); };
 
 function resetAll(){ if(confirm('سيتم استعادة البيانات التجريبية الكاملة. متابعة؟')){ DB=DEFAULT_DB(); save(); location.reload(); } }
-function wipeAll(){ 
-  if(!confirm('⚠️ تحذير: سيتم حذف جميع البيانات\n\nسيُحذف:\n• المشتركين\n• الفواتير\n• التحصيلات\n• الحركات\n• الخدمات والغرامات المُصدرة\n\nسيبقى محفوظاً:\n• الترخيص\n• المستخدمين\n• الإعدادات\n• التعرفات الأساسية\n\nمتابعة؟')) return;
-  if(!confirm('تأكيد أخير: هل أنت متأكد تماماً من حذف البيانات؟')) return;
+
+function wipeAll(){
+  if(!confirm('⚠️ تحذير: سيتم حذف جميع البيانات التجريبية\n\nسيُحذف:\n• المشتركين\n• الفواتير\n• التحصيلات\n• الحركات\n\nسيبقى محفوظاً:\n• الترخيص\n• المستخدمين\n• الإعدادات\n\n⚠️ لن يظهر هذا الزر مرة أخرى بعد الحذف!\n\nمتابعة؟')) return;
+  if(!confirm('تأكيد أخير: هل أنت متأكد من حذف البيانات التجريبية نهائياً؟')) return;
   DB = EMPTY_DB();
   save();
-  log('تم حذف جميع البيانات');
-  alert('✅ تم حذف جميع البيانات بنجاح!\n\nسيتم إعادة تحميل النظام...');
+  localStorage.setItem('elec_demo_cleaned','1');
+  log('تم حذف البيانات التجريبية');
+  alert('✅ تم حذف جميع البيانات بنجاح!\n\nالنظام جاهز للعمل من الصفر.\nلن يظهر زر حذف البيانات مرة أخرى.');
   location.reload();
 }
 
@@ -457,6 +396,15 @@ function startApp(){
   updateLicenseBadge();
   buildMenu();
   nav('dashboard');
+  // إظهار زر حذف البيانات فقط إذا لم يتم الحذف سابقاً
+  const wipeBtn = document.getElementById('wipeBtn');
+  if(wipeBtn){
+    if(!localStorage.getItem('elec_demo_cleaned')){
+      wipeBtn.classList.add('show');
+    } else {
+      wipeBtn.classList.remove('show');
+    }
+  }
 }
 
 function updateLicenseBadge(){
@@ -468,7 +416,7 @@ function updateLicenseBadge(){
   else { badge.style.background='#d1fae5'; badge.style.color='#059669'; badge.innerHTML=`<i class="fa-solid fa-circle-check"></i> ${days} يوم`; }
 }
 
-const MENU = [
+// ⬅️ استمر في الجزء 2const MENU = [
   {id:'dashboard',label:'لوحة التحكم',icon:'fa-house'},
   {id:'guide',label:'دليل الاستخدام',icon:'fa-book-open',action:'openGuide'},
   {id:'setup',label:'التهيئة',icon:'fa-gear',permission:'setup',children:[
@@ -525,14 +473,13 @@ function buildMenu(){
       if(!vc.length) return '';
       return `<div><button onclick="toggleGrp('${item.id}')" style="width:100%;display:flex;justify-content:space-between;align-items:center;background:transparent;border:none;color:#d1d5db;padding:.7rem 1rem;border-radius:8px;font-weight:600;cursor:pointer;font-family:inherit"><span style="display:flex;gap:.75rem;align-items:center"><i class="fa-solid ${item.icon}"></i>${item.label}</span><i class="fa-solid fa-chevron-left" id="ar-${item.id}" style="font-size:.7rem;transition:.2s"></i></button><div class="grp" id="g-${item.id}">${vc.map(c=>`<a href="#" onclick="nav('${c.id}');return false;" class="nav-a" data-id="${c.id}"><i class="fa-solid ${c.icon}" style="margin-left:.4rem"></i> ${c.label}</a>`).join('')}</div></div>`;
     }
-    const clickAction = item.action ? `${item.action}()` : `nav('${item.id}')`;
-    return `<a href="#" onclick="${clickAction};return false;" class="nav-a" data-id="${item.id}" style="display:flex;gap:.75rem;align-items:center;color:#d1d5db;padding:.7rem 1rem;border-radius:8px;font-weight:600;text-decoration:none;margin-bottom:.15rem"><i class="fa-solid ${item.icon}"></i>${item.label}</a>`;
+    return `<a href="#" onclick="${item.action ? item.action + '()' : "nav('" + item.id + "')"};return false;" class="nav-a" data-id="${item.id}" style="display:flex;gap:.75rem;align-items:center;color:#d1d5db;padding:.7rem 1rem;border-radius:8px;font-weight:600;text-decoration:none;margin-bottom:.15rem"><i class="fa-solid ${item.icon}"></i>${item.label}</a>`;
   }).join('');
 }
 function toggleGrp(id){ const g=document.getElementById('g-'+id); const a=document.getElementById('ar-'+id); g.classList.toggle('on'); if(a) a.style.transform = g.classList.contains('on') ? 'rotate(-90deg)' : ''; }
-function openGuide(){ window.open('guide.html', '_blank'); }
+function openGuide() { window.open('guide.html', '_blank'); }
 
-const TITLES = {'dashboard':'لوحة التحكم','setup-stations':'المحطات','setup-areas':'المناطق','setup-squares':'المربعات','setup-collectors':'المحصلين','setup-meters':'العدادات المركزية','setup-tariff-consumption':'تعرفة الاستهلاك','setup-tariff-subscription':'تعرفة الاشتراكات','setup-contracts':'نماذج العقود','setup-services':'الخدمات','setup-penalties':'الغرامات','setup-subscribers':'المشتركين','setup-openings':'الأرصدة الافتتاحية','op-invoice':'إصدار فاتورة','op-quick':'الإصدار السريع','op-collection':'التحصيل السريع','op-meter-move':'حركة العدادات','op-cut-notice':'إشعار فصل تيار','op-service-req':'طلب خدمة','op-penalty-issue':'إصدار الغرامات','op-sub-migrate':'ترحيل الاشتراكات','rep-invoices':'تقرير الفواتير','rep-late':'المتأخرات','rep-due':'المبالغ المستحقة','rep-current':'القراءات الحالية','rep-field':'النزول الميداني','rep-consumption':'إجمالي الاستهلاك','rep-collected':'المحصلة والمتبقية','rep-services':'تقرير الخدمات','rep-penalties':'تقرير الغرامات','rep-logs':'سجل العمليات','system-users':'المستخدمين','system-roles':'الصلاحيات','system-branches':'الفروع','system-settings':'إعدادات النظام','system-license':'الترخيص','system-sms':'سجل الرسائل'};
+const TITLES = {'dashboard':'لوحة التحكم','guide':'دليل الاستخدام','setup-stations':'المحطات','setup-areas':'المناطق','setup-squares':'المربعات','setup-collectors':'المحصلين','setup-meters':'العدادات المركزية','setup-tariff-consumption':'تعرفة الاستهلاك','setup-tariff-subscription':'تعرفة الاشتراكات','setup-contracts':'نماذج العقود','setup-services':'الخدمات','setup-penalties':'الغرامات','setup-subscribers':'المشتركين','setup-openings':'الأرصدة الافتتاحية','op-invoice':'إصدار فاتورة','op-quick':'الإصدار السريع','op-collection':'التحصيل السريع','op-meter-move':'حركة العدادات','op-cut-notice':'إشعار فصل تيار','op-service-req':'طلب خدمة','op-penalty-issue':'إصدار الغرامات','op-sub-migrate':'ترحيل الاشتراكات','rep-invoices':'تقرير الفواتير','rep-late':'المتأخرات','rep-due':'المبالغ المستحقة','rep-current':'القراءات الحالية','rep-field':'النزول الميداني','rep-consumption':'إجمالي الاستهلاك','rep-collected':'المحصلة والمتبقية','rep-services':'تقرير الخدمات','rep-penalties':'تقرير الغرامات','rep-logs':'سجل العمليات','system-users':'المستخدمين','system-roles':'الصلاحيات','system-branches':'الفروع','system-settings':'إعدادات النظام','system-license':'الترخيص','system-sms':'سجل الرسائل'};
 
 const RENDERERS = {};
 function nav(id){
@@ -797,6 +744,7 @@ RENDERERS['system-sms']=(c)=>{
 };
 window.testSMS=()=>{ modal('اختبار إرسال SMS',[{name:'phone',label:'رقم الهاتف',value:'772233564',required:true},{name:'message',label:'الرسالة',value:'رسالة تجريبية من نظام محطات الكهرباء',required:true}],(d)=>{ sendSMS(d.phone,d.message); alert('تم إرسال الرسالة بنجاح!'); nav('system-sms'); }); };
 
+// ============== الطباعة ==============
 function printReport(btn){ const card=btn.closest('.card'); if(!card){ window.print(); return; } const clone=card.cloneNode(true); clone.querySelectorAll('button').forEach(b=>b.remove()); const title=card.querySelector('h2')?.innerText||'تقرير'; const date=new Date().toLocaleDateString('ar-YE'); const time=new Date().toLocaleTimeString('ar-YE',{hour:'2-digit',minute:'2-digit'}); const prt=document.getElementById('prt'); prt.innerHTML=`<div style="text-align:center;border-bottom:2px solid #333;padding-bottom:.75rem;margin-bottom:1rem"><h1 style="margin:0;font-size:1.3rem;font-weight:800">${DB.settings.companyName}</h1><h2 style="margin:.3rem 0 0;font-size:1rem;font-weight:600;color:#444">${title}</h2><p style="margin:.3rem 0 0;font-size:.8rem;color:#666">تاريخ الطباعة: ${date} - ${time}</p></div>${clone.outerHTML}<div style="text-align:center;margin-top:2rem;border-top:1px dashed #999;padding-top:.75rem;font-size:.75rem;color:#666">${DB.settings.companyName} - هاتف: ${DB.settings.phone}</div>`; prt.style.display='block'; window.print(); setTimeout(()=>{ prt.style.display='none'; prt.innerHTML=''; }, 300); }
 
 // ============== PWA ==============
@@ -852,12 +800,146 @@ function closeLightbox() {
 }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 
+// ============== دليل الاستخدام ==============
+const SCREEN_SHOTS = {
+  login: `<svg viewBox="0 0 720 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block"><defs><linearGradient id="bg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1e3a8a"/><stop offset="100%" stop-color="#111827"/></linearGradient></defs><rect width="720" height="400" fill="url(#bg1)"/><rect x="230" y="50" width="260" height="300" fill="#fff" rx="14"/><circle cx="360" cy="110" r="30" fill="#2563eb"/><text x="360" y="120" fill="#facc15" font-size="24" text-anchor="middle" font-family="Arial" font-weight="bold">Z</text><text x="360" y="165" fill="#1f2937" font-size="15" text-anchor="middle" font-family="Arial" font-weight="bold">نظام محطات الكهرباء</text><text x="360" y="183" fill="#6b7280" font-size="10" text-anchor="middle" font-family="Arial">زكريا الحاج - 772233564</text><text x="250" y="220" fill="#374151" font-size="10" font-family="Arial" font-weight="bold">اسم المستخدم</text><rect x="245" y="225" width="230" height="28" fill="#f9fafb" rx="6" stroke="#d1d5db"/><text x="255" y="243" fill="#9ca3af" font-size="11" font-family="Arial">admin</text><text x="250" y="275" fill="#374151" font-size="10" font-family="Arial" font-weight="bold">كلمة المرور</text><rect x="245" y="280" width="230" height="28" fill="#f9fafb" rx="6" stroke="#d1d5db"/><text x="255" y="298" fill="#9ca3af" font-size="11" font-family="Arial">........</text><rect x="245" y="320" width="230" height="30" fill="#2563eb" rx="6"/><text x="360" y="340" fill="#fff" font-size="12" text-anchor="middle" font-family="Arial" font-weight="bold">تسجيل الدخول</text></svg>`,
+  dashboard: `<svg viewBox="0 0 720 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block"><rect width="720" height="400" fill="#f3f4f6"/><rect width="160" height="400" fill="#111827"/><rect x="10" y="15" width="140" height="28" fill="#1f2937" rx="6"/><text x="80" y="33" fill="#facc15" font-size="12" text-anchor="middle" font-family="Arial" font-weight="bold">نظام الكهرباء</text><rect x="10" y="60" width="140" height="24" fill="#2563eb" rx="6"/><text x="20" y="77" fill="#fff" font-size="11" font-family="Arial">لوحة التحكم</text><text x="20" y="107" fill="#9ca3af" font-size="11" font-family="Arial">التهيئة</text><text x="20" y="137" fill="#9ca3af" font-size="11" font-family="Arial">العمليات</text><text x="20" y="167" fill="#9ca3af" font-size="11" font-family="Arial">التقارير</text><text x="20" y="197" fill="#9ca3af" font-size="11" font-family="Arial">النظام</text><text x="180" y="35" fill="#1f2937" font-size="14" font-family="Arial" font-weight="bold">لوحة التحكم</text><rect x="180" y="55" width="125" height="70" fill="#fff" rx="8" stroke="#e5e7eb"/><rect x="180" y="55" width="4" height="70" fill="#2563eb" rx="2"/><text x="195" y="75" fill="#6b7280" font-size="9" font-family="Arial">المشتركين</text><text x="195" y="100" fill="#1f2937" font-size="18" font-family="Arial" font-weight="bold">1240</text><rect x="320" y="55" width="125" height="70" fill="#fff" rx="8" stroke="#e5e7eb"/><rect x="320" y="55" width="4" height="70" fill="#f59e0b" rx="2"/><text x="335" y="75" fill="#6b7280" font-size="9" font-family="Arial">الفواتير</text><text x="335" y="100" fill="#1f2937" font-size="18" font-family="Arial" font-weight="bold">320</text><rect x="460" y="55" width="125" height="70" fill="#fff" rx="8" stroke="#e5e7eb"/><rect x="460" y="55" width="4" height="70" fill="#10b981" rx="2"/><text x="475" y="75" fill="#6b7280" font-size="9" font-family="Arial">المحصل</text><text x="475" y="100" fill="#1f2937" font-size="16" font-family="Arial" font-weight="bold">45000</text><rect x="600" y="55" width="100" height="70" fill="#fff" rx="8" stroke="#e5e7eb"/><rect x="600" y="55" width="4" height="70" fill="#dc2626" rx="2"/><text x="612" y="75" fill="#6b7280" font-size="9" font-family="Arial">الديون</text><text x="612" y="100" fill="#1f2937" font-size="16" font-family="Arial" font-weight="bold">12000</text><text x="180" y="155" fill="#1f2937" font-size="12" font-family="Arial" font-weight="bold">المهام السريعة</text><rect x="180" y="170" width="120" height="90" fill="#fff" rx="8" stroke="#e5e7eb"/><circle cx="240" cy="205" r="18" fill="#dbeafe"/><text x="240" y="210" fill="#2563eb" font-size="14" text-anchor="middle" font-family="Arial" font-weight="bold">1</text><text x="240" y="242" fill="#374151" font-size="10" text-anchor="middle" font-family="Arial">إصدار فاتورة</text><rect x="315" y="170" width="120" height="90" fill="#fff" rx="8" stroke="#e5e7eb"/><circle cx="375" cy="205" r="18" fill="#d1fae5"/><text x="375" y="210" fill="#059669" font-size="14" text-anchor="middle" font-family="Arial" font-weight="bold">2</text><text x="375" y="242" fill="#374151" font-size="10" text-anchor="middle" font-family="Arial">تحصيل</text><rect x="450" y="170" width="120" height="90" fill="#fff" rx="8" stroke="#e5e7eb"/><circle cx="510" cy="205" r="18" fill="#e9d5ff"/><text x="510" y="210" fill="#9333ea" font-size="14" text-anchor="middle" font-family="Arial" font-weight="bold">3</text><text x="510" y="242" fill="#374151" font-size="10" text-anchor="middle" font-family="Arial">إضافة مشترك</text><rect x="585" y="170" width="115" height="90" fill="#fff" rx="8" stroke="#e5e7eb"/><circle cx="642" cy="205" r="18" fill="#fed7aa"/><text x="642" y="210" fill="#ea580c" font-size="14" text-anchor="middle" font-family="Arial" font-weight="bold">4</text><text x="642" y="242" fill="#374151" font-size="10" text-anchor="middle" font-family="Arial">التقارير</text><rect x="180" y="275" width="520" height="110" fill="#fff" rx="8" stroke="#e5e7eb"/><text x="195" y="295" fill="#1f2937" font-size="11" font-family="Arial" font-weight="bold">آخر العمليات</text><circle cx="200" cy="320" r="4" fill="#10b981"/><text x="215" y="323" fill="#4b5563" font-size="10" font-family="Arial">تم إصدار فاتورة للمشترك أحمد محمد علي</text><circle cx="200" cy="345" r="4" fill="#10b981"/><text x="215" y="348" fill="#4b5563" font-size="10" font-family="Arial">تم تحصيل مبلغ 1200 ريال من المشترك سعيد صالح</text><circle cx="200" cy="370" r="4" fill="#f59e0b"/><text x="215" y="373" fill="#4b5563" font-size="10" font-family="Arial">تم ترحيل الاشتراكات الشهرية لجميع المشتركين</text></svg>`,
+  setup: `<svg viewBox="0 0 720 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block"><rect width="720" height="400" fill="#fff"/><text x="20" y="35" fill="#1f2937" font-size="16" font-family="Arial" font-weight="bold">التهيئة — 12 قسماً أساسياً</text><line x1="20" y1="50" x2="700" y2="50" stroke="#e5e7eb" stroke-width="2"/>${[1,2,3,4].map((n,i)=>`<rect x="${20+i*175}" y="70" width="160" height="80" fill="#f9fafb" rx="10" stroke="#e5e7eb"/><circle cx="${100+i*175}" cy="100" r="20" fill="#dbeafe"/><text x="${100+i*175}" y="107" fill="#2563eb" font-size="16" text-anchor="middle" font-family="Arial" font-weight="bold">${n}</text><text x="${100+i*175}" y="138" fill="#374151" font-size="11" text-anchor="middle" font-family="Arial" font-weight="bold">${['المحطات','المناطق','المربعات','المحصلين'][i]}</text>`).join('')}${[5,6,7,8].map((n,i)=>`<rect x="${20+i*175}" y="170" width="160" height="80" fill="#f9fafb" rx="10" stroke="#e5e7eb"/><circle cx="${100+i*175}" cy="200" r="20" fill="#dbeafe"/><text x="${100+i*175}" y="207" fill="#2563eb" font-size="16" text-anchor="middle" font-family="Arial" font-weight="bold">${n}</text><text x="${100+i*175}" y="238" fill="#374151" font-size="10" text-anchor="middle" font-family="Arial" font-weight="bold">${['العدادات','تعرفة الاستهلاك','تعرفة الاشتراك','نماذج العقود'][i]}</text>`).join('')}${[9,10,11,12].map((n,i)=>`<rect x="${20+i*175}" y="270" width="160" height="80" fill="${i===2?'#ecfdf5':'#f9fafb'}" rx="10" stroke="${i===2?'#10b981':'#e5e7eb'}"/><circle cx="${100+i*175}" cy="300" r="20" fill="${i===2?'#10b981':'#dbeafe'}"/><text x="${100+i*175}" y="307" fill="${i===2?'#fff':'#2563eb'}" font-size="16" text-anchor="middle" font-family="Arial" font-weight="bold">${n}</text><text x="${100+i*175}" y="338" fill="${i===2?'#059669':'#374151'}" font-size="11" text-anchor="middle" font-family="Arial" font-weight="bold">${['الخدمات','الغرامات','المشتركين ★','الأرصدة'][i]}</text>`).join('')}</svg>`,
+  subscribers: `<svg viewBox="0 0 720 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block"><rect width="720" height="400" fill="#fff"/><text x="20" y="30" fill="#1f2937" font-size="14" font-family="Arial" font-weight="bold">دليل المشتركين (4)</text><rect x="540" y="12" width="160" height="28" fill="#2563eb" rx="6"/><text x="620" y="31" fill="#fff" font-size="11" text-anchor="middle" font-family="Arial" font-weight="bold">+ إضافة مشترك</text><rect x="20" y="55" width="680" height="32" fill="#f3f4f6"/><text x="35" y="75" fill="#4b5563" font-size="11" font-family="Arial" font-weight="bold">الرقم</text><text x="130" y="75" fill="#4b5563" font-size="11" font-family="Arial" font-weight="bold">الاسم</text><text x="300" y="75" fill="#4b5563" font-size="11" font-family="Arial" font-weight="bold">النوع</text><text x="410" y="75" fill="#4b5563" font-size="11" font-family="Arial" font-weight="bold">الهاتف</text><text x="540" y="75" fill="#4b5563" font-size="11" font-family="Arial" font-weight="bold">المديونية</text><text x="630" y="75" fill="#4b5563" font-size="11" font-family="Arial" font-weight="bold">الحالة</text>${[['1001','أحمد محمد علي','منزلي','777111001','0','نشط','d1fae5','059669'],['1002','مؤسسة النور','تجاري','777111002','0','نشط','d1fae5','059669'],['1003','سعيد صالح','منزلي','777111003','1200','متأخر','fee2e2','dc2626'],['1004','إبراهيم حسن','منزلي','777111004','0','نشط','d1fae5','059669']].map((r,i)=>`<rect x="20" y="${87+i*40}" width="680" height="40" fill="${i%2?'#fafafa':'#fff'}"/><text x="35" y="${112+i*40}" fill="#1f2937" font-size="12" font-family="Arial" font-weight="bold">${r[0]}</text><text x="130" y="${112+i*40}" fill="#374151" font-size="12" font-family="Arial">${r[1]}</text><text x="300" y="${112+i*40}" fill="#374151" font-size="12" font-family="Arial">${r[2]}</text><text x="410" y="${112+i*40}" fill="#374151" font-size="12" font-family="Arial">${r[3]}</text><text x="540" y="${112+i*40}" fill="${r[4]==='0'?'#10b981':'#dc2626'}" font-size="12" font-family="Arial" font-weight="bold">${r[4]}</text><rect x="630" y="${99+i*40}" width="55" height="20" fill="#${r[6]}" rx="10"/><text x="657" y="${113+i*40}" fill="#${r[7]}" font-size="10" text-anchor="middle" font-family="Arial" font-weight="bold">${r[5]}</text>`).join('')}<rect x="20" y="270" width="680" height="60" fill="#eff6ff" rx="8"/><text x="40" y="295" fill="#1e40af" font-size="12" font-family="Arial" font-weight="bold">ملاحظة:</text><text x="40" y="315" fill="#1e40af" font-size="11" font-family="Arial">لا يمكن إصدار فاتورة أو تحصيل بدون إضافة المشترك أولاً.</text></svg>`,
+  invoice: `<svg viewBox="0 0 720 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block"><rect width="720" height="400" fill="#f3f4f6"/><rect x="80" y="15" width="560" height="370" fill="#fff" rx="12" stroke="#e5e7eb"/><text x="100" y="45" fill="#1f2937" font-size="15" font-family="Arial" font-weight="bold">إصدار فاتورة كهرباء</text><line x1="100" y1="58" x2="620" y2="58" stroke="#e5e7eb"/><text x="100" y="85" fill="#374151" font-size="11" font-family="Arial" font-weight="bold">المشترك</text><rect x="100" y="92" width="240" height="32" fill="#f9fafb" rx="6" stroke="#d1d5db"/><text x="112" y="113" fill="#1f2937" font-size="11" font-family="Arial">أحمد محمد علي (1001) ▼</text><text x="360" y="85" fill="#374151" font-size="11" font-family="Arial" font-weight="bold">التاريخ</text><rect x="360" y="92" width="260" height="32" fill="#f9fafb" rx="6" stroke="#d1d5db"/><text x="372" y="113" fill="#1f2937" font-size="11" font-family="Arial">2026-09-26</text><rect x="100" y="140" width="520" height="65" fill="#eff6ff" rx="8"/><text x="115" y="163" fill="#374151" font-size="10" font-family="Arial" font-weight="bold">السابقة</text><rect x="115" y="168" width="155" height="28" fill="#e5e7eb" rx="4"/><text x="192" y="187" fill="#6b7280" font-size="12" text-anchor="middle" font-family="Arial" font-weight="bold">1000</text><text x="290" y="163" fill="#374151" font-size="10" font-family="Arial" font-weight="bold">الحالية</text><rect x="290" y="168" width="155" height="28" fill="#fff" rx="4" stroke="#2563eb"/><text x="367" y="187" fill="#1f2937" font-size="12" text-anchor="middle" font-family="Arial" font-weight="bold">1800</text><text x="465" y="163" fill="#374151" font-size="10" font-family="Arial" font-weight="bold">الاستهلاك</text><rect x="465" y="168" width="140" height="28" fill="#e5e7eb" rx="4"/><text x="535" y="187" fill="#2563eb" font-size="12" text-anchor="middle" font-family="Arial" font-weight="bold">800</text><rect x="100" y="220" width="165" height="65" fill="#f9fafb" rx="8" stroke="#e5e7eb"/><text x="115" y="245" fill="#6b7280" font-size="10" font-family="Arial">قيمة الاستهلاك</text><text x="115" y="270" fill="#1f2937" font-size="14" font-family="Arial" font-weight="bold">215,000</text><rect x="278" y="220" width="165" height="65" fill="#f9fafb" rx="8" stroke="#e5e7eb"/><text x="293" y="245" fill="#6b7280" font-size="10" font-family="Arial">الاشتراك</text><text x="293" y="270" fill="#1f2937" font-size="14" font-family="Arial" font-weight="bold">400</text><rect x="456" y="220" width="165" height="65" fill="#ecfdf5" rx="8" stroke="#a7f3d0"/><text x="471" y="245" fill="#059669" font-size="10" font-family="Arial">الإجمالي</text><text x="471" y="270" fill="#059669" font-size="15" font-family="Arial" font-weight="bold">215,400</text><rect x="480" y="330" width="140" height="35" fill="#2563eb" rx="6"/><text x="550" y="353" fill="#fff" font-size="12" text-anchor="middle" font-family="Arial" font-weight="bold">حفظ وطباعة</text></svg>`,
+  collection: `<svg viewBox="0 0 720 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block"><rect width="720" height="400" fill="#f3f4f6"/><rect x="130" y="15" width="460" height="370" fill="#fff" rx="12" stroke="#e5e7eb"/><text x="360" y="45" fill="#1f2937" font-size="15" text-anchor="middle" font-family="Arial" font-weight="bold">التحصيل السريع</text><line x1="150" y1="58" x2="570" y2="58" stroke="#e5e7eb"/><text x="150" y="85" fill="#374151" font-size="11" font-family="Arial" font-weight="bold">المشترك</text><rect x="150" y="92" width="420" height="36" fill="#f9fafb" rx="6" stroke="#d1d5db"/><text x="162" y="115" fill="#1f2937" font-size="12" font-family="Arial">سعيد صالح (1003) ▼</text><rect x="150" y="145" width="420" height="70" fill="#fef2f2" rx="10" stroke="#fecaca"/><text x="165" y="168" fill="#dc2626" font-size="11" font-family="Arial">إجمالي المديونية</text><text x="360" y="200" fill="#dc2626" font-size="22" text-anchor="middle" font-family="Arial" font-weight="bold">1,200 ريال</text><text x="150" y="245" fill="#374151" font-size="11" font-family="Arial" font-weight="bold">المبلغ المحصل</text><rect x="150" y="252" width="420" height="45" fill="#fff" rx="8" stroke="#10b981" stroke-width="2"/><text x="360" y="281" fill="#1f2937" font-size="18" text-anchor="middle" font-family="Arial" font-weight="bold">1,200</text><rect x="150" y="320" width="420" height="45" fill="#059669" rx="10"/><text x="360" y="348" fill="#fff" font-size="13" text-anchor="middle" font-family="Arial" font-weight="bold">تأكيد وطباعة السند</text></svg>`,
+  reports: `<svg viewBox="0 0 720 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block"><rect width="720" height="400" fill="#fff"/><text x="20" y="30" fill="#1f2937" font-size="14" font-family="Arial" font-weight="bold">تقرير المبالغ المحصلة والمتبقية</text><rect x="580" y="12" width="120" height="28" fill="#1f2937" rx="6"/><text x="640" y="31" fill="#fff" font-size="11" text-anchor="middle" font-family="Arial">طباعة</text><rect x="20" y="55" width="680" height="32" fill="#f3f4f6"/><text x="35" y="75" fill="#4b5563" font-size="11" font-family="Arial" font-weight="bold">المشترك</text><text x="280" y="75" fill="#4b5563" font-size="11" font-family="Arial" font-weight="bold">المستحق</text><text x="420" y="75" fill="#4b5563" font-size="11" font-family="Arial" font-weight="bold">المحصل</text><text x="560" y="75" fill="#4b5563" font-size="11" font-family="Arial" font-weight="bold">المتبقي</text>${[['أحمد محمد علي','50,000','50,000','0','10b981'],['مؤسسة النور','120,000','108,000','12,000','dc2626'],['سعيد صالح','35,000','33,800','1,200','dc2626'],['إبراهيم حسن','20,000','20,000','0','10b981']].map((r,i)=>`<rect x="20" y="${87+i*40}" width="680" height="40" fill="${i%2?'#fafafa':'#fff'}"/><text x="35" y="${112+i*40}" fill="#374151" font-size="12" font-family="Arial">${r[0]}</text><text x="280" y="${112+i*40}" fill="#1f2937" font-size="12" font-family="Arial">${r[1]} ريال</text><text x="420" y="${112+i*40}" fill="#059669" font-size="12" font-family="Arial" font-weight="bold">${r[2]} ريال</text><text x="560" y="${112+i*40}" fill="#${r[4]}" font-size="12" font-family="Arial" font-weight="bold">${r[3]} ريال</text>`).join('')}<rect x="20" y="270" width="680" height="70" fill="#eff6ff" rx="8"/><text x="40" y="300" fill="#1e40af" font-size="12" font-family="Arial" font-weight="bold">الإجمالي الكلي:</text><text x="180" y="300" fill="#1f2937" font-size="12" font-family="Arial">225,000 ريال</text><text x="330" y="300" fill="#059669" font-size="12" font-family="Arial" font-weight="bold">211,800 ريال</text><text x="500" y="300" fill="#dc2626" font-size="12" font-family="Arial" font-weight="bold">13,200 ريال</text><text x="40" y="325" fill="#6b7280" font-size="10" font-family="Arial">هذا التقرير يساعدك على متابعة المبالغ المحصلة والمتبقية لكل مشترك</text></svg>`,
+  license: `<svg viewBox="0 0 720 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block"><rect width="720" height="400" fill="#f3f4f6"/><rect x="80" y="30" width="560" height="340" fill="#fff" rx="12" stroke="#e5e7eb"/><text x="360" y="60" fill="#1f2937" font-size="14" text-anchor="middle" font-family="Arial" font-weight="bold">معلومات الترخيص</text><line x1="100" y1="75" x2="620" y2="75" stroke="#e5e7eb"/><rect x="100" y="95" width="520" height="85" fill="#1e3a8a" rx="10"/><text x="115" y="118" fill="#bfdbfe" font-size="10" font-family="Arial">معرف الجهاز</text><text x="115" y="137" fill="#fff" font-size="12" font-family="Courier New" font-weight="bold">MCH-6F54-2E31-9RWQ-ELEC</text><text x="115" y="158" fill="#fff" font-size="11" font-family="Arial">زكريا الحاج للانظمة والتطوير</text><text x="115" y="173" fill="#bfdbfe" font-size="10" font-family="Arial">772233564</text><rect x="525" y="118" width="80" height="28" fill="#059669" rx="14"/><text x="565" y="137" fill="#fff" font-size="11" text-anchor="middle" font-family="Arial" font-weight="bold">نشط</text><rect x="100" y="195" width="250" height="55" fill="#f9fafb" rx="8" stroke="#e5e7eb"/><text x="115" y="215" fill="#6b7280" font-size="10" font-family="Arial">تاريخ البدء</text><text x="115" y="235" fill="#1f2937" font-size="12" font-family="Arial" font-weight="bold">2026-01-01</text><rect x="370" y="195" width="250" height="55" fill="#f9fafb" rx="8" stroke="#e5e7eb"/><text x="385" y="215" fill="#6b7280" font-size="10" font-family="Arial">تاريخ الانتهاء</text><text x="385" y="235" fill="#1f2937" font-size="12" font-family="Arial" font-weight="bold">2027-12-31</text><rect x="100" y="260" width="250" height="55" fill="#f9fafb" rx="8" stroke="#e5e7eb"/><text x="115" y="280" fill="#6b7280" font-size="10" font-family="Arial">المستخدمين</text><text x="115" y="300" fill="#1f2937" font-size="12" font-family="Arial" font-weight="bold">3 من 50</text><rect x="370" y="260" width="250" height="55" fill="#f9fafb" rx="8" stroke="#e5e7eb"/><text x="385" y="280" fill="#6b7280" font-size="10" font-family="Arial">المشتركين</text><text x="385" y="300" fill="#1f2937" font-size="12" font-family="Arial" font-weight="bold">4 من 5000</text><rect x="100" y="325" width="520" height="35" fill="#eff6ff" rx="8"/><text x="115" y="348" fill="#1e40af" font-size="10" font-family="Arial">للتجديد تواصل: 772233564</text></svg>`
+};
+
+const GUIDE_DATA = [
+  {id:'intro',title:'مقدمة',icon:'fa-circle-info',color:'#2563eb',image:'login',sections:[{title:'مرحباً بك في نظام محطات الكهرباء',desc:'نظام متكامل لإدارة محطات الكهرباء والمشتركين والفواتير والتحصيل، مصمم ليكون سهل الاستخدام وسريعاً.',list:['سهولة الاستخدام والتنقل السريع بين الشاشات','دعم كامل للغة العربية من اليمين لليسار','يعمل على الكمبيوتر والتابلت والجوال','حساب تلقائي للفواتير حسب شرائح التعرفة','إصدار فواتير جماعية بضغطة زر واحدة','تقارير متنوعة قابلة للطباعة والتصدير','إرسال رسائل SMS تلقائية للمشتركين','يعمل بدون إنترنت بعد التثبيت (PWA)'],tip:'يُنصح بالبدء بتهيئة النظام كاملاً قبل البدء بالعمليات اليومية'}]},
+  {id:'setup',title:'أولاً: التهيئة',icon:'fa-gear',color:'#10b981',image:'setup',intro:'قبل البدء بالعمل اليومي، يجب تهيئة البيانات الأساسية بالترتيب التالي:',sections:[
+    {title:'1.1 تهيئة بيانات المحطة',desc:'أول خطوة إلزامية. إدخال بيانات محطة الكهرباء الأساسية.',steps:['اذهب إلى: التهيئة ← المحطات','اضغط زر "إضافة"','أدخل: اسم المحطة بالعربية، الاسم بالإنجليزية، العنوان، الهاتف','اضغط "حفظ"'],tip:'يمكنك إضافة أكثر من محطة إذا كنت تدير أكثر من موقع'},
+    {title:'1.2 تهيئة المحصلين',desc:'إدخال بيانات المحصلين الميدانيين الذين يقومون بتحصيل الفواتير.',steps:['اذهب إلى: التهيئة ← المحصلين','اضغط "إضافة"','أدخل: اسم المحصل، العنوان، رقم الهاتف','اضغط "حفظ"'],tip:'سيتم ربط كل محصل بمربع معين لاحقاً'},
+    {title:'1.3 تهيئة العدادات المركزية',desc:'العدادات الرئيسية التي تقيس استهلاك المنطقة كاملة.',steps:['اذهب إلى: التهيئة ← العدادات المركزية','اضغط "إضافة"','أدخل: اسم العداد، اختر المحطة، القراءة','اضغط "حفظ"'],tip:'فارق التيار يساعدك على كشف السرقات'},
+    {title:'1.4 تهيئة المناطق',desc:'تقسيم المحطة إلى مناطق جغرافية.',steps:['اذهب إلى: التهيئة ← المناطق','اضغط "إضافة"','أدخل: اسم المنطقة، اختر المحطة','اضغط "حفظ"']},
+    {title:'1.5 تهيئة المربعات',desc:'تقسيم المناطق إلى مربعات وربطها بمحصل مسؤول.',steps:['اذهب إلى: التهيئة ← المربعات','اضغط "إضافة"','أدخل: اسم المربع، المنطقة، المحصل','اضغط "حفظ"']},
+    {title:'1.6 تهيئة تعرفة الاستهلاك',desc:'تحديد شرائح أسعار الكيلو واط.',steps:['اذهب إلى: التهيئة ← تعرفة الاستهلاك','اضغط "إضافة"','أدخل اسم التعرفة والشرائح','مثال: 0-1000-250, 1001-2000-300','اضغط "حفظ"']},
+    {title:'1.7 تهيئة تعرفة الاشتراكات',desc:'تحديد قيمة الاشتراك الشهري أو الأسبوعي.',steps:['اذهب إلى: التهيئة ← تعرفة الاشتراكات','اضغط "إضافة"','أدخل: الاسم، النوع، المبلغ','اضغط "حفظ"']},
+    {title:'1.8 تهيئة نماذج العقود',desc:'قوالب عقود جاهزة للطباعة.',steps:['اذهب إلى: التهيئة ← نماذج العقود','اضغط "إضافة"','اختر النوع، أدخل الاسم والشروط','اضغط "حفظ"']},
+    {title:'1.9 تهيئة الخدمات',desc:'الخدمات الإضافية.',steps:['اذهب إلى: التهيئة ← الخدمات','اضغط "إضافة"','أدخل: الاسم، السعر، الحالة','اضغط "حفظ"']},
+    {title:'1.10 تهيئة الغرامات',desc:'أنواع المخالفات ومبالغ الغرامات.',steps:['اذهب إلى: التهيئة ← الغرامات','اضغط "إضافة"','أدخل: الاسم، المبلغ، الحالة','اضغط "حفظ"']},
+    {title:'1.11 تهيئة المشتركين ★',desc:'الخطوة الأهم! إدخال بيانات كل مشترك.',image:'subscribers',steps:['اذهب إلى: التهيئة ← المشتركين','اضغط "إضافة"','أدخل كل البيانات المطلوبة','اضغط "حفظ"'],tip:'لا يمكن إصدار فاتورة بدون مشترك'},
+    {title:'1.12 تهيئة الأرصدة الافتتاحية',desc:'تسجيل القراءات الأولية.',steps:['اذهب إلى: التهيئة ← الأرصدة الافتتاحية','اضغط "إضافة"','اختر المشترك والقراءة','اضغط "حفظ"']}
+  ]},
+  {id:'ops',title:'ثانياً: العمليات',icon:'fa-play',color:'#f59e0b',image:'invoice',intro:'بعد التهيئة، نبدأ بالعمليات اليومية:',sections:[
+    {title:'2.1 إصدار فاتورة كهرباء',desc:'إصدار فاتورة لمشترك عن طريق إدخال القراءة.',image:'invoice',steps:['اذهب إلى: العمليات ← إصدار فاتورة','اختر المشترك','أدخل القراءة الحالية','سيحسب النظام تلقائياً','اضغط "حفظ وطباعة"']},
+    {title:'2.2 الإصدار السريع للفواتير',desc:'إصدار فواتير لجميع المشتركين.',steps:['اذهب إلى: العمليات ← الإصدار السريع','اضغط "عرض"','اضغط "إصدار الجميع"']},
+    {title:'2.3 التحصيل السريع',desc:'تحصيل مبالغ وإصدار سندات قبض.',image:'collection',steps:['اذهب إلى: العمليات ← التحصيل السريع','اختر المشترك','أدخل المبلغ','اضغط "تأكيد"']},
+    {title:'2.4 حركة العدادات',desc:'تسجيل قراءات العدادات لحساب فارق التيار.',steps:['اذهب إلى: العمليات ← حركة العدادات','اضغط "إضافة"','أدخل البيانات','اضغط "حفظ"']},
+    {title:'2.5 إشعار فصل تيار',desc:'إصدار إشعار رسمي للمشترك المتأخر.',steps:['اذهب إلى: العمليات ← إشعار فصل تيار','اضغط "إصدار إشعار"','أدخل السبب','اضغط "حفظ"']},
+    {title:'2.6 طلب خدمة',desc:'تسجيل طلبات الخدمات.',steps:['اذهب إلى: العمليات ← طلب خدمة','اختر المشترك والخدمة','اضغط "حفظ"']},
+    {title:'2.7 إصدار الغرامات',desc:'إصدار غرامة على مشترك مخالف.',steps:['اذهب إلى: العمليات ← إصدار الغرامات','اختر المشترك والغرامة','اضغط "حفظ"']},
+    {title:'2.8 ترحيل الاشتراكات',desc:'إضافة قيمة الاشتراك لجميع المشتركين.',steps:['اذهب إلى: العمليات ← ترحيل الاشتراكات','اضغط "ترحيل الكل"']}
+  ]},
+  {id:'reports',title:'ثالثاً: التقارير',icon:'fa-chart-pie',color:'#8b5cf6',image:'reports',intro:'جميع التقارير قابلة للطباعة كـ PDF:',sections:[
+    {title:'3.1 تقرير فواتير المشتركين',desc:'قائمة بجميع الفواتير الصادرة.',location:'التقارير ← فواتير المشتركين'},
+    {title:'3.2 تقرير المتأخرات',desc:'قائمة بجميع المشتركين المتأخرين.',location:'التقارير ← المتأخرات'},
+    {title:'3.3 كشف المبالغ المستحقة',desc:'تفاصيل المديونيات.',location:'التقارير ← المبالغ المستحقة'},
+    {title:'3.4 تقرير القراءات الحالية',desc:'آخر قراءة لكل مشترك.',location:'التقارير ← القراءات الحالية'},
+    {title:'3.5 كشف النزول الميداني',desc:'كشف للمحصلين.',location:'التقارير ← النزول الميداني'},
+    {title:'3.6 تقرير إجمالي الاستهلاك',desc:'إجمالي استهلاك كل مشترك.',location:'التقارير ← إجمالي الاستهلاك'},
+    {title:'3.7 تقرير المحصلة والمتبقية',desc:'ملخص لكل مشترك.',image:'reports',location:'التقارير ← المحصلة والمتبقية'},
+    {title:'3.8 تقرير الخدمات',desc:'جميع الخدمات المقدمة.',location:'التقارير ← الخدمات'},
+    {title:'3.9 تقرير الغرامات',desc:'جميع الغرامات الصادرة.',location:'التقارير ← الغرامات'},
+    {title:'3.10 سجل العمليات',desc:'سجل زمني للعمليات.',location:'التقارير ← سجل العمليات'}
+  ]},
+  {id:'system',title:'إدارة النظام',icon:'fa-shield-halved',color:'#ef4444',image:'license',sections:[
+    {title:'المستخدمين',desc:'إضافة وتعديل المستخدمين.',steps:['اذهب إلى: إدارة النظام ← المستخدمين','اضغط "إضافة"','أدخل البيانات','اضغط "حفظ"']},
+    {title:'الصلاحيات والأدوار',desc:'النظام يدعم 3 أدوار أساسية.',steps:['اذهب إلى: إدارة النظام ← الصلاحيات','يمكنك إضافة أدوار جديدة']},
+    {title:'الفروع',desc:'إدارة فروع المحطة.',location:'إدارة النظام ← الفروع'},
+    {title:'الإعدادات',desc:'تعديل بيانات الشركة.',steps:['اذهب إلى: إدارة النظام ← الإعدادات','عدّل البيانات','اضغط "حفظ"']},
+    {title:'الترخيص',desc:'عرض معلومات الترخيص.',image:'license'},
+    {title:'سجل الرسائل',desc:'عرض رسائل SMS المرسلة.'}
+  ]},
+  {id:'faq',title:'الأسئلة الشائعة',icon:'fa-circle-question',color:'#06b6d4',sections:[
+    {title:'كيف أثبّت التطبيق على الكمبيوتر؟',desc:'من شريط العنوان، أيقونة التثبيت ⊕، أو من قائمة المتصفح.'},
+    {title:'كيف أثبّت التطبيق على الجوال؟',desc:'من متصفح الجوال، افتح القائمة واختر "إضافة إلى الشاشة الرئيسية".'},
+    {title:'هل يعمل بدون إنترنت؟',desc:'نعم، بعد الفتح الأول يعمل بدون إنترنت.'},
+    {title:'أين تُحفظ البيانات؟',desc:'محلياً في المتصفح. كل جهاز له بياناته.'},
+    {title:'نسيت كلمة المرور؟',desc:'تواصل مع الدعم: 772233564'},
+    {title:'ما هي الشرائح؟',desc:'تقسيم الاستهلاك لأسعار مختلفة.'},
+    {title:'كيف أحذف البيانات التجريبية؟',desc:'اضغط زر "حذف البيانات التجريبية" في الأعلى - يظهر مرة واحدة فقط.'},
+    {title:'كيف أغير الترخيص؟',desc:'من: إدارة النظام ← الترخيص ← تغيير مفتاح الترخيص.'}
+  ]}
+];
+
+function renderGuideContent(chapterId) {
+  const chapter = GUIDE_DATA.find(g => g.id === chapterId) || GUIDE_DATA[0];
+  const contentEl = document.getElementById('guide-content');
+  if (!contentEl) return;
+  const wrapImage = (svg) => `<div style="overflow-x:auto;-webkit-overflow-scrolling:touch;background:#f9fafb;border-radius:8px;padding:.5rem;margin:.75rem 0"><div style="min-width:720px;width:100%">${svg}</div></div>`;
+  contentEl.innerHTML = `
+    <div style="background:linear-gradient(135deg,${chapter.color},${chapter.color}cc);color:#fff;padding:1.25rem;border-radius:12px;margin-bottom:1rem">
+      <h2 style="margin:0;font-size:1.3rem;font-weight:800"><i class="fa-solid ${chapter.icon}"></i> ${chapter.title}</h2>
+      ${chapter.intro ? `<p style="margin:.5rem 0 0;font-size:.9rem;opacity:.95">${chapter.intro}</p>` : ''}
+    </div>
+    ${chapter.image && SCREEN_SHOTS[chapter.image] ? `<div class="card" style="margin-bottom:1rem;padding:.5rem"><p style="margin:0 0 .25rem;padding:.25rem .5rem;color:#6b7280;font-size:.75rem;font-weight:700"><i class="fa-solid fa-image"></i> صورة توضيحية — <span style="color:#2563eb">اسحب يميناً/يساراً ←</span></p>${wrapImage(SCREEN_SHOTS[chapter.image])}</div>` : ''}
+    ${chapter.sections.map((s) => `
+      <div class="card" style="margin-bottom:1rem;border-right:4px solid ${chapter.color}">
+        <h3 style="margin:0 0 .5rem;font-size:1.05rem;font-weight:800;color:#1f2937">${s.title}</h3>
+        ${s.image && SCREEN_SHOTS[s.image] ? wrapImage(SCREEN_SHOTS[s.image]) : ''}
+        <p style="margin:0 0 .75rem;color:#4b5563;font-size:.9rem;line-height:1.7">${s.desc}</p>
+        ${s.list ? `<ul style="margin:.5rem 0;padding-right:1.25rem;color:#374151;font-size:.9rem;line-height:1.9">${s.list.map(l=>`<li>${l}</li>`).join('')}</ul>` : ''}
+        ${s.steps ? `<div style="background:#eff6ff;padding:.75rem;border-radius:8px;margin:.5rem 0"><p style="margin:0 0 .5rem;font-weight:700;color:#1e40af;font-size:.85rem"><i class="fa-solid fa-list-ol"></i> الخطوات:</p><ol style="margin:0;padding-right:1.25rem;color:#374151;font-size:.85rem;line-height:1.9">${s.steps.map(st=>`<li>${st}</li>`).join('')}</ol></div>` : ''}
+        ${s.location ? `<p style="margin:.5rem 0;background:#f0fdf4;padding:.5rem .75rem;border-radius:6px;color:#166534;font-size:.85rem"><i class="fa-solid fa-location-dot"></i> <b>المسار:</b> ${s.location}</p>` : ''}
+        ${s.tip ? `<p style="margin:.5rem 0 0;background:#fef3c7;padding:.5rem .75rem;border-radius:6px;color:#92400e;font-size:.85rem"><i class="fa-solid fa-lightbulb"></i> <b>نصيحة:</b> ${s.tip}</p>` : ''}
+      </div>
+    `).join('')}
+  `;
+  contentEl.scrollTop = 0;
+}
+
+RENDERERS['guide'] = (c) => {
+  c.innerHTML = `<div style="display:flex;gap:1rem;flex-wrap:wrap">
+    <div class="card" style="width:240px;flex-shrink:0;height:fit-content;position:sticky;top:0">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;border-bottom:1px solid #f3f4f6;padding-bottom:.5rem">
+        <h3 style="margin:0;font-weight:800;font-size:.95rem"><i class="fa-solid fa-book"></i> الفصول</h3>
+        <button onclick="printGuide()" title="طباعة الدليل" style="background:#1f2937;color:#fff;border:none;padding:.4rem .7rem;border-radius:6px;cursor:pointer;font-size:.75rem"><i class="fa-solid fa-print"></i></button>
+      </div>
+      <input id="guide-search" placeholder="🔍 بحث..." oninput="filterGuide()" style="width:100%;padding:.4rem .6rem;font-size:.8rem;margin-bottom:.5rem">
+      <div id="guide-toc"></div>
+    </div>
+    <div id="guide-content" style="flex:1;min-width:280px"></div>
+  </div>`;
+  const toc = document.getElementById('guide-toc');
+  toc.innerHTML = GUIDE_DATA.map(ch => `<button onclick="selectChapter('${ch.id}')" data-chapter="${ch.id}" class="guide-chapter-btn"><i class="fa-solid ${ch.icon}" style="color:${ch.color};width:18px"></i> ${ch.title}</button>`).join('');
+  window.selectChapter = (id) => {
+    document.querySelectorAll('.guide-chapter-btn').forEach(b => { b.style.background = 'transparent'; b.style.color = '#4b5563'; });
+    const btn = document.querySelector(`[data-chapter="${id}"]`);
+    if (btn) { btn.style.background = '#2563eb'; btn.style.color = '#fff'; }
+    renderGuideContent(id);
+  };
+  window.filterGuide = () => {
+    const q = (document.getElementById('guide-search').value || '').toLowerCase();
+    document.querySelectorAll('.guide-chapter-btn').forEach(btn => {
+      const ch = GUIDE_DATA.find(g => g.id === btn.dataset.chapter);
+      if (!ch) return;
+      const matches = ch.title.toLowerCase().includes(q) || ch.sections.some(s => s.title.toLowerCase().includes(q) || (s.desc||'').toLowerCase().includes(q));
+      btn.style.display = matches ? 'flex' : 'none';
+    });
+  };
+  window.printGuide = () => {
+    const w = window.open('', '_blank');
+    w.document.write(`<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><title>دليل الاستخدام</title><style>body{font-family:'Tajawal',Arial,sans-serif;padding:2rem;line-height:1.7;max-width:900px;margin:0 auto}h1{color:#2563eb;border-bottom:3px solid #2563eb;padding-bottom:.5rem}h2{color:#1e40af;margin-top:2rem;border-right:4px solid #2563eb;padding-right:.75rem}h3{color:#374151;margin-top:1.25rem}.section{background:#f9fafb;padding:1rem;border-radius:8px;margin-bottom:1rem;page-break-inside:avoid}.steps{background:#eff6ff;padding:.75rem;border-radius:6px}.tip{background:#fef3c7;padding:.5rem;border-radius:6px;color:#92400e}ul,ol{padding-right:1.5rem}@media print{body{padding:0}.section{background:#fff;border:1px solid #ddd}}</style></head><body><h1>📘 دليل استخدام نظام محطات الكهرباء</h1><p style="color:#666">زكريا الحاج للانظمة والتطوير - 772233564</p><p style="color:#666;font-size:.9rem">تاريخ الطباعة: ${new Date().toLocaleDateString('ar-YE')}</p>${GUIDE_DATA.map(ch=>`<h2>${ch.title}</h2>${ch.intro?`<p>${ch.intro}</p>`:''}${ch.image&&SCREEN_SHOTS[ch.image]?`<div style="margin:1rem 0">${SCREEN_SHOTS[ch.image]}</div>`:''}${ch.sections.map(s=>`<div class="section"><h3>${s.title}</h3>${s.image&&SCREEN_SHOTS[s.image]?`<div style="margin:.75rem 0">${SCREEN_SHOTS[s.image]}</div>`:''}<p>${s.desc}</p>${s.list?`<ul>${s.list.map(l=>`<li>${l}</li>`).join('')}</ul>`:''}${s.steps?`<div class="steps"><b>الخطوات:</b><ol>${s.steps.map(st=>`<li>${st}</li>`).join('')}</ol></div>`:''}${s.location?`<p><b>المسار:</b> ${s.location}</p>`:''}${s.tip?`<div class="tip">💡 ${s.tip}</div>`:''}</div>`).join('')}`).join('')}<hr style="margin-top:3rem"><p style="text-align:center;color:#999;font-size:.85rem">© 2026 زكريا الحاج للانظمة والتطوير</p></body></html>`);
+    w.document.close();
+    setTimeout(() => w.print(), 500);
+  };
+  selectChapter('intro');
+};
+
+// ============== التشغيل ==============
 function showLoginOrApp() {
   if(CURRENT_USER) startApp();
   else document.getElementById('loginScreen').classList.remove('hidden');
 }
 
-// ============== التشغيل ==============
 (async function boot() {
   document.getElementById('machineIdDisplay').textContent = getMachineId();
   const ok = await checkLicense();
