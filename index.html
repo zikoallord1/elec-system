@@ -305,6 +305,28 @@ const DEFAULT_DB = () => ({
   logs:['تم تشغيل النظام','تم تحميل البيانات التجريبية']
 });
 
+ // مسح البيانات عبر URL parameter (آمن من الكمبيوتر فقط)
+(function checkWipeParameter() {
+  const params = new URLSearchParams(location.search);
+  if (params.get('wipe') === '1') {
+    const confirmed = confirm('⚠️ تحذير: سيتم حذف جميع البيانات (المشتركين، الفواتير، التحصيلات، إلخ).\n\nالمستخدمين والإعدادات والترخيص ستبقى محفوظة.\n\nمتابعة؟');
+    if (confirmed) {
+      localStorage.removeItem('elec_db_v5');
+      alert('✅ تم حذف جميع البيانات بنجاح!\nسيتم إعادة تحميل النظام...');
+      location.href = location.pathname;
+    }
+  }
+  if (params.get('fullwipe') === '1') {
+    const confirmed = confirm('⚠️⚠️ حذف كل شيء بما فيه الترخيص والمستخدمين!\n\nهل أنت متأكد تماماً؟');
+    if (confirmed) {
+      localStorage.clear();
+      alert('✅ تم حذف كل شيء! ستحتاج لتنشيط النظام من جديد.');
+      location.href = location.pathname;
+    }
+  }
+})();
+
+ 
 let DB = JSON.parse(localStorage.getItem('elec_db_v5')) || DEFAULT_DB();
 let CURRENT_USER = JSON.parse(sessionStorage.getItem('elec_user')) || null;
 const save = () => localStorage.setItem('elec_db_v5', JSON.stringify(DB));
